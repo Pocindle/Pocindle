@@ -1,6 +1,7 @@
 ﻿module Pocindle.Domain
 
 open System.Net.Mail
+open System.Threading.Tasks
 
 type Undefined = exn
 
@@ -16,15 +17,3 @@ type Delivery =
     { UserId: UserId
       Data: Undefined
       To: KindleEmailAddress }
-
-type EpubFile = Undefined
-
-type ConvertError =
-    | NoPandoc
-    | NoCalibre
-    | Other of Undefined
-
-type WebToEpubConverter = | Pandoc of Undefined
-                          | Other of Undefined
-
-type ConvertWebToEpub = WebToEpubConverter -> Article -> Async<Result<EpubFile, ConvertError>>
