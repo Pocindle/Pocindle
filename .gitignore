@@ -911,3 +911,6 @@ yarn-error.log
 # Fody - auto-generated XML schema
 
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains+all,rider,csharp,fsharp,visualstudio,visualstudiocode,webstorm,vuejs,vue,react,node
+
+
+/Playground/
