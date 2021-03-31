@@ -1,10 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Domain", "Pocindle.Domain\Pocindle.Domain.fsproj", "{C9868CB0-D58E-42DD-AAB5-6E4BC42E0CEB}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Convert", "Pocindle.Convert\Pocindle.Convert.fsproj", "{5FDFAF8E-9790-4D1F-8D51-CCB0C9037946}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Playground", "Pocindle.Playground\Pocindle.Playground.fsproj", "{7080C66E-CA9A-437B-9F15-474EF5B30E56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9868CB0-D58E-42DD-AAB5-6E4BC42E0CEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9868CB0-D58E-42DD-AAB5-6E4BC42E0CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9868CB0-D58E-42DD-AAB5-6E4BC42E0CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9868CB0-D58E-42DD-AAB5-6E4BC42E0CEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FDFAF8E-9790-4D1F-8D51-CCB0C9037946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FDFAF8E-9790-4D1F-8D51-CCB0C9037946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FDFAF8E-9790-4D1F-8D51-CCB0C9037946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FDFAF8E-9790-4D1F-8D51-CCB0C9037946}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7080C66E-CA9A-437B-9F15-474EF5B30E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7080C66E-CA9A-437B-9F15-474EF5B30E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7080C66E-CA9A-437B-9F15-474EF5B30E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7080C66E-CA9A-437B-9F15-474EF5B30E56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
