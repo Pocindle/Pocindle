@@ -20,6 +20,7 @@ let app =
         use_static "static"
         use_gzip
         use_config (fun _ -> { connectionString = "DataSource=database.sqlite" }) //TODO: Set development time configuration
+        
     }
 
 [<EntryPoint>]

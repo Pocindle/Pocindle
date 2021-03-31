@@ -18,6 +18,7 @@ let defaultView =
         get "/" (htmlView Index.layout)
         get "/index.html" (redirectTo false "/")
         get "/default.html" (redirectTo false "/")
+        //get "/q" (htmlFile "build/index.html")
     }
 
 let browserRouter =
