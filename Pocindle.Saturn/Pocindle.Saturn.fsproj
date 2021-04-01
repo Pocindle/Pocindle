@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Database.fs"/>
+        <Compile Include="Config.fs"/>
+
+        <Compile Include="Templates\App.fs"/>
+        <Compile Include="Templates\Index.fs"/>
+        <Compile Include="Templates\NotFound.fs"/>
+        <Compile Include="Templates\InternalError.fs"/>
+
+        <Compile Include="Router.fs"/>
+        <Compile Include="Program.fs"/>
+
+        <Content Include="static\*.*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Dapper" Version="2.0.78"/>
+        <PackageReference Include="Ply" Version="0.3.1"/>
+        <PackageReference Include="Saturn" Version="0.14.1"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj"/>
+    </ItemGroup>
+</Project>
