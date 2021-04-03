@@ -1,5 +1,10 @@
 module Server
 
+open Microsoft.AspNetCore.Builder
+open Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer
+open Microsoft.AspNetCore.Hosting
+open Microsoft.Extensions.DependencyInjection
+open Microsoft.Extensions.Hosting
 open Saturn
 open Config
 
@@ -20,7 +25,36 @@ let app =
         use_static "static"
         use_gzip
         use_config (fun _ -> { connectionString = "DataSource=database.sqlite" }) //TODO: Set development time configuration
+
+        use_developer_exceptions
+
+        app_config
+            (fun app ->
+                let env =
+                    Application.Environment.getWebHostEnvironment app
+
+                //app.UseStaticFiles()
+                //app.UseSpaStaticFiles()
+
+                app.UseSpa
+                    (fun spa ->
+                        spa.Options.SourcePath <- "../pocindle-client"
+
+                        if env.IsDevelopment() then
+                            spa.UseReactDevelopmentServer("start")
+
+                        ())
+
+                app)
+
+        service_config (fun services ->
+            services.AddSpaStaticFiles(fun configuration -> configuration.RootPath <- "pocindle-client/build" )         
+            services)
         
+        webhost_config
+            (fun w ->
+
+                w)
     }
 
 [<EntryPoint>]
