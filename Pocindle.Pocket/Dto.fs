@@ -1,29 +1,49 @@
 module Pocindle.Pocket.Dto
 
 open System
+open System.ComponentModel.DataAnnotations
 
 open FSharp.UMX
-
 open FsToolkit.ErrorHandling
+
 open Pocindle.Pocket.Domain
 open Pocindle.Pocket.SimpleTypes
 
+type StatusDto =
+    | Normal = 0
+    | Archived = 1
+    | ShouldBeDeleted = 2
+
 type PocketItemDto =
-    { ItemId: string
+    { [<Required>]
+      ItemId: string
+      [<Required>]
       ResolvedId: string
+      [<Required>]
       GivenUrl: string
+      [<Required>]
       ResolvedUrl: string
       AmpUrl: string
+      [<Required>]
       GivenTitle: string
+      [<Required>]
       ResolvedTitle: string
+      [<Required>]
       Favorite: bool
-      Status: string
+      [<Required>]
+      Status: StatusDto
+      [<Required>]
       Excerpt: string
+      [<Required>]
       IsArticle: bool
+      [<Required>]
       WordCount: int
+      [<Required>]
       ListenDurationEstimate: int
       TimeToRead: Nullable<int>
+      [<Required>]
       TimeAdded: DateTimeOffset
+      [<Required>]
       TimeUpdated: DateTimeOffset }
 
 module PocketItemDto =
@@ -49,9 +69,9 @@ module PocketItemDto =
               | NotFavorite -> false
           Status =
               match a.Status with
-              | Normal -> "Normal"
-              | Archived -> "Archived"
-              | ShouldBeDeleted -> "ShouldBeDeleted"
+              | Normal -> StatusDto.Normal
+              | Archived -> StatusDto.Archived
+              | ShouldBeDeleted -> StatusDto.ShouldBeDeleted
           Excerpt = %a.Excerpt
           IsArticle = a.IsArticle
           WordCount = %a.WordCount
