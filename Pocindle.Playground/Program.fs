@@ -9,7 +9,7 @@ open FsToolkit.ErrorHandling
 
 [<EntryPoint>]
 let main _ =
-    HJson.tryNJson ()
+    HJson.tryNJson<PocketItemDto> ()
 
 
     //    let q =

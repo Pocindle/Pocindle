@@ -4,8 +4,8 @@ open NJsonSchema
 open Pocindle.Pocket.Dto
 open NJsonSchema.CodeGeneration.TypeScript
 
-let tryNJson () =
-    let schema = JsonSchema.FromType<Dto>()
+let tryNJson<'T> () =
+    let schema = JsonSchema.FromType<'T>()
     let schemaData = schema.ToJson()
 
     let ts = TypeScriptGenerator(schema)
