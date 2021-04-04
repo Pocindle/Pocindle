@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Library.fs" />
+        <Compile Include="Dto.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="pocket_retrieve_sample.json" />
+    </ItemGroup>
+
+</Project>

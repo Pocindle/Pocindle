@@ -6,6 +6,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Convert", "Pocindl
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Playground", "Pocindle.Playground\Pocindle.Playground.fsproj", "{7080C66E-CA9A-437B-9F15-474EF5B30E56}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Pocket", "Pocindle.Pocket\Pocindle.Pocket.fsproj", "{30F1A8F8-CBB2-42FD-B69B-EB449A01320A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{7080C66E-CA9A-437B-9F15-474EF5B30E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7080C66E-CA9A-437B-9F15-474EF5B30E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7080C66E-CA9A-437B-9F15-474EF5B30E56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30F1A8F8-CBB2-42FD-B69B-EB449A01320A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30F1A8F8-CBB2-42FD-B69B-EB449A01320A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30F1A8F8-CBB2-42FD-B69B-EB449A01320A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30F1A8F8-CBB2-42FD-B69B-EB449A01320A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
