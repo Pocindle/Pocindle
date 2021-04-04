@@ -23,6 +23,7 @@ let app =
         url "http://localhost:61666/"
         memory_cache
         use_static "static"
+        use_static "pocindle-client/build"
         use_gzip
         use_config (fun _ -> { connectionString = "DataSource=database.sqlite" }) //TODO: Set development time configuration
 
@@ -33,32 +34,15 @@ let app =
                 let env =
                     Application.Environment.getWebHostEnvironment app
 
-                //app.UseStaticFiles()
-                //app.UseSpaStaticFiles()
-
-                app.UseSpa
-                    (fun spa ->
-                        spa.Options.SourcePath <- "../pocindle-client"
-
-                        if env.IsDevelopment() then
-                            spa.UseReactDevelopmentServer("start")
-
-                        ())
-
                 app)
 
-        service_config (fun services ->
-            services.AddSpaStaticFiles(fun configuration -> configuration.RootPath <- "pocindle-client/build" )         
-            services)
-        
-        webhost_config
-            (fun w ->
+        service_config (fun services -> services)
 
-                w)
+        webhost_config (fun w -> w)
     }
 
 [<EntryPoint>]
 let main _ =
-    printfn "Working directory - %s" (System.IO.Directory.GetCurrentDirectory())
+    printfn $"Working directory - %s{System.IO.Directory.GetCurrentDirectory()}"
     run app
-    0 // return an integer exit code
+    0
