@@ -3,9 +3,9 @@
 open System.Net.Mail
 open System.Threading.Tasks
 
-type Undefined = exn
+open Pocindle.Domain.SimpleTypes
 
-type UserId = UserId of uint64
+type Undefined = exn
 
 type User = { UserId: UserId }
 

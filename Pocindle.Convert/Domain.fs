@@ -17,6 +17,6 @@ type ConvertError =
     | OtherError of Undefined
 
 type WebToEpubConverter = | Pandoc 
-                          | Other of Exception
+                          | Other of Undefined
 
 type ConvertWebToEpub = WebToEpubConverter -> Article -> Task<Result<EpubFile, ConvertError>>
