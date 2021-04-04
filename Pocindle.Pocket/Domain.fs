@@ -25,4 +25,6 @@ type PocketItem =
       IsArticle: bool
       WordCount: WordCount
       ListenDurationEstimate: ListenDurationEstimate
-      TimeToRead: TimeToRead }
+      TimeToRead: TimeToRead
+      TimeAdded: TimeAdded
+      TimeUpdated: TimeUpdated }
