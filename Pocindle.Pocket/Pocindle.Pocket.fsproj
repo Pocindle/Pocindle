@@ -19,6 +19,7 @@
     <ItemGroup>
       <PackageReference Include="FSharp.Data" Version="4.0.1" />
       <PackageReference Include="FSharp.UMX" Version="1.0.0" />
+      <PackageReference Include="FsToolkit.ErrorHandling" Version="2.1.2" />
     </ItemGroup>
 
     <ItemGroup>

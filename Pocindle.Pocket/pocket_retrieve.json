@@ -3,10 +3,10 @@
   "complete": 1,
   "list": {
     "937072498": {
-      "item_id": "937072498",
-      "resolved_id": "833046701",
+      "item_id": "937072498 _",
+      "resolved_id": "833046701 _",
       "given_url": "http://example.com/given_url",
-      "given_title": "",
+      "given_title": "title",
       "favorite": "0",
       "status": "0",
       "time_added": "1468859100",

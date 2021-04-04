@@ -1,11 +1,29 @@
 ﻿open System
+open System.IO
+open System.Text.Json
+
 open Pocindle.Convert.Library
 open Pocindle.Convert.Domain
+open Pocindle.Pocket.Dto
 
 [<EntryPoint>]
 let main argv =
+    let q = new StreamReader "pocket_retrieve_sample.json"
+    let q1 = q.ReadToEnd()
     
-    //let s = Pocindle.Pocket.Dto.a
+    //let o = JsonSerializerOptions(PropertyNameCaseInsensitive = true, Converters = [||] )
+    
+    let root = JsonSerializer.Deserialize<PocketRetrieveRootDto>(q1)
+    
+    //let list = root.list
+    //RetrieveProvided.
+    
+    
+    //let root1 = RetrieveProvided.Load(q)
+     
+    //let u =  root.List.JsonValue.
+    
+    //let s = PocketItemDto.toDomain
     
     //let w = s.List.``3279476375``.ResolvedTitle
     
