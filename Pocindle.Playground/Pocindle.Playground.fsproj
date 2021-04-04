@@ -6,13 +6,19 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="HJson.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Pocindle.Convert\Pocindle.Convert.fsproj" />
       <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
+      <ProjectReference Include="..\Pocindle.Pocket.Dto\Pocindle.Pocket.Dto.csproj" />
       <ProjectReference Include="..\Pocindle.Pocket\Pocindle.Pocket.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.4.0" />
     </ItemGroup>
 
 </Project>
