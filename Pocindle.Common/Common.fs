@@ -1,7 +1,9 @@
 ﻿[<AutoOpen>]
-module Pocindle.Common
+module Pocindle
 
 open System
+
+type Undefined = exn
 
 let inline unimplemented a =
     match a with

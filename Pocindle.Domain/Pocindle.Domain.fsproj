@@ -9,4 +9,12 @@
         <Compile Include="Domain.fs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FsToolkit.ErrorHandling" Version="2.1.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Pocindle.Common\Pocindle.Common.fsproj" />
+    </ItemGroup>
+
 </Project>
