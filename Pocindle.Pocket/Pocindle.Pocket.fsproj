@@ -9,11 +9,6 @@
         <Compile Include="SimpleTypes.fs" />
         <Compile Include="Domain.fs" />
         <Compile Include="Dto.fs" />
-        <Content Include="pocket_retrieve.json" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="pocket_retrieve_sample.json" />
     </ItemGroup>
 
     <ItemGroup>

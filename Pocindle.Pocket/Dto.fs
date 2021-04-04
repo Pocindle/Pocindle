@@ -2,7 +2,6 @@ module Pocindle.Pocket.Dto
 
 open System
 open System.Collections.Generic
-open FSharp.Data
 
 open FsToolkit.ErrorHandling
 open FSharp.UMX
@@ -11,18 +10,36 @@ open Pocindle.Pocket.Domain
 open Pocindle
 open Pocindle.Pocket.SimpleTypes
 
-[<Literal>]
-let private ``pocket_retrieve.json`` =
-    __SOURCE_DIRECTORY__ + "/pocket_retrieve.json"
-
-type RetrieveProvided = JsonProvider<``pocket_retrieve.json``>
-
-type PocketItemDto = RetrieveProvided.``937072498``
+type PocketItemDto =
+    { item_id: string
+      resolved_id: string
+      given_url: string
+      given_title: string
+      favorite: string
+      status: string
+      time_added: string
+      time_updated: string
+      time_read: string
+      time_favorited: string
+      sort_id: int
+      resolved_title: string
+      resolved_url: string
+      excerpt: string
+      is_article: string
+      is_index: string
+      has_video: string
+      has_image: string
+      word_count: string
+      lang: string
+      time_to_read: Nullable<int>
+      amp_url: string
+      top_image_url: string
+      listen_duration_estimate: int }
 
 type PocketRetrieveRootDto =
     { status: int
       complete: int
-      list: IDictionary<string, Object>
+      list: IDictionary<string, PocketItemDto>
       error: Object
       since: int64 }
 
@@ -30,57 +47,65 @@ module PocketItemDto =
     let toDomain (a: PocketItemDto) =
         result {
             let! givenUrl =
-                match Uri.TryCreate(a.GivenUrl, UriKind.Absolute) with
+                match Uri.TryCreate(a.given_url, UriKind.Absolute) with
                 | true, b -> Ok b
                 | _ -> Error "Invalid given_url"
 
             let! resolvedUrl =
-                match Uri.TryCreate(a.ResolvedUrl, UriKind.Absolute) with
+                match Uri.TryCreate(a.resolved_url, UriKind.Absolute) with
                 | true, b -> Ok b
                 | _ -> Error "Invalid resolved_url"
 
             let! ampUrl =
-                match Uri.TryCreate(a.AmpUrl, UriKind.Absolute) with
+                match Uri.TryCreate(a.amp_url, UriKind.Absolute) with
                 | true, b -> Ok(Some b)
-                | _ when a.ResolvedUrl = "" -> Ok None
+                | _ when String.IsNullOrEmpty(a.amp_url) -> Ok None
                 | _ -> Error "Invalid amp_url"
 
             let! favorite =
-                match a.Favorite with
-                | 0 -> Ok NotFavorite
-                | 1 -> Ok Favorite
+                match a.favorite with
+                | "0" -> Ok NotFavorite
+                | "1" -> Ok Favorite
                 | _ -> Error "Invalid favorite "
 
             let! status =
-                match a.Status with
-                | 0 -> Ok Normal
-                | 1 -> Ok Archived
-                | 2 -> Ok ShouldBeDeleted
+                match a.status with
+                | "0" -> Ok Normal
+                | "1" -> Ok Archived
+                | "2" -> Ok ShouldBeDeleted
                 | _ -> Error "Invalid status"
 
             let! isArticle =
-                match a.IsArticle with
-                | 0 -> Ok false
-                | 1 -> Ok true
+                match a.is_article with
+                | "0" -> Ok false
+                | "1" -> Ok true
                 | _ -> Error "Invalid is_article"
 
+            let! wordCount =
+                match Int32.TryParse a.word_count with
+                | true, b -> Ok b
+                | _ -> Error "Invalid word_count"
+
+            let timeToRead =
+                a.time_to_read |> Option.ofNullable |> TimeToRead
+
             let y =
-                { ItemId = %a.ItemId
-                  ResolvedId = %a.ResolvedId
+                { ItemId = %a.item_id
+                  ResolvedId = %a.resolved_id
                   GivenUrl = GivenUrl givenUrl
                   ResolvedUrl = ResolvedUrl resolvedUrl
                   AmpUrl = ampUrl |> Option.map AmpUrl
-                  GivenTitle = %a.GivenTitle
-                  ResolvedTitle = %a.ResolvedTitle
+                  GivenTitle = %a.given_title
+                  ResolvedTitle = %a.resolved_title
                   Favorite = favorite
                   Status = status
-                  Excerpt = %a.Excerpt
+                  Excerpt = %a.excerpt
                   IsArticle = isArticle
-                  WordCount = %a.WordCount
-                  ListenDurationEstimate = %a.ListenDurationEstimate
-                  TimeToRead = %a.TimeToRead
-                  TimeAdded = % DateTimeOffset.FromUnixTimeSeconds(int64 a.TimeAdded)
-                  TimeUpdated = % DateTimeOffset.FromUnixTimeSeconds(int64 a.TimeUpdated) }
+                  WordCount = %wordCount
+                  ListenDurationEstimate = %a.listen_duration_estimate
+                  TimeToRead = timeToRead
+                  TimeAdded = % DateTimeOffset.FromUnixTimeSeconds(int64 a.time_added)
+                  TimeUpdated = % DateTimeOffset.FromUnixTimeSeconds(int64 a.time_updated) }
 
             return y
         }

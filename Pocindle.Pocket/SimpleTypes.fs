@@ -53,7 +53,7 @@ type ListenDurationEstimate = int<listenDurationEstimate>
 
 type AmpUrl = AmpUrl of Uri
 
-type TimeToRead = int<timeToRead>
+type TimeToRead = TimeToRead of int option
 
 type TimeAdded = DateTimeOffset<timeAdded>
 
