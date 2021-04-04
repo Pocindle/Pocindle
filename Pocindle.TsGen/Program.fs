@@ -32,9 +32,8 @@ let main _ =
             taskResult {
                 let! schema, file = task
                 let filename = Path.Combine(dtoPath, toFilename schema)
-                let sw = new StreamWriter(filename)
+                use sw = new StreamWriter(filename)
                 do! sw.WriteLineAsync(file)
-                sw.Close()
                 return filename
             })
     |> List.map Async.AwaitTask
