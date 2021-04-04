@@ -5,10 +5,12 @@ open System
 
 type Undefined = exn
 
+let inline (^) a b = a b
+
 let inline unimplemented a =
     match a with
-    | "" -> raise <| NotImplementedException()
-    | _ -> raise <| NotImplementedException a
+    | "" -> raise ^ NotImplementedException()
+    | _ -> raise ^ NotImplementedException a
 
 module Result =
     let get =
