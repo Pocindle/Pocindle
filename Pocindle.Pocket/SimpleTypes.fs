@@ -51,7 +51,7 @@ type WordCount = int<wordCount>
 
 type ListenDurationEstimate = int<listenDurationEstimate>
 
-type AmpUrl = AmpUrl of Uri
+type AmpUrl = AmpUrl of Uri option
 
 type TimeToRead = TimeToRead of int option
 

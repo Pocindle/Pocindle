@@ -16,7 +16,7 @@ type PocketItem =
       ResolvedId: ResolvedId
       GivenUrl: GivenUrl
       ResolvedUrl: ResolvedUrl
-      AmpUrl: AmpUrl option
+      AmpUrl: AmpUrl
       GivenTitle: GivenTitle
       ResolvedTitle: ResolvedTitle
       Favorite: Favorite

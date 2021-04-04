@@ -1,111 +1,61 @@
 module Pocindle.Pocket.Dto
 
 open System
-open System.Collections.Generic
 
-open FsToolkit.ErrorHandling
 open FSharp.UMX
 
+open FsToolkit.ErrorHandling
 open Pocindle.Pocket.Domain
-open Pocindle
 open Pocindle.Pocket.SimpleTypes
 
 type PocketItemDto =
-    { item_id: string
-      resolved_id: string
-      given_url: string
-      given_title: string
-      favorite: string
-      status: string
-      time_added: string
-      time_updated: string
-      time_read: string
-      time_favorited: string
-      sort_id: int
-      resolved_title: string
-      resolved_url: string
-      excerpt: string
-      is_article: string
-      is_index: string
-      has_video: string
-      has_image: string
-      word_count: string
-      lang: string
-      time_to_read: Nullable<int>
-      amp_url: string
-      top_image_url: string
-      listen_duration_estimate: int }
-
-type PocketRetrieveRootDto =
-    { status: int
-      complete: int
-      list: IDictionary<string, PocketItemDto>
-      error: Object
-      since: int64 }
+    { ItemId: string
+      ResolvedId: string
+      GivenUrl: string
+      ResolvedUrl: string
+      AmpUrl: string
+      GivenTitle: string
+      ResolvedTitle: string
+      Favorite: bool
+      Status: string
+      Excerpt: string
+      IsArticle: bool
+      WordCount: int
+      ListenDurationEstimate: int
+      TimeToRead: Nullable<int>
+      TimeAdded: DateTimeOffset
+      TimeUpdated: DateTimeOffset }
 
 module PocketItemDto =
-    let toDomain (a: PocketItemDto) =
-        result {
-            let! givenUrl =
-                match Uri.TryCreate(a.given_url, UriKind.Absolute) with
-                | true, b -> Ok b
-                | _ -> Error "Invalid given_url"
+    let fromDomain (a: PocketItem) =
+        let (GivenUrl givenUrl) = a.GivenUrl
+        let (ResolvedUrl resolvedUrl) = a.ResolvedUrl
+        let (TimeToRead timeToRead) = a.TimeToRead
+        let (AmpUrl ampUrl) = a.AmpUrl
 
-            let! resolvedUrl =
-                match Uri.TryCreate(a.resolved_url, UriKind.Absolute) with
-                | true, b -> Ok b
-                | _ -> Error "Invalid resolved_url"
-
-            let! ampUrl =
-                match Uri.TryCreate(a.amp_url, UriKind.Absolute) with
-                | true, b -> Ok(Some b)
-                | _ when String.IsNullOrEmpty(a.amp_url) -> Ok None
-                | _ -> Error "Invalid amp_url"
-
-            let! favorite =
-                match a.favorite with
-                | "0" -> Ok NotFavorite
-                | "1" -> Ok Favorite
-                | _ -> Error "Invalid favorite "
-
-            let! status =
-                match a.status with
-                | "0" -> Ok Normal
-                | "1" -> Ok Archived
-                | "2" -> Ok ShouldBeDeleted
-                | _ -> Error "Invalid status"
-
-            let! isArticle =
-                match a.is_article with
-                | "0" -> Ok false
-                | "1" -> Ok true
-                | _ -> Error "Invalid is_article"
-
-            let! wordCount =
-                match Int32.TryParse a.word_count with
-                | true, b -> Ok b
-                | _ -> Error "Invalid word_count"
-
-            let timeToRead =
-                a.time_to_read |> Option.ofNullable |> TimeToRead
-
-            let y =
-                { ItemId = %a.item_id
-                  ResolvedId = %a.resolved_id
-                  GivenUrl = GivenUrl givenUrl
-                  ResolvedUrl = ResolvedUrl resolvedUrl
-                  AmpUrl = ampUrl |> Option.map AmpUrl
-                  GivenTitle = %a.given_title
-                  ResolvedTitle = %a.resolved_title
-                  Favorite = favorite
-                  Status = status
-                  Excerpt = %a.excerpt
-                  IsArticle = isArticle
-                  WordCount = %wordCount
-                  ListenDurationEstimate = %a.listen_duration_estimate
-                  TimeToRead = timeToRead
-                  TimeAdded = % DateTimeOffset.FromUnixTimeSeconds(int64 a.time_added)
-                  TimeUpdated = % DateTimeOffset.FromUnixTimeSeconds(int64 a.time_updated) }
-
-            return y
-        }
+        { ItemId = %a.ItemId
+          ResolvedId = %a.ResolvedId
+          GivenUrl = givenUrl.ToString()
+          ResolvedUrl = resolvedUrl.ToString()
+          AmpUrl =
+              ampUrl
+              |> Option.map (fun r -> r.ToString())
+              |> Option.defaultValue null
+          GivenTitle = %a.GivenTitle
+          ResolvedTitle = %a.ResolvedTitle
+          Favorite =
+              match a.Favorite with
+              | Favorite -> true
+              | NotFavorite -> false
+          Status =
+              match a.Status with
+              | Normal -> "Normal"
+              | Archived -> "Archived"
+              | ShouldBeDeleted -> "ShouldBeDeleted"
+          Excerpt = %a.Excerpt
+          IsArticle = a.IsArticle
+          WordCount = %a.WordCount
+          ListenDurationEstimate = %a.ListenDurationEstimate
+          TimeToRead = timeToRead |> Option.toNullable
+          TimeAdded = %a.TimeAdded
+          TimeUpdated = %a.TimeUpdated }
