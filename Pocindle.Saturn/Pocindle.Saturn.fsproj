@@ -9,16 +9,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Database.fs"/>
-        <Compile Include="Config.fs"/>
+        <Content Include="appsettings.json" />
+        <Compile Include="Database.fs" />
+        <Compile Include="Config.fs" />
 
-        <Compile Include="Templates\App.fs"/>
-        <Compile Include="Templates\Index.fs"/>
-        <Compile Include="Templates\NotFound.fs"/>
-        <Compile Include="Templates\InternalError.fs"/>
+        <Compile Include="Templates\App.fs" />
+        <Compile Include="Templates\Index.fs" />
+        <Compile Include="Templates\NotFound.fs" />
+        <Compile Include="Templates\InternalError.fs" />
+        <Compile Include="Pocket.fs" />
 
-        <Compile Include="Router.fs"/>
-        <Compile Include="Program.fs"/>
+        <Compile Include="Router.fs" />
+        <Compile Include="Program.fs" />
 
         <Content Include="static\*.*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -26,39 +28,39 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Dapper" Version="2.0.78"/>
-        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.4"/>
-        <PackageReference Include="Ply" Version="0.3.1"/>
-        <PackageReference Include="Saturn" Version="0.14.1"/>
+        <PackageReference Include="Dapper" Version="2.0.78" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.4" />
+        <PackageReference Include="Ply" Version="0.3.1" />
+        <PackageReference Include="Saturn" Version="0.14.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj"/>
+        <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
+        <ProjectReference Include="..\Pocindle.Pocket\Pocindle.Pocket.fsproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="Properties\launchSettings.json"/>
-        <Content Include="appsettings.json"/>
+        <Content Include="Properties\launchSettings.json" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
         <!-- Ensure Node.js is installed -->
         <Exec Command="node --version" ContinueOnError="true">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
-        <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE."/>
-        <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..."/>
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install"/>
+        <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+        <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     </Target>
 
     <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
         <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install"/>
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build"/>
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
 
         <!-- Include the newly-built files in the publish output -->
         <ItemGroup>
-            <DistFiles Include="$(SpaRoot)build\**"/>
+            <DistFiles Include="$(SpaRoot)build\**" />
             <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
                 <!--Если указать так, как закомментировано, то бандл будет копироваться на папку ниже-->
                 <!--<RelativePath>%(DistFiles.Identity)</RelativePath>-->
