@@ -1,7 +1,6 @@
 module Server
 
 open Microsoft.AspNetCore.Builder
-open Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting

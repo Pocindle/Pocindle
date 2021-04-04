@@ -7,11 +7,13 @@
     <ItemGroup>
         <Compile Include="SimpleTypes.fs" />
         <Compile Include="Domain.fs" />
+        <Compile Include="Dto.fs" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="FSharp.UMX" Version="1.0.0" />
       <PackageReference Include="FsToolkit.ErrorHandling" Version="2.1.2" />
+      <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
