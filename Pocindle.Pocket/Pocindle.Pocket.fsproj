@@ -6,12 +6,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Library.fs" />
+        <Compile Include="Domain.fs" />
         <Compile Include="Dto.fs" />
+        <Content Include="pocket_retrieve.json" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Include="pocket_retrieve_sample.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FSharp.Data" Version="4.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Pocindle.Common\Pocindle.Common.fsproj" />
     </ItemGroup>
 
 </Project>
