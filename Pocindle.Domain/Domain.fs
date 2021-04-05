@@ -1,11 +1,10 @@
-﻿module Pocindle.Domain
+﻿namespace Pocindle.Domain
 
 open System.Net.Mail
 open System.Threading.Tasks
 
-type Undefined = exn
+open Pocindle.Domain.SimpleTypes
 
-type UserId = UserId of uint64
 
 type User = { UserId: UserId }
 
