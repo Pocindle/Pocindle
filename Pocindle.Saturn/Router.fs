@@ -57,13 +57,13 @@ let apiRouter =
         not_found_handler (text "Api 404")
         pipe_through api
 
+        forward "/auth" Auth.topRouter
         forward "/pocket" pocketApi
         forward "/someApi" someScopeOrController
     }
 
 let appRouter =
     router {
-        forward "/jwt" Auth.topRouter
         forward "/api" apiRouter
         forward "" browserRouter
     }

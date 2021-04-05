@@ -94,6 +94,11 @@ module Auth =
             | RedirectUri uri -> uri.ToString()
             | RedirectString str -> str
 
+        let withRequestToken (RequestToken requestToken) uri =
+            match uri with
+            | RedirectUri u -> RedirectUri ^ Uri(u, requestToken)
+            | RedirectString s -> RedirectString $"{s}{requestToken}"
+
     type AccessToken = private AccessToken of string
 
     module AccessToken =

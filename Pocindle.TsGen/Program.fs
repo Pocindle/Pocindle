@@ -22,7 +22,8 @@ let toFilename (schema: JsonSchema) =
 let main _ =
     let schemas =
         [ generateSchemaAndTs<Pocindle.Pocket.Dto.Retrieve.PocketItemDto> ()
-          generateSchemaAndTs<Pocindle.Domain.Dto.DeliveryDto> () ]
+          generateSchemaAndTs<Pocindle.Domain.Dto.DeliveryDto> ()
+          generateSchemaAndTs<Pocindle.Pocket.Dto.Auth.RequestDto> () ]
 
     let dtoPath =
         Path.Combine(__SOURCE_DIRECTORY__, "../pocindle-client/src/dto/")

@@ -82,3 +82,18 @@ module Retrieve =
               TimeToRead = timeToRead |> Option.toNullable
               TimeAdded = %a.TimeAdded
               TimeUpdated = %a.TimeUpdated }
+
+module Auth =
+    open Pocindle.Pocket.SimpleTypes.Auth
+    open Pocindle.Pocket.Domain.Auth
+
+    type RequestDto =
+        { [<Required>]
+          RequestToken: string
+          [<Required>]
+          RedirectUrl: string }
+
+    module RequestDto =
+        let fromDomain (requestToken: RequestToken) (redirectUrl: RedirectUri) =
+            { RequestToken = RequestToken.value requestToken
+              RedirectUrl = RedirectUri.valueStr redirectUrl }
