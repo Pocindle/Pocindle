@@ -7,6 +7,9 @@ open Microsoft.Extensions.Hosting
 open Saturn
 open Config
 
+open Pocindle.Saturn
+
+
 let endpointPipe =
     pipeline {
         plug head
@@ -27,6 +30,8 @@ let app =
         use_config (fun _ -> { connectionString = "DataSource=database.sqlite" }) //TODO: Set development time configuration
 
         use_developer_exceptions
+        
+        use_jwt_authentication Auth.secret Auth.issuer
 
         app_config
             (fun app ->

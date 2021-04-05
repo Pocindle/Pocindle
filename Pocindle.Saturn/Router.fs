@@ -6,6 +6,7 @@ open Giraffe.ResponseWriters
 open FSharp.Control.Tasks
 
 open Pocindle.Saturn.Pocket
+open Pocindle.Saturn
 
 let browser =
     pipeline {
@@ -62,6 +63,7 @@ let apiRouter =
 
 let appRouter =
     router {
+        forward "/jwt" Auth.topRouter
         forward "/api" apiRouter
         forward "" browserRouter
     }

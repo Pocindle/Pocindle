@@ -18,6 +18,7 @@
         <Compile Include="Templates\NotFound.fs" />
         <Compile Include="Templates\InternalError.fs" />
         <Compile Include="Pocket.fs" />
+        <Compile Include="Auth.fs" />
 
         <Compile Include="Router.fs" />
         <Compile Include="Program.fs" />
@@ -29,8 +30,10 @@
 
     <ItemGroup>
         <PackageReference Include="Dapper" Version="2.0.78" />
+        <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.10.0" />
         <PackageReference Include="Ply" Version="0.3.1" />
         <PackageReference Include="Saturn" Version="0.14.1" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,12 +1,15 @@
 module Pocindle.Saturn.Pocket
 
 open System.Net.Http
+open System.Text.Json
 
 open Saturn
 open Giraffe.ResponseWriters
 open FSharp.Control.Tasks
 
 open Pocindle.Pocket
+open Pocindle.Pocket.PocketDto.Retrieve
+open Pocindle.Pocket.Dto.Retrieve
 
 let pocketApi =
     router {
@@ -22,17 +25,17 @@ let pocketApi =
                     let! g = msg.Content.ReadAsStringAsync()
 
                     let a =
-                        System.Text.Json.JsonSerializer.Deserialize<PocketDto.PocketRetrieveRootPocketDto>(g)
+                        JsonSerializer.Deserialize<PocketRetrieveRootPocketDto>(g)
 
                     let h =
                         a.list.Values
                         |> List.ofSeq
-                        |> List.map Pocindle.Pocket.PocketDto.PocketItemPocketDto.toDomain
+                        |> List.map PocketItemPocketDto.toDomain
                         |> List.map Result.get
 
                     let dtos =
                         h
-                        |> List.map Dto.PocketItemDto.fromDomain
+                        |> List.map PocketItemDto.fromDomain
                         |> Array.ofList
 
                     let! r = json (dtos) func ctx
