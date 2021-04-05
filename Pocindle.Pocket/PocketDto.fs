@@ -9,6 +9,7 @@ open FSharp.UMX
 open Pocindle.Pocket.Domain
 
 module Retrieve =
+    open Pocindle.Pocket.Domain.Retrieve
     open Pocindle.Pocket.SimpleTypes.Retrieve
 
     type PocketItemPocketDto =
@@ -125,5 +126,4 @@ module Auth =
 
     type AuthorizeResponseDto =
         { access_token: string
-          username: string
-          state: string }
+          username: string }

@@ -10,6 +10,7 @@ open Pocindle.Pocket.Domain
 
 module Retrieve =
     open Pocindle.Pocket.SimpleTypes.Retrieve
+    open Pocindle.Pocket.Domain.Retrieve
 
     type StatusDto =
         | Normal = 0
