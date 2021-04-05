@@ -3,58 +3,110 @@ module Pocindle.Pocket.SimpleTypes
 open System
 open FSharp.UMX
 
-[<Measure>]
-type private itemId
+open Pocindle.Domain.SimpleTypes
 
-[<Measure>]
-type private resolvedId
+module Retrieve =
+    [<Measure>]
+    type private itemId
 
-[<Measure>]
-type private givenTitle
+    [<Measure>]
+    type private resolvedId
 
-[<Measure>]
-type private resolvedTitle
+    [<Measure>]
+    type private givenTitle
 
-[<Measure>]
-type private excerpt
+    [<Measure>]
+    type private resolvedTitle
 
-[<Measure>]
-type private wordCount
+    [<Measure>]
+    type private excerpt
 
-[<Measure>]
-type private listenDurationEstimate
+    [<Measure>]
+    type private wordCount
 
-[<Measure>]
-type private timeToRead
+    [<Measure>]
+    type private listenDurationEstimate
 
-[<Measure>]
-type private timeAdded
+    [<Measure>]
+    type private timeToRead
 
-[<Measure>]
-type private timeUpdated
+    [<Measure>]
+    type private timeAdded
 
-type ItemId = string<itemId>
+    [<Measure>]
+    type private timeUpdated
 
-type ResolvedId = string<resolvedId>
+    type ItemId = string<itemId>
 
-type GivenUrl = GivenUrl of Uri
+    type ResolvedId = string<resolvedId>
 
-type ResolvedUrl = ResolvedUrl of Uri
+    type GivenUrl = GivenUrl of Uri
 
-type GivenTitle = string<givenTitle>
+    type ResolvedUrl = ResolvedUrl of Uri
 
-type ResolvedTitle = string<resolvedTitle>
+    type GivenTitle = string<givenTitle>
 
-type Excerpt = string<excerpt>
+    type ResolvedTitle = string<resolvedTitle>
 
-type WordCount = int<wordCount>
+    type Excerpt = string<excerpt>
 
-type ListenDurationEstimate = int<listenDurationEstimate>
+    type WordCount = int<wordCount>
 
-type AmpUrl = AmpUrl of Uri option
+    type ListenDurationEstimate = int<listenDurationEstimate>
 
-type TimeToRead = TimeToRead of int option
+    type AmpUrl = AmpUrl of Uri option
 
-type TimeAdded = DateTimeOffset<timeAdded>
+    type TimeToRead = TimeToRead of int option
 
-type TimeUpdated = DateTimeOffset<timeUpdated>
+    type TimeAdded = DateTimeOffset<timeAdded>
+
+    type TimeUpdated = DateTimeOffset<timeUpdated>
+
+module Auth =
+    [<Measure>]
+    type private state
+
+    type State = string<state> option
+
+    type ConsumerKey = private ConsumerKey of string
+
+    module ConsumerKey =
+        let value (ConsumerKey key) = key
+
+        let create str =
+            ConstrainedType.createFixedString "ConsumerKey" ConsumerKey 30 str
+
+    type RequestToken = private RequestToken of string
+
+    module RequestToken =
+        let value (RequestToken key) = key
+
+        let create str =
+            ConstrainedType.createFixedString "RequestToken" RequestToken 30 str
+
+    type RedirectUri =
+        | RedirectUri of Uri
+        | RedirectString of string
+
+    module RedirectUri =
+        let valueStr =
+            function
+            | RedirectUri uri -> uri.ToString()
+            | RedirectString str -> str
+
+    type AccessToken = private AccessToken of string
+
+    module AccessToken =
+        let value (AccessToken key) = key
+
+        let create str =
+            ConstrainedType.createFixedString "AccessToken" AccessToken 30 str
+
+    type Username = private Username of string
+
+
+    module Username =
+        let value (Username key) = key
+
+        let create str =
+            ConstrainedType.createString "Username" Username 100 str

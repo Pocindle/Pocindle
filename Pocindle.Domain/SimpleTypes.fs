@@ -19,6 +19,16 @@ module ConstrainedType =
                 return ctor str
         }
 
+    let createFixedString fieldName ctor len str =
+        result {
+            if String.IsNullOrEmpty(str) then
+                return! Error $"%s{fieldName} must not be null or empty"
+            elif str.Length <> len then
+                return! Error $"%s{fieldName} must be %i{len} chars"
+            else
+                return ctor str
+        }
+
     let createStringOption fieldName ctor maxLen str =
         if String.IsNullOrEmpty(str) then
             Ok None

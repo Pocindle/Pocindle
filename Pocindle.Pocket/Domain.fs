@@ -1,6 +1,7 @@
 ﻿module Pocindle.Pocket.Domain
 
 open Pocindle.Pocket.SimpleTypes
+open Pocindle.Pocket.SimpleTypes.Retrieve
 
 type Favorite =
     | Favorite
