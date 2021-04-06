@@ -1,7 +1,6 @@
-module Pocindle.Pocket.Auth
+module Pocindle.Pocket.Auth.Implementation
 
 open System
-open System.Net.Http
 open System.Net.Http
 open System.Text
 open System.Text.Json
@@ -10,9 +9,10 @@ open FSharp.UMX
 open FSharp.Control.Tasks
 open FsToolkit.ErrorHandling
 
-open Pocindle.Pocket.SimpleTypes.Auth
-open Pocindle.Pocket.PocketDto.Auth
-open Pocindle.Pocket.Domain.Auth
+open Pocindle.Pocket.Auth.PublicTypes
+open Pocindle.Pocket.Auth.SimpleTypes
+open Pocindle.Pocket.Auth.PocketDto
+open Pocindle.Pocket.Common.SimpleTypes
 
 let pocketSendRetrieve<'Request, 'Response> (request: 'Request) (uri: Uri) =
     taskResult {

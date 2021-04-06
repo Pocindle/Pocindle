@@ -6,11 +6,11 @@ open System.ComponentModel.DataAnnotations
 open FSharp.UMX
 open FsToolkit.ErrorHandling
 
-open Pocindle.Pocket.Domain
+open Pocindle.Pocket
 
 module Retrieve =
-    open Pocindle.Pocket.SimpleTypes.Retrieve
-    open Pocindle.Pocket.Domain.Retrieve
+    open Pocindle.Pocket.Retrieve.SimpleTypes
+    open Pocindle.Pocket.Retrieve.PublicTypes
 
     type StatusDto =
         | Normal = 0
@@ -82,18 +82,3 @@ module Retrieve =
               TimeToRead = timeToRead |> Option.toNullable
               TimeAdded = %a.TimeAdded
               TimeUpdated = %a.TimeUpdated }
-
-module Auth =
-    open Pocindle.Pocket.SimpleTypes.Auth
-    open Pocindle.Pocket.Domain.Auth
-
-    type RequestDto =
-        { [<Required>]
-          RequestToken: string
-          [<Required>]
-          RedirectUrl: string }
-
-    module RequestDto =
-        let fromDomain (requestToken: RequestToken) (redirectUrl: RedirectUri) =
-            { RequestToken = RequestToken.value requestToken
-              RedirectUrl = RedirectUri.valueStr redirectUrl }

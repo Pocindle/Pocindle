@@ -9,8 +9,12 @@ open Giraffe
 open FSharp.Control.Tasks
 open Microsoft.AspNetCore.Http
 
-open Pocindle.Pocket.Domain.Auth
-open Pocindle.Pocket.SimpleTypes.Auth
+open Pocindle.Pocket.Auth.PublicTypes
+open Pocindle.Pocket.Auth.SimpleTypes
+open Pocindle.Pocket.Auth.Implementation
+open Pocindle.Pocket.Common.SimpleTypes
+open Pocindle.Pocket.Common
+open Pocindle.Pocket.Auth.Dto
 
 let secret = "spadR2dre#u-ruBrE@TepA&*Uf@U"
 let issuer = "pocindle.xyz"
@@ -67,19 +71,17 @@ let handlePostToken =
 let request =
     fun (next: HttpFunc) (ctx: HttpContext) ->
         task {
-            let consumer_key =
-                ConsumerKey.create ""
-                |> Result.get
+            let consumer_key = ConsumerKey.create "" |> Result.get
 
             let redirect_uri =
                 RedirectString "https://pocindle.xyz/authorizationFinished/"
 
-            let! y = Pocindle.Pocket.Auth.obtainRequestToken consumer_key redirect_uri None
+            let! y = obtainRequestToken consumer_key redirect_uri None
 
             match y with
             | Ok (t, _) ->
                 let tr =
-                    Pocindle.Pocket.Dto.Auth.RequestDto.fromDomain t (RedirectUri.withRequestToken t redirect_uri)
+                    RequestDto.fromDomain t (RedirectUri.withRequestToken t redirect_uri)
 
                 return! json tr next ctx
             | Error ex -> return! (setStatusCode 500 >=> json ex) next ctx
@@ -88,14 +90,12 @@ let request =
 let authorize =
     fun (requestToken: string) (next: HttpFunc) (ctx: HttpContext) ->
         task {
-            let consumer_key =
-                ConsumerKey.create ""
-                |> Result.get
+            let consumer_key = ConsumerKey.create "" |> Result.get
 
             let requestToken =
                 RequestToken.create requestToken |> Result.get
 
-            let! y = Pocindle.Pocket.Auth.authorize consumer_key requestToken
+            let! y = authorize consumer_key requestToken
 
             match y with
             | Ok (t, a) ->

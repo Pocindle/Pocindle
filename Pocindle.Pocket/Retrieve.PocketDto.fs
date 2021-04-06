@@ -6,11 +6,9 @@ open System.Collections.Generic
 open FsToolkit.ErrorHandling
 open FSharp.UMX
 
-open Pocindle.Pocket.Domain
-
 module Retrieve =
-    open Pocindle.Pocket.Domain.Retrieve
-    open Pocindle.Pocket.SimpleTypes.Retrieve
+    open Pocindle.Pocket.Retrieve.PublicTypes
+    open Pocindle.Pocket.Retrieve.SimpleTypes
 
     type PocketItemPocketDto =
         { item_id: string
