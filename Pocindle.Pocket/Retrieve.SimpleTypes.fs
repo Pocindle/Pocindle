@@ -1,7 +1,16 @@
-module Pocindle.Pocket.SimpleTypes
+module Pocindle.Pocket.Retrieve.SimpleTypes
 
 open System
+open System.Net.Http
+open System.Net.Http
+open System.Text
+open System.Text.Json
+
 open FSharp.UMX
+open FSharp.Control.Tasks
+open FsToolkit.ErrorHandling
+
+open Pocindle.Domain.SimpleTypes
 
 [<Measure>]
 type private itemId

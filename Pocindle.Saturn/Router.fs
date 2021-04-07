@@ -5,6 +5,8 @@ open Giraffe.Core
 open Giraffe.ResponseWriters
 open FSharp.Control.Tasks
 
+open Pocindle.Saturn.Pocket
+open Pocindle.Saturn
 
 let browser =
     pipeline {
@@ -16,7 +18,6 @@ let browser =
 
 let defaultView =
     router {
-        //get "/" (htmlView Index.layout)
         get "/index.html" (redirectTo false "/")
         get "/default.html" (redirectTo false "/")
         get "/" (htmlFile "index.html")
@@ -24,13 +25,11 @@ let defaultView =
 
 let browserRouter =
     router {
-        not_found_handler (htmlView NotFound.layout) //Use the default 404 webpage
-        pipe_through browser //Use the default browser pipeline
+        not_found_handler (htmlView NotFound.layout)
+        pipe_through browser
 
-        forward "" defaultView //Use the default view
+        forward "" defaultView
     }
-
-//Other scopes may use different pipelines and error handlers
 
 let api =
     pipeline {
@@ -58,6 +57,8 @@ let apiRouter =
         not_found_handler (text "Api 404")
         pipe_through api
 
+        forward "/auth" Auth.topRouter
+        forward "/pocket" pocketApi
         forward "/someApi" someScopeOrController
     }
 

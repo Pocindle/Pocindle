@@ -1,12 +1,14 @@
 module Server
 
 open Microsoft.AspNetCore.Builder
-open Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Saturn
 open Config
+
+open Pocindle.Saturn
+
 
 let endpointPipe =
     pipeline {
@@ -28,6 +30,8 @@ let app =
         use_config (fun _ -> { connectionString = "DataSource=database.sqlite" }) //TODO: Set development time configuration
 
         use_developer_exceptions
+        
+        //use_jwt_authentication Auth.secret Auth.issuer
 
         app_config
             (fun app ->

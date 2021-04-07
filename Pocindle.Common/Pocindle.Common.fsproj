@@ -7,6 +7,12 @@
 
     <ItemGroup>
         <Compile Include="Common.fs" />
+        <Compile Include="Serialization.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Ply" Version="0.3.1" />
+      <PackageReference Include="System.Text.Json" Version="5.0.2" />
     </ItemGroup>
 
 </Project>

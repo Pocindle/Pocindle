@@ -1,4 +1,4 @@
-module Pocindle.Pocket.Dto
+module Pocindle.Pocket.Retrieve.Dto
 
 open System
 open System.ComponentModel.DataAnnotations
@@ -6,8 +6,9 @@ open System.ComponentModel.DataAnnotations
 open FSharp.UMX
 open FsToolkit.ErrorHandling
 
-open Pocindle.Pocket.Domain
-open Pocindle.Pocket.SimpleTypes
+
+open Pocindle.Pocket.Retrieve.SimpleTypes
+open Pocindle.Pocket.Retrieve.PublicTypes
 
 type StatusDto =
     | Normal = 0
@@ -79,3 +80,18 @@ module PocketItemDto =
           TimeToRead = timeToRead |> Option.toNullable
           TimeAdded = %a.TimeAdded
           TimeUpdated = %a.TimeUpdated }
+
+
+type PocketRetrieveDto =
+    { [<Required>]
+      Items: PocketItemDto array
+      [<Required>]
+      Since: DateTimeOffset }
+
+module PocketRetrieveDto =
+    let fromDomain (a: RetrieveResponse) =
+        { Items =
+              a.Items
+              |> List.map PocketItemDto.fromDomain
+              |> List.toArray
+          Since = a.Since }
