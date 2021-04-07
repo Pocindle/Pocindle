@@ -19,10 +19,10 @@ const initialContext: ThemeContext = {
 
 const themes = {
   light: {
-    test: 'testlight',
+    name: 'light',
   },
   dark: {
-    test: 'testdark',
+    name: 'dark',
   },
 };
 
@@ -30,12 +30,10 @@ export const ThemeContext = React.createContext(initialContext);
 
 export const ThemeProvider: React.FC = ({ children }) => {
   const [theme, setTheme] = useState<unknown>(themes.light);
-  const [themeName, setThemeName] = useState<string>('light');
 
   const switchTheme = (themeNameValue: keyof IThemeNames) => {
     console.log(themeNameValue);
     setTheme(themes[themeNameValue]);
-    setThemeName(themeName);
   };
 
   return (
