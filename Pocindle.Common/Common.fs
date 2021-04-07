@@ -1,5 +1,5 @@
 ﻿[<AutoOpen>]
-module Pocindle
+module Global
 
 open System
 open System.Threading.Tasks
@@ -21,7 +21,7 @@ module Result =
         | Ok t -> t
         | _ -> invalidArg "result" "The Result value was Error"
 
-    let inline throwableToResult f a =
+    let inline tryCall f a =
         try
             f a |> Ok
         with ex -> Error ex
@@ -34,7 +34,7 @@ module AsyncResult =
             | _ -> return invalidArg "asyncResult" "The AsyncResult value was Error"
         }
 
-    let inline throwableToResult f a =
+    let inline tryCall f a =
         async {
             try
                 let! t = f a
@@ -50,7 +50,7 @@ module TaskResult =
             | _ -> return invalidArg "taskResult" "The TaskResult value was Error"
         }
 
-    let inline throwableToResult (f: _ -> Task<_>) a =
+    let inline tryCall (f: _ -> Task<_>) a =
         task {
             try
                 let! t = f a

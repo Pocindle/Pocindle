@@ -7,13 +7,27 @@ open Pocindle.Playground
 open Pocindle.Pocket.PocketDto
 open Pocindle.Pocket.Dto
 open FsToolkit.ErrorHandling
+open Pocindle.Common.Serialization
 
 [<EntryPoint>]
-let main args =
-    let abc a = a
-    let zxc = abc 2
-    0
-    
+let main args = 0
+//    let s () =
+//        let b = face {
+//           let! a = member1 "123"
+//           let a = a |> Result.get
+//           let! c = member2<int> a
+//
+//           return c
+//        }
+//        let y = interpret<int> b
+//        y
+//
+//    let u = s()
+//
+//    let abc a = a
+//    let zxc = abc 2
+//    0
+//
 //    //HJson.tryNJson<PocketItemDto> ()
 //
 //    let y =
