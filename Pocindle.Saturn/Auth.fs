@@ -11,7 +11,6 @@ open Microsoft.AspNetCore.Http
 
 open Pocindle.Pocket.Auth.PublicTypes
 open Pocindle.Pocket.Auth.SimpleTypes
-open Pocindle.Pocket.Auth.Implementation
 open Pocindle.Pocket.Common.SimpleTypes
 open Pocindle.Pocket.Common
 open Pocindle.Pocket.Auth.Dto
@@ -76,7 +75,7 @@ let request =
             let redirect_uri =
                 RedirectString "https://pocindle.xyz/authorizationFinished/"
 
-            let! y = obtainRequestToken consumer_key redirect_uri None
+            let! y = Pocindle.Pocket.Auth.Api.obtainRequestToken consumer_key redirect_uri None
 
             match y with
             | Ok (t, _) ->
@@ -95,7 +94,7 @@ let authorize =
             let requestToken =
                 RequestToken.create requestToken |> Result.get
 
-            let! y = authorize consumer_key requestToken
+            let! y = Pocindle.Pocket.Auth.Api.authorize consumer_key requestToken
 
             match y with
             | Ok (t, a) ->

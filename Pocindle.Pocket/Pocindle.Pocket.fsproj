@@ -12,11 +12,13 @@
         <Compile Include="Auth.PocketDto.fs" />
         <Compile Include="Auth.Implementation.fs" />
         <Compile Include="Auth.Dto.fs" />
+        <Compile Include="Auth.Api.fs" />
         <Compile Include="Retrieve.SimpleTypes.fs" />
         <Compile Include="Retrieve.PublicTypes.fs" />
         <Compile Include="Retrieve.PocketDto.fs" />
         <Compile Include="Retrieve.Dto.fs" />
         <Compile Include="Retrieve.Implementation.fs" />
+        <Compile Include="Retrieve.Api.fs" />
         <Compile Include="Pocket.CE.fs" />
         <Compile Include="Pocket.Implementation.fs" />
     </ItemGroup>

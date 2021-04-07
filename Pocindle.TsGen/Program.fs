@@ -21,7 +21,7 @@ let toFilename (schema: JsonSchema) =
 [<EntryPoint>]
 let main _ =
     let schemas =
-        [ generateSchemaAndTs<Pocindle.Pocket.Dto.Retrieve.PocketItemDto> ()
+        [ generateSchemaAndTs<Pocindle.Pocket.Retrieve.Dto.PocketRetrieveDto> ()
           generateSchemaAndTs<Pocindle.Domain.Dto.DeliveryDto> ()
           generateSchemaAndTs<Pocindle.Pocket.Auth.Dto.RequestDto> () ]
 

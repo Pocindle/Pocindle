@@ -21,6 +21,11 @@ module Result =
         | Ok t -> t
         | _ -> invalidArg "result" "The Result value was Error"
 
+    let inline getError result =
+        match result with
+        | Error t -> t
+        | _ -> invalidArg "result" "The Result value was Ok"
+
     let inline tryCall f a =
         try
             f a |> Ok
@@ -32,6 +37,13 @@ module AsyncResult =
             match! asyncResult with
             | Ok t -> return t
             | _ -> return invalidArg "asyncResult" "The AsyncResult value was Error"
+        }
+
+    let inline getError asyncResult =
+        async {
+            match! asyncResult with
+            | Error t -> return t
+            | _ -> return invalidArg "asyncResult" "The AsyncResult value was Ok"
         }
 
     let inline tryCall f a =
@@ -48,6 +60,13 @@ module TaskResult =
             match! taskResult with
             | Ok t -> return t
             | _ -> return invalidArg "taskResult" "The TaskResult value was Error"
+        }
+
+    let inline getError (taskResult: Task<Result<_, _>>) =
+        task {
+            match! taskResult with
+            | Error t -> return t
+            | _ -> return invalidArg "taskResult" "The TaskResult value was Ok"
         }
 
     let inline tryCall (f: _ -> Task<_>) a =

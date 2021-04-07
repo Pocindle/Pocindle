@@ -1,4 +1,4 @@
-module Pocindle.Pocket.Auth.Implementation
+module internal Pocindle.Pocket.Auth.Implementation
 
 open System
 open System.Net.Http

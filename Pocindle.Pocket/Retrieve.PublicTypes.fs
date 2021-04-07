@@ -3,6 +3,8 @@ module Pocindle.Pocket.Retrieve.PublicTypes
 open System
 open System.Threading.Tasks
 
+open Pocindle.Common.Serialization
+open Pocindle.Pocket.Common.SimpleTypes
 open Pocindle.Pocket.Retrieve.SimpleTypes
 
 type Favorite =
@@ -70,7 +72,7 @@ type RetrieveOptionalParameters =
       Offset: int option }
 
 module RetrieveOptionalParameters =
-    let none =
+    let empty =
         { State = None
           Favorite = None
           Tag = None
@@ -86,9 +88,11 @@ module RetrieveOptionalParameters =
 type RetrieveResponse =
     { Items: PocketItem list
       Since: DateTimeOffset }
-    
-type RetrieveError = ExceptionError of exn
 
-type RetrieveParameters = Undefined
+type RetrieveError =
+    | FetchException of exn
+    | SerializationError of SerializationError
+    | DeserializationError of DeserializationError
+    | ValidationError of string list
 
-type Retrieve = RetrieveParameters -> Task<Result<PocketItem list, exn>>
+type Retrieve = ConsumerKey -> AccessToken -> RetrieveOptionalParameters -> Task<Result<RetrieveResponse, RetrieveError>>

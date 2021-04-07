@@ -8,12 +8,6 @@
 
 
 
-export enum StatusDto {
-    Normal = 0,
-    Archived = 1,
-    ShouldBeDeleted = 2,
-}
-
 export class PocketItemDto implements IPocketItemDto {
     itemId!: string;
     resolvedId!: string;
@@ -108,4 +102,61 @@ export interface IPocketItemDto {
     timeToRead: number | undefined;
     timeAdded: Date;
     timeUpdated: Date;
+}
+
+export enum StatusDto {
+    Normal = 0,
+    Archived = 1,
+    ShouldBeDeleted = 2,
+}
+
+export class PocketRetrieveDto implements IPocketRetrieveDto {
+    items!: PocketItemDto[];
+    since!: Date;
+
+    constructor(data?: IPocketRetrieveDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.items = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["Items"])) {
+                this.items = [] as any;
+                for (let item of _data["Items"])
+                    this.items!.push(PocketItemDto.fromJS(item));
+            }
+            this.since = _data["Since"] ? new Date(_data["Since"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): PocketRetrieveDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PocketRetrieveDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["Items"] = [];
+            for (let item of this.items)
+                data["Items"].push(item.toJSON());
+        }
+        data["Since"] = this.since ? this.since.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IPocketRetrieveDto {
+    items: PocketItemDto[];
+    since: Date;
 }

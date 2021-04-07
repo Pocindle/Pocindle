@@ -31,7 +31,7 @@ let app =
 
         use_developer_exceptions
         
-        use_jwt_authentication Auth.secret Auth.issuer
+        //use_jwt_authentication Auth.secret Auth.issuer
 
         app_config
             (fun app ->

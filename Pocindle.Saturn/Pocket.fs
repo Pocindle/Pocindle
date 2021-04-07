@@ -1,15 +1,13 @@
 module Pocindle.Saturn.Pocket
 
-open System.Net.Http
-open System.Text.Json
-
 open Saturn
 open Giraffe.ResponseWriters
 open FSharp.Control.Tasks
+open FsToolkit.ErrorHandling
 
-open Pocindle.Pocket
-open Pocindle.Pocket.PocketDto.Retrieve
-open Pocindle.Pocket.Dto.Retrieve
+open Pocindle.Pocket.Retrieve
+open Pocindle.Pocket.Retrieve.PublicTypes
+open Pocindle.Pocket.Common.SimpleTypes
 
 let pocketApi =
     router {
@@ -17,28 +15,25 @@ let pocketApi =
             "/retrieveAll/%s/%s"
             (fun (access_token, consumer_key) func ctx ->
                 task {
-                    let u =
-                        $"https://getpocket.com/v3/get?access_token={access_token}&consumer_key={consumer_key}"
+                    let retrieve =
+                        result {
+                            let! accessToken = AccessToken.create access_token
+                            let! consumerKey = ConsumerKey.create consumer_key
 
-                    let httpClient = new HttpClient()
-                    let! msg = httpClient.GetAsync(u)
-                    let! g = msg.Content.ReadAsStringAsync()
+                            return Api.retrieve consumerKey accessToken
+                        }
 
-                    let a =
-                        JsonSerializer.Deserialize<PocketRetrieveRootPocketDto>(g)
+                    let! p =
+                        match retrieve with
+                        | Ok retrieve -> retrieve RetrieveOptionalParameters.empty
+                        | Error validationError -> unimplemented ""
 
-                    let h =
-                        a.list.Values
-                        |> List.ofSeq
-                        |> List.map PocketItemPocketDto.toDomain
-                        |> List.map Result.get
+                    match p with
+                    | Ok response ->
+                        let dto =
+                            Dto.PocketRetrieveDto.fromDomain response
 
-                    let dtos =
-                        h
-                        |> List.map PocketItemDto.fromDomain
-                        |> Array.ofList
-
-                    let! r = json (dtos) func ctx
-                    return r
+                        return! (json dto func ctx)
+                    | Error a -> return! (json a func ctx)
                 })
     }
