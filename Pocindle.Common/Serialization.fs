@@ -3,7 +3,7 @@ module Pocindle.Common.Serialization
 open System
 open System.Text.Json
 
-type SerializeError =
+type SerializationError =
     | ArgumentException of ArgumentException
     | NotSupportedException of NotSupportedException
 
@@ -15,7 +15,7 @@ let serialize a =
     | :? NotSupportedException as ex -> Error ^ NotSupportedException ex
 
 
-type DeserializeError =
+type DeserializationError =
     | JsonException of JsonException
     | NotSupportedException of NotSupportedException
 
@@ -26,6 +26,4 @@ let deserialize<'T> (a: string) =
     | :? JsonException as ex -> Error ^ JsonException ex
     | :? NotSupportedException as ex -> Error ^ NotSupportedException ex
 
-type JsonError =
-    | SerializationError
-    | DeserializationError
+let emptyOptions = JsonSerializerOptions()

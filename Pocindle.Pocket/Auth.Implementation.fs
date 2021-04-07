@@ -3,70 +3,66 @@ module Pocindle.Pocket.Auth.Implementation
 open System
 open System.Net.Http
 open System.Text
-open System.Text.Json
 
 open FSharp.UMX
-open FSharp.Control.Tasks
 open FsToolkit.ErrorHandling
+open Oryx
+open Oryx.SystemTextJson.ResponseReader
 
-open Pocindle.Pocket.Auth.PublicTypes
 open Pocindle.Pocket.Auth.SimpleTypes
 open Pocindle.Pocket.Auth.PocketDto
 open Pocindle.Pocket.Common.SimpleTypes
+open Pocindle.Common.Serialization
+open Pocindle.Pocket.Auth.PublicTypes
 
-let pocketSendRetrieve<'Request, 'Response> (request: 'Request) (uri: Uri) =
+let private pocketSendRetrieve<'RequestDto, 'ResponseDto> (request: 'RequestDto) (uri: Uri) =
     taskResult {
-        let! json =
-            try
-                Ok ^ JsonSerializer.Serialize(request)
-            with ex -> Error ^ Exception ex
+        let! json1 =
+            serialize request
+            |> Result.mapError SerializationError
 
-        let content =
-            new StringContent(json, Encoding.UTF8, "application/json")
+        use client = new HttpClient()
 
-        use httpClient = new HttpClient()
-        content.Headers.Add("X-Accept", "application/json")
+        let ctx =
+            HttpContext.defaultContext
+            |> HttpContext.withHttpClient client
 
-        let! res1 =
-            task {
-                try
-                    let! response = httpClient.PostAsync(uri, content)
-
-                    let! res = response.Content.ReadAsStringAsync()
-                    return Ok ^ JsonSerializer.Deserialize<'Response>(res)
-                with ex -> return Error ^ Exception ex
-            }
-
-        return res1
+        return!
+            POST
+            >=> withUrl (string uri)
+            >=> withContent (fun () -> new StringContent(json1, Encoding.UTF8, ApplicationJson) :> _)
+            >=> withHeader XAccept ApplicationJson
+            >=> fetch<'RequestDto>
+            >=> json<'ResponseDto> emptyOptions
+            |> runAsync ctx
+            |> TaskResult.mapError FetchException
     }
 
-let obtainRequestToken (consumer_key: ConsumerKey) (redirect_uri: RedirectUri) (state: State) =
-    taskResult {
-        let req =
-            { ObtainRequestTokenRequestDto.consumer_key = ConsumerKey.value consumer_key
-              redirect_uri = RedirectUri.valueStr redirect_uri
-              state = state |> Option.map (~%) |> Option.toObj }
+let obtainRequestToken : ObtainRequestToken =
+    fun (consumer_key: ConsumerKey) (redirect_uri: RedirectUri) (state: State) ->
+        taskResult {
+            let req =
+                ObtainRequestTokenRequestDto.fromDomain consumer_key redirect_uri state
 
-        let! res1 =
-            pocketSendRetrieve<ObtainRequestTokenRequestDto, ObtainRequestTokenResponseDto>
-                req
-                (Uri("https://getpocket.com/v3/oauth/request", UriKind.Absolute))
+            let! res1 =
+                pocketSendRetrieve<ObtainRequestTokenRequestDto, ObtainRequestTokenResponseDto>
+                    req
+                    (Uri("https://getpocket.com/v3/oauth/request", UriKind.Absolute))
 
-        let stte : State =
-            res1.state |> Option.ofObj |> Option.map (~%)
+            let stte : State =
+                res1.state |> Option.ofObj |> Option.map (~%)
 
-        let! rt =
-            RequestToken.create res1.code
-            |> Result.mapError ParseError
+            let! rt =
+                RequestToken.create res1.code
+                |> Result.mapError ParseError
 
-        return (rt, stte)
-    }
+            return (rt, stte)
+        }
 
 let authorize (consumer_key: ConsumerKey) (code: RequestToken) =
     taskResult {
         let req =
-            { AuthorizeRequestDto.consumer_key = ConsumerKey.value consumer_key
-              code = RequestToken.value code }
+            AuthorizeRequestDto.fromDomain consumer_key code
 
         let! res1 =
             pocketSendRetrieve<AuthorizeRequestDto, AuthorizeResponseDto>

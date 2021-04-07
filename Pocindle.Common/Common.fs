@@ -57,3 +57,9 @@ module TaskResult =
                 return Ok t
             with ex -> return Error ex
         }
+
+[<Literal>]
+let XAccept = "X-Accept"
+
+[<Literal>]
+let ApplicationJson = "application/json"
