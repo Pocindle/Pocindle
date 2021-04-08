@@ -1,0 +1,22 @@
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  &__page-content {
+    width: 80vw;
+    margin: 0 auto;
+  }
+
+  &__footer {
+    margin-top: auto;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .main-layout {
+    &__page-content {
+      width: 100%;
+    }
+  }
+}

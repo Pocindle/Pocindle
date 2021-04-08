@@ -1,0 +1,22 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+
+  &__item {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--basic-black);
+    padding: 2vh 2vw;
+    text-decoration: none;
+  }
+
+  &__item:hover {
+    color: var(--light-yellow);
+    cursor: pointer;
+  }
+
+  &__item:last-child {
+    margin-left: auto;
+  }
+}
