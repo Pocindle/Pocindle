@@ -21,7 +21,7 @@ open Pocindle.Common.Serialization
 open Pocindle.Pocket.Retrieve.PublicTypes
 open Pocindle.Pocket.Retrieve.PocketDto
 
-let retrieve : Retrieve =
+let retrieve2 : Retrieve =
     fun consumerKey accessToken optionalParams ->
         let url = "https://getpocket.com/v3/get"
 
@@ -45,37 +45,76 @@ let retrieve : Retrieve =
             return p
         }
 
-//        let query =
-//            [ ConsumerKey.toQuery consumerKey
-//              AccessToken.toQuery accessToken ]
-//            @ (RetrieveOptionalParametersQuery.toQuery optionalParams)
-//        let ctx =
-//            HttpContext.defaultContext
-//            |> HttpContext.withHttpClient client
-//        let y1 =
-//            GET
-//            >=> withUrl url
-//            >=> withQuery query
-//            >=> withHeader XAccept ApplicationJson
-//            >=> withResponseType ResponseType.JsonValue
-//            >=> fetch
-//            >=> withError
-//                    (fun a b ->
-//                        printfn "%A" a
-//                        printfn "%A" b
-//                        task { return NotImplementedException() :> _ })
-//            >=> json<RetrieveResponsePocketDto> emptyOptions
-//
-//
-//
-//        taskResult {
-//            let y2 = y1 |> runAsync ctx
-//
-//            let! y = y2 |> TaskResult.mapError FetchException
-//
-//            let! r =
-//                RetrieveResponsePocketDto.toDomain y
-//                |> Result.mapError ValidationError
-//
-//            return r
-//        }
+let retrieve : Retrieve =
+    fun consumerKey accessToken optionalParams ->
+
+        task {
+            let url = "http://getpocket.com/v3/get"
+
+            use client = new HttpClient()
+            client.Timeout <- TimeSpan.FromMinutes 30.
+
+            let query =
+                [ ConsumerKey.toQuery consumerKey
+                  AccessToken.toQuery accessToken ]
+                @ (RetrieveOptionalParametersQuery.toQuery optionalParams)
+
+            let ctx =
+                HttpContext.defaultContext
+                |> HttpContext.withHttpClient client
+                |> HttpContext.withHeader (XAccept, ApplicationJson)
+
+            try
+                let! y =
+                    GET
+                    >=> withUrl url
+                    >=> withQuery query
+                    >=> withResponseType ResponseType.JsonValue
+                    >=> fetch
+                    >=> json<RetrieveResponsePocketDto> emptyOptions
+                    |> runUnsafeAsync ctx
+
+                let u = y
+                return unimplemented ""
+            with ex ->
+                let y = ex
+                raise ex
+
+            // let r =
+            //    RetrieveResponsePocketDto.toDomain y
+            //    |> Result.mapError ValidationError
+
+            return unimplemented ""
+        }
+
+let retrieve1 : Retrieve =
+    fun consumerKey accessToken optionalParams ->
+        let Url = "https://en.wikipedia.org/w/api.php"
+
+        let options = JsonSerializerOptions()
+
+        let query term =
+            [ struct ("action", "opensearch")
+              struct ("search", term) ]
+
+        let request term =
+            GET
+            >=> withUrl Url
+            >=> withQuery (query term)
+            >=> fetch
+            >=> json options
+
+        let asyncMain _ =
+            task {
+                use client = new HttpClient()
+
+                let ctx =
+                    HttpContext.defaultContext
+                    |> HttpContext.withHttpClient client
+
+                let! result = request "F#" |> runAsync ctx
+                printfn "Result: %A" result
+            }
+
+        asyncMain () |> ignore
+        unimplemented ""

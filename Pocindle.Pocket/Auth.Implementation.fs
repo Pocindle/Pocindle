@@ -27,15 +27,20 @@ let private pocketSendRetrieve<'RequestDto, 'ResponseDto> (request: 'RequestDto)
             HttpContext.defaultContext
             |> HttpContext.withHttpClient client
 
-        return!
+        let! y = 
             POST
             >=> withUrl (string uri)
             >=> withContent (fun () -> new StringContent(json1, Encoding.UTF8, ApplicationJson) :> _)
             >=> withHeader XAccept ApplicationJson
+            >=> withResponseType JsonValue
             >=> fetch<'RequestDto>
             >=> json<'ResponseDto> emptyOptions
             |> runAsync ctx
             |> TaskResult.mapError FetchException
+        
+        printfn "%A" y
+        
+        return (unimplemented "": 'ResponseDto)
     }
 
 let obtainRequestToken : ObtainRequestToken =
@@ -47,7 +52,7 @@ let obtainRequestToken : ObtainRequestToken =
             let! res1 =
                 pocketSendRetrieve<ObtainRequestTokenRequestDto, ObtainRequestTokenResponseDto>
                     req
-                    (Uri("https://getpocket.com/v3/oauth/request", UriKind.Absolute))
+                    (Uri("http://getpocket.com/v3/oauth/request", UriKind.Absolute))
 
             let stte : State =
                 res1.state |> Option.ofObj |> Option.map (~%)
@@ -67,7 +72,7 @@ let authorize (consumer_key: ConsumerKey) (code: RequestToken) =
         let! res1 =
             pocketSendRetrieve<AuthorizeRequestDto, AuthorizeResponseDto>
                 req
-                (Uri("https://getpocket.com/v3/oauth/authorize", UriKind.Absolute))
+                (Uri("http://getpocket.com/v3/oauth/authorize", UriKind.Absolute))
 
         let! rt =
             AccessToken.create res1.access_token
