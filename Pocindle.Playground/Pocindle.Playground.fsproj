@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.4.0" />
+      <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.4.1" />
     </ItemGroup>
 
 </Project>

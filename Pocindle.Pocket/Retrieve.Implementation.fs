@@ -9,8 +9,6 @@ open FSharp.UMX
 open FSharp.Control.Tasks
 open FsToolkit.ErrorHandling
 open FsToolkit.ErrorHandling.Operator.Result
-open Oryx
-open Oryx.SystemTextJson.ResponseReader
 
 open Pocindle.Pocket.Auth.SimpleTypes
 open Pocindle.Pocket.Auth.PocketDto
@@ -44,38 +42,3 @@ let retrieve : Retrieve =
 
             return p
         }
-
-//        let query =
-//            [ ConsumerKey.toQuery consumerKey
-//              AccessToken.toQuery accessToken ]
-//            @ (RetrieveOptionalParametersQuery.toQuery optionalParams)
-//        let ctx =
-//            HttpContext.defaultContext
-//            |> HttpContext.withHttpClient client
-//        let y1 =
-//            GET
-//            >=> withUrl url
-//            >=> withQuery query
-//            >=> withHeader XAccept ApplicationJson
-//            >=> withResponseType ResponseType.JsonValue
-//            >=> fetch
-//            >=> withError
-//                    (fun a b ->
-//                        printfn "%A" a
-//                        printfn "%A" b
-//                        task { return NotImplementedException() :> _ })
-//            >=> json<RetrieveResponsePocketDto> emptyOptions
-//
-//
-//
-//        taskResult {
-//            let y2 = y1 |> runAsync ctx
-//
-//            let! y = y2 |> TaskResult.mapError FetchException
-//
-//            let! r =
-//                RetrieveResponsePocketDto.toDomain y
-//                |> Result.mapError ValidationError
-//
-//            return r
-//        }

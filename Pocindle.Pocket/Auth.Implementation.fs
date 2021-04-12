@@ -5,37 +5,41 @@ open System.Net.Http
 open System.Text
 
 open FSharp.UMX
+open FSharp.Control.Tasks
 open FsToolkit.ErrorHandling
-open Oryx
-open Oryx.SystemTextJson.ResponseReader
 
-open Pocindle.Pocket.Auth.SimpleTypes
 open Pocindle.Pocket.Auth.PocketDto
+open Pocindle.Pocket.Auth.PublicTypes
+open Pocindle.Pocket.Auth.SimpleTypes
 open Pocindle.Pocket.Common.SimpleTypes
 open Pocindle.Common.Serialization
-open Pocindle.Pocket.Auth.PublicTypes
 
-let private pocketSendRetrieve<'RequestDto, 'ResponseDto> (request: 'RequestDto) (uri: Uri) =
+let pocketSendRetrieve<'Request, 'Response> (request: 'Request) (uri: Uri) =
     taskResult {
-        let! json1 =
+        let! json =
             serialize request
             |> Result.mapError SerializationError
 
-        use client = new HttpClient()
+        let content =
+            new StringContent(json, Encoding.UTF8, ApplicationJson)
 
-        let ctx =
-            HttpContext.defaultContext
-            |> HttpContext.withHttpClient client
+        use httpClient = new HttpClient()
+        content.Headers.Add(XAccept, ApplicationJson)
 
-        return!
-            POST
-            >=> withUrl (string uri)
-            >=> withContent (fun () -> new StringContent(json1, Encoding.UTF8, ApplicationJson) :> _)
-            >=> withHeader XAccept ApplicationJson
-            >=> fetch<'RequestDto>
-            >=> json<'ResponseDto> emptyOptions
-            |> runAsync ctx
-            |> TaskResult.mapError FetchException
+        let! res1 =
+            task {
+                try
+                    let! response = httpClient.PostAsync(uri, content)
+
+                    let! res = response.Content.ReadAsStringAsync()
+
+                    return
+                        deserialize<'Response> res
+                        |> Result.mapError DeserializationError
+                with ex -> return Error ^ Exception ex
+            }
+
+        return res1
     }
 
 let obtainRequestToken : ObtainRequestToken =
