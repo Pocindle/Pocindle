@@ -2,12 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './footer.scss';
 
-const Footer: React.FC = () => {
+const Footer: React.FC<{
+  about?: string;
+  siteTheme?: string;
+  language?: string;
+}> = ({
+  about = 'About',
+  siteTheme = 'Site Theme:',
+  language = 'Language:',
+}) => {
   return (
     <div className="footer">
       <div className="footer__top">
         <div className="footer__theme">
-          <span className="footer__item">Site Theme:</span>
+          <span className="footer__item">{siteTheme}</span>
           <div className="footer__theme-options">
             <span className="footer__item footer__option footer__option_active">
               Dark
@@ -16,7 +24,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <div className="footer__language">
-          <span className="footer__item">Language:</span>
+          <span className="footer__item">{language}</span>
           <div className="footer__language-options">
             <span className="footer__item footer__option footer__option_active">
               Eng
@@ -25,7 +33,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <Link to="/about" className="footer__item">
-          About
+          {about}
         </Link>
       </div>
       <div className="footer__bottom">
