@@ -6,9 +6,13 @@ open System.Threading.Tasks
 open Pocindle.Domain.SimpleTypes
 
 
-type User = { UserId: UserId }
-
 type KindleEmailAddress = KindleEmailAddress of MailAddress
+
+type User =
+    { UserId: UserId
+      PocketUsername: PocketUsername
+      KindleEmailAddress: KindleEmailAddress option }
+
 
 type Article = Article of Undefined
 

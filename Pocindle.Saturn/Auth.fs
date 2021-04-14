@@ -1,6 +1,7 @@
 module Pocindle.Saturn.Auth
 
 open System
+open Pocindle.Domain.SimpleTypes
 open Saturn
 open System.Security.Claims
 open System.IdentityModel.Tokens.Jwt

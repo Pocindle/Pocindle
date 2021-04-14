@@ -4,8 +4,12 @@ open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
+open Microsoft.Extensions.Configuration.Json
+open Microsoft.Extensions.Configuration
+open Pocindle.Pocket.Retrieve.PocketDto
 open Saturn
 open Config
+open Pocindle.Pocket.Common.SimpleTypes
 
 open Pocindle.Saturn
 
@@ -27,10 +31,17 @@ let app =
         use_static "static"
         use_static "pocindle-client/build"
         use_gzip
-        use_config (fun _ -> { connectionString = "DataSource=database.sqlite" }) //TODO: Set development time configuration
+
+        use_config
+            (fun ic ->
+                { ConsumerKey =
+                      ic.["Pocket:ConsumerKey"]
+                      |> ConsumerKey.create
+                      |> Result.get
+                  ConnectionString = ic.GetConnectionString("DefaultConnection") })
 
         use_developer_exceptions
-        
+
         //use_jwt_authentication Auth.secret Auth.issuer
 
         app_config
