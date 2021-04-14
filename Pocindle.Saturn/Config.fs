@@ -1,4 +1,4 @@
-module Config
+namespace Pocindle.Saturn
 
 open Pocindle.Pocket.Common.SimpleTypes
 
