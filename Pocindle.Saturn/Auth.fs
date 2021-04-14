@@ -71,7 +71,7 @@ let handlePostToken =
 let request =
     fun (next: HttpFunc) (ctx: HttpContext) ->
         task {
-            let consumer_key = ConsumerKey.create "" |> Result.get
+            let consumer_key = (Controller.getConfig ctx).ConsumerKey 
 
             let redirect_uri =
                 RedirectString "https://pocindle.xyz/authorizationFinished/"
@@ -90,7 +90,7 @@ let request =
 let authorize =
     fun (requestToken: string) (next: HttpFunc) (ctx: HttpContext) ->
         task {
-            let consumer_key = ConsumerKey.create "" |> Result.get
+            let consumer_key = (Controller.getConfig ctx).ConsumerKey 
 
             let requestToken =
                 RequestToken.create requestToken |> Result.get
