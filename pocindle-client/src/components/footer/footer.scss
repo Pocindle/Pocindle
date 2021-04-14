@@ -1,9 +1,51 @@
 .footer {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
   padding-bottom: 10px;
+
+  &__top {
+    display: flex;
+    justify-content: flex-end;
+    gap: 45px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  &__top *:nth-child(2) {
+    margin-right: auto;
+  }
+
+  &__theme,
+  &__language {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__theme-options,
+  &__language-options {
+    display: flex;
+    gap: 2px;
+  }
 
   &__item {
     color: var(--basic-black);
+    text-decoration: none;
+  }
+
+  &__option {
+    font-size: 0.9rem;
+  }
+
+  &__option_active {
+    border: 1px solid var(--light-yellow);
+    background-color: var(--light-yellow);
+    border-radius: 5px;
+  }
+
+  &__info {
+    font-size: 0.85rem;
   }
 }
