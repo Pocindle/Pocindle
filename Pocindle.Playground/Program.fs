@@ -3,9 +3,6 @@ open System.IO
 open System.Text.Json
 
 open FSharp.UMX
-open Pocindle.Playground
-open Pocindle.Pocket.PocketDto
-open Pocindle.Pocket.Dto
 open FsToolkit.ErrorHandling
 open Pocindle.Common.Serialization
 
