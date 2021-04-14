@@ -25,4 +25,4 @@ type AuthError =
 
 type ObtainRequestToken = ConsumerKey -> RedirectUri -> State -> Task<Result<RequestToken * State, AuthError>>
 
-type Authorize = ConsumerKey -> RequestToken -> Task<Result<AccessToken * Username, AuthError>>
+type Authorize = ConsumerKey -> RequestToken -> Task<Result<AccessToken * PocketUsername, AuthError>>

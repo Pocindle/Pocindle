@@ -33,9 +33,9 @@ let generateToken email =
     claims
     |> Auth.generateJWT (secret, SecurityAlgorithms.HmacSha256) issuer (DateTime.UtcNow.AddHours(1.0))
 
-let generateTokenViaPocket (requestToken: RequestToken) (username: Username) =
+let generateTokenViaPocket (requestToken: RequestToken) (username: PocketUsername) =
     let claims =
-        [| Claim(JwtRegisteredClaimNames.Sub, Username.value username)
+        [| Claim(JwtRegisteredClaimNames.Sub, PocketUsername.value username)
            Claim(JwtRegisteredClaimNames.Iss, issuer)
            Claim(JwtRegisteredClaimNames.UniqueName, RequestToken.value requestToken)
            Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) |]

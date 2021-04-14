@@ -13,6 +13,7 @@ open Pocindle.Pocket.Auth.PublicTypes
 open Pocindle.Pocket.Auth.SimpleTypes
 open Pocindle.Pocket.Common.SimpleTypes
 open Pocindle.Common.Serialization
+open Pocindle.Domain.SimpleTypes
 
 let pocketSendRetrieve<'Request, 'Response> (request: 'Request) (uri: Uri) =
     taskResult {
@@ -78,7 +79,7 @@ let authorize (consumer_key: ConsumerKey) (code: RequestToken) =
             |> Result.mapError ParseError
 
         let! user =
-            Username.create res1.username
+            PocketUsername.create res1.username
             |> Result.mapError ParseError
 
         return (rt, user)

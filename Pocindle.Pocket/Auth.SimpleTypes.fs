@@ -38,14 +38,3 @@ module RedirectUri =
         match uri with
         | RedirectUri u -> RedirectUri ^ Uri(u, requestToken)
         | RedirectString s -> RedirectString $"{s}{requestToken}"
-
-
-
-type Username = private Username of string
-
-
-module Username =
-    let value (Username key) = key
-
-    let create str =
-        ConstrainedType.createString "Username" Username 100 str
