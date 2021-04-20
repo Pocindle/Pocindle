@@ -33,4 +33,5 @@ module.exports = {
       version: 'latest',
     },
   },
+  ignorePatterns: ['dto/'],
 };

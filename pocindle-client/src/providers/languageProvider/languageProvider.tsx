@@ -20,9 +20,27 @@ const initialContext: LanguageContext = {
 const languages = {
   ru: {
     name: 'русский',
+    navbar: {
+      articles: 'Статьи',
+      logOut: 'Выйти',
+    },
+    footer: {
+      about: 'О сайте',
+      siteTheme: 'Тема сайта:',
+      language: 'Язык:',
+    },
   },
   eng: {
     name: 'english',
+    navbar: {
+      articles: 'Articles',
+      logOut: 'Log out',
+    },
+    footer: {
+      about: 'About',
+      siteTheme: 'Site Theme:',
+      language: 'Language:',
+    },
   },
 };
 

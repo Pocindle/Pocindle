@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import MainLayout from '../../layouts/mainLayout/mainLayout';
 import { useRouteMatch, useLocation } from 'react-router-dom';
 import { TestComponent } from '../../components';
-import { ThemeContext, LanguageContext } from '../../providers';
+import useAppContext from '../../hooks/useAppContext';
 
 const TestPage: React.FC = () => {
   const match = useRouteMatch();
@@ -10,8 +10,7 @@ const TestPage: React.FC = () => {
   console.log('match', match);
   console.log('location', location);
 
-  const { theme, switchTheme } = useContext(ThemeContext);
-  const { language, switchLanguage } = useContext(LanguageContext);
+  const { theme, switchTheme, language, switchLanguage } = useAppContext();
 
   return (
     <React.Fragment>
