@@ -121,5 +121,6 @@ let topRouter =
 
         post "/token" handlePostToken
         get "/" (text "public route")
+        post "/" (text "public route")
         forward "/secured" securedRouter
     }

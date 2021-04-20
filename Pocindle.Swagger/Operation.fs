@@ -1,4 +1,4 @@
-﻿module Pocindle.Swagger
+﻿module Pocindle.Swagger.Operation
 
 open System
 open Giraffe.EndpointRouting.Routers
@@ -33,10 +33,10 @@ let rec endpointToOperations routeTemplate endpoint =
         |> List.singleton
     | NestedEndpoint (template, endpoints, meta) ->
         endpoints
-        |> List.collect (fun en -> endpointToOperations (routeTemplate + template) en)
+        |> List.collect (endpointToOperations (routeTemplate + template))
     | MultiEndpoint endpoints ->
         endpoints
-        |> List.collect (fun en -> endpointToOperations (routeTemplate) en)
+        |> List.collect (endpointToOperations routeTemplate)
 
 let endpointsToOperations endpoints =
     endpoints
