@@ -98,17 +98,17 @@
                   "type": "object",
                   "additionalProperties": false,
                   "required": [
-                    "Items",
-                    "Since"
+                    "items",
+                    "since"
                   ],
                   "properties": {
-                    "Items": {
+                    "items": {
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/PocketItemDto"
                       }
                     },
-                    "Since": {
+                    "since": {
                       "type": "string",
                       "format": "date-time",
                       "minLength": 1
@@ -205,17 +205,17 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "Items",
-          "Since"
+          "items",
+          "since"
         ],
         "properties": {
-          "Items": {
+          "items": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PocketItemDto"
             }
           },
-          "Since": {
+          "since": {
             "type": "string",
             "format": "date-time",
             "minLength": 1
@@ -236,82 +236,82 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "ItemId",
-          "ResolvedId",
-          "GivenUrl",
-          "ResolvedUrl",
-          "GivenTitle",
-          "ResolvedTitle",
-          "Favorite",
-          "Status",
-          "Excerpt",
-          "IsArticle",
-          "WordCount",
-          "ListenDurationEstimate",
-          "TimeAdded",
-          "TimeUpdated"
+          "itemId",
+          "resolvedId",
+          "givenUrl",
+          "resolvedUrl",
+          "givenTitle",
+          "resolvedTitle",
+          "favorite",
+          "status",
+          "excerpt",
+          "isArticle",
+          "wordCount",
+          "listenDurationEstimate",
+          "timeAdded",
+          "timeUpdated"
         ],
         "properties": {
-          "ItemId": {
+          "itemId": {
             "type": "string",
             "minLength": 1
           },
-          "ResolvedId": {
+          "resolvedId": {
             "type": "string",
             "minLength": 1
           },
-          "GivenUrl": {
+          "givenUrl": {
             "type": "string",
             "minLength": 1
           },
-          "ResolvedUrl": {
+          "resolvedUrl": {
             "type": "string",
             "minLength": 1
           },
-          "AmpUrl": {
+          "ampUrl": {
             "type": "string",
             "nullable": true
           },
-          "GivenTitle": {
+          "givenTitle": {
             "type": "string",
             "minLength": 1
           },
-          "ResolvedTitle": {
+          "resolvedTitle": {
             "type": "string",
             "minLength": 1
           },
-          "Favorite": {
+          "favorite": {
             "type": "boolean"
           },
-          "Status": {
+          "status": {
             "$ref": "#/components/schemas/StatusDto"
           },
-          "Excerpt": {
+          "excerpt": {
             "type": "string",
             "minLength": 1
           },
-          "IsArticle": {
+          "isArticle": {
             "type": "boolean"
           },
-          "WordCount": {
+          "wordCount": {
             "type": "integer",
             "format": "int32"
           },
-          "ListenDurationEstimate": {
+          "listenDurationEstimate": {
             "type": "integer",
             "format": "int32"
           },
-          "TimeToRead": {
+          "timeToRead": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "TimeAdded": {
+          "timeAdded": {
             "type": "string",
             "format": "date-time",
             "minLength": 1
           },
-          "TimeUpdated": {
+          "timeUpdated": {
             "type": "string",
             "format": "date-time",
             "minLength": 1

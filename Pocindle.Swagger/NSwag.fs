@@ -5,6 +5,7 @@ open Newtonsoft.Json
 open NSwag
 
 open Newtonsoft.Json.Schema
+open Newtonsoft.Json.Serialization
 open Pocindle.Swagger.Path
 open Pocindle.Swagger.Utils
 
@@ -13,7 +14,11 @@ let operationsToOpenApi ops =
     let types = Operation.extractAllTypes ops
     let s = Generation.JsonSchemaGeneratorSettings()
     s.SchemaType <- SchemaType.OpenApi3
-    //s.AllowReferencesWithProperties <- true
+
+    s.SerializerSettings <-
+        let y = JsonSerializerSettings()
+        y.ContractResolver <- DefaultContractResolver(NamingStrategy = CamelCaseNamingStrategy())
+        y
 
     let schemasList =
         types
@@ -74,9 +79,9 @@ let operationsToOpenApi ops =
                 for responseCode, tp in t do
                     //response.Reference <- OpenApiResponse(Schema = schemas.[tp])
                     //response.Schema <- schemas.[tp]
-                    
+
                     let response = OpenApiResponse()
-                    response.Content.[ApplicationJson] <-OpenApiMediaType(Schema = schemas.[tp])
+                    response.Content.[ApplicationJson] <- OpenApiMediaType(Schema = schemas.[tp])
                     op.Responses.[responseCode |> string] <- response
 
             p.Add(verb |> string, op)
