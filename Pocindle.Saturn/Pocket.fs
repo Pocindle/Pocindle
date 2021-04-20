@@ -1,8 +1,11 @@
 module Pocindle.Saturn.Pocket
 
+open Microsoft.AspNetCore.Http
+
 open FsToolkit.ErrorHandling
 open FSharp.Control.Tasks
 open Giraffe
+open Giraffe.EndpointRouting.Routers
 open Saturn
 open Saturn.Endpoint
 
@@ -39,3 +42,4 @@ let pocketApi =
                     | Error a -> return! (json a func ctx)
                 })
     }
+    |> List.map (addMetadata (StatusCodes.Status200OK, typeof<Dto.PocketRetrieveDto>))

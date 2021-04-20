@@ -7,6 +7,7 @@ open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Configuration.Json
 open Microsoft.Extensions.Configuration
 
+open NJsonSchema
 open Saturn
 open Saturn.Endpoint
 
@@ -71,6 +72,14 @@ let main _ =
         Pocindle.Swagger.Path.operationsToPaths ops
 
     printfn "%A" p
+
+    let y =
+        Pocindle.Swagger.NSwag.pathToOpenApi (p |> List.head)
+
+    let doc =
+        Pocindle.Swagger.NSwag.operationsToOpenApi ops
+
+    let json = doc |> Pocindle.Swagger.NSwag.toJson
 
     run app
     0

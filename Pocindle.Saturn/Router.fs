@@ -3,6 +3,7 @@ module Router
 open FSharp.Control.Tasks
 open Giraffe.Core
 open Saturn
+open Saturn.CSRF.View
 open Saturn.Endpoint
 
 open Pocindle.Saturn.Pocket
@@ -41,7 +42,7 @@ let someScopeOrController =
     router {
         getf
             "/short/%d/%d"
-            (fun (i, (j: int64)) func ctx ->
+            (fun (i, j: int64) func ctx ->
                 task {
                     Controller.getConfig ctx |> printfn "%A"
 
@@ -49,7 +50,7 @@ let someScopeOrController =
                     return r
                 })
 
-        //not_found_handler (text "Not Found")
+    //not_found_handler (text "Not Found")
     }
 
 let apiRouter =
@@ -67,3 +68,4 @@ let appRouter =
         forward "/api" apiRouter
         forward "" browserRouter
     }
+    

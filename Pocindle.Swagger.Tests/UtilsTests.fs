@@ -50,3 +50,31 @@ module ``tupleTypeOptionToList tests`` =
     [<Test>]
     let ``None`` () =
         test <@ [] = tupleTypeOptionToList None @>
+
+[<TestFixture>]
+module ``templateToList tests`` =
+    [<Test>]
+    let ``1`` () =
+        test <@ [ "d0" ] = templateToList "/qwe/{d0}" @>
+
+    [<Test>]
+    let ``2`` () =
+        test <@ [ "d0"; "d1" ] = templateToList "/qwe/{d0}/{d1}/" @>
+
+    [<Test>]
+    let ``3`` () =
+        test <@ [] = templateToList "/qwe/dasd/" @>
+
+    [<Test>]
+    let ``Empty`` () = test <@ [] = templateToList "" @>
+
+    [<Test>]
+    let ``Empty2`` () = test <@ [] = templateToList "/" @>
+
+    [<Test>]
+    let ``4`` () =
+        test <@ [ "d0:long" ] = templateToList "/{d0:long}" @>
+
+    [<Test>]
+    let ``5`` () =
+        test <@ [ "d0:long" ] = templateToList "/{d0:long}/" @>
