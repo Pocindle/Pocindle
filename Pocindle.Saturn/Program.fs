@@ -52,6 +52,9 @@ let app =
                 let env =
                     Application.Environment.getWebHostEnvironment app
 
+                app.UseSwaggerUI(fun c -> c.SwaggerEndpoint("/openapi.json", "qwerty"))
+                |> ignore
+
                 app)
 
         service_config (fun services -> services)
@@ -61,7 +64,7 @@ let app =
 
 [<EntryPoint>]
 let main _ =
-    printfn $"Working directory - %s{System.IO.Directory.GetCurrentDirectory()}"
+    printfn $"Working directory - %s{Directory.GetCurrentDirectory()}"
     printfn "%A" Router.appRouter
     run app
     0
