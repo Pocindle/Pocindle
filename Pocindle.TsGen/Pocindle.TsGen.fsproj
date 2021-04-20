@@ -13,6 +13,8 @@
       <ProjectReference Include="..\Pocindle.Convert\Pocindle.Convert.fsproj" />
       <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
       <ProjectReference Include="..\Pocindle.Pocket\Pocindle.Pocket.fsproj" />
+      <ProjectReference Include="..\Pocindle.Saturn\Pocindle.Saturn.fsproj" />
+      <ProjectReference Include="..\Pocindle.Swagger\Pocindle.Swagger.fsproj" />
     </ItemGroup>
 
     <ItemGroup>

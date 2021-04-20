@@ -8,7 +8,7 @@ open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Configuration.Json
 open Microsoft.Extensions.Configuration
 
-open NJsonSchema
+open FsToolkit.ErrorHandling
 open Saturn
 open Saturn.Endpoint
 
@@ -63,21 +63,5 @@ let app =
 let main _ =
     printfn $"Working directory - %s{System.IO.Directory.GetCurrentDirectory()}"
     printfn "%A" Router.appRouter
-
-    let ops =
-        Pocindle.Swagger.Operation.endpointsToOperations Router.appRouter
-
-    printfn "%A" ops
-
-    let p =
-        Pocindle.Swagger.Path.operationsToPaths ops
-
-    printfn "%A" p
-
-    let doc =
-        Pocindle.Swagger.NSwag.operationsToOpenApi ops
-
-    let json = doc |> Pocindle.Swagger.NSwag.toJson
-
     run app
     0

@@ -1,11 +1,11 @@
-module Router
+module Pocindle.Saturn.Router
 
 open FSharp.Control.Tasks
 open Giraffe.Core
 open Saturn
-open Saturn.CSRF.View
 open Saturn.Endpoint
 
+open Pocindle.Saturn.Core
 open Pocindle.Saturn.Pocket
 open Pocindle.Saturn
 
@@ -19,6 +19,7 @@ let browser =
 
 let defaultView =
     router {
+        get "/openapi.json" (jsonFile "openapi.json")
         get "/index.html" (redirectTo false "/")
         get "/default.html" (redirectTo false "/")
         get "/" (htmlFile "index.html")
@@ -68,4 +69,3 @@ let appRouter =
         forward "/api" apiRouter
         forward "" browserRouter
     }
-    

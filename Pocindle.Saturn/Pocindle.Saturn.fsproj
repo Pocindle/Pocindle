@@ -9,7 +9,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Content Include="openapi.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Content Include="appsettings.json" />
+        <Compile Include="Core.fs" />
         <Compile Include="Database.fs" />
         <Compile Include="Config.fs" />
         <Compile Include="Pocket.fs" />
@@ -34,7 +38,6 @@
     <ItemGroup>
         <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
         <ProjectReference Include="..\Pocindle.Pocket\Pocindle.Pocket.fsproj" />
-        <ProjectReference Include="..\Pocindle.Swagger\Pocindle.Swagger.fsproj" />
         <ProjectReference Include="..\Saturn\src\Saturn\Saturn.fsproj" />
     </ItemGroup>
 

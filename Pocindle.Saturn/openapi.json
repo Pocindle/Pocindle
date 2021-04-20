@@ -1,0 +1,337 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Swagger specification",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/auth/": {
+      "get": {
+        "operationId": "auth",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "operationId": "auth2",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/auth/request": {
+      "post": {
+        "operationId": "request",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/auth/token": {
+      "post": {
+        "operationId": "token",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/auth/authorize/{s0}": {
+      "parameters": [
+        {
+          "name": "s0",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "authorize",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/auth/secured/": {
+      "get": {
+        "operationId": "secured",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/pocket/retrieveAll/{s0}": {
+      "parameters": [
+        {
+          "name": "s0",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "retrieveAll",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PocketRetrieveDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "Items",
+                    "Since"
+                  ],
+                  "properties": {
+                    "Items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PocketItemDto"
+                      }
+                    },
+                    "Since": {
+                      "type": "string",
+                      "format": "date-time",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/someApi/short/{d0:long}/{d1:long}": {
+      "parameters": [
+        {
+          "name": "d0:long",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "title": "Integer",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "d1:long",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "title": "Long",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "short",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "operationId": "openapi.json",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/index.html": {
+      "get": {
+        "operationId": "index.html",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/default.html": {
+      "get": {
+        "operationId": "default.html",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "operationId": "Anonymous",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "String": {
+        "title": "String",
+        "type": "string"
+      },
+      "PocketRetrieveDto": {
+        "title": "PocketRetrieveDto",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Items",
+          "Since"
+        ],
+        "properties": {
+          "Items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PocketItemDto"
+            }
+          },
+          "Since": {
+            "type": "string",
+            "format": "date-time",
+            "minLength": 1
+          }
+        }
+      },
+      "Int32": {
+        "title": "Integer",
+        "type": "integer",
+        "format": "int32"
+      },
+      "Int64": {
+        "title": "Long",
+        "type": "integer",
+        "format": "int64"
+      },
+      "PocketItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ItemId",
+          "ResolvedId",
+          "GivenUrl",
+          "ResolvedUrl",
+          "GivenTitle",
+          "ResolvedTitle",
+          "Favorite",
+          "Status",
+          "Excerpt",
+          "IsArticle",
+          "WordCount",
+          "ListenDurationEstimate",
+          "TimeAdded",
+          "TimeUpdated"
+        ],
+        "properties": {
+          "ItemId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ResolvedId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "GivenUrl": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ResolvedUrl": {
+            "type": "string",
+            "minLength": 1
+          },
+          "AmpUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "GivenTitle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ResolvedTitle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "Favorite": {
+            "type": "boolean"
+          },
+          "Status": {
+            "$ref": "#/components/schemas/StatusDto"
+          },
+          "Excerpt": {
+            "type": "string",
+            "minLength": 1
+          },
+          "IsArticle": {
+            "type": "boolean"
+          },
+          "WordCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ListenDurationEstimate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TimeToRead": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "TimeAdded": {
+            "type": "string",
+            "format": "date-time",
+            "minLength": 1
+          },
+          "TimeUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "minLength": 1
+          }
+        }
+      },
+      "StatusDto": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Normal",
+          "Archived",
+          "ShouldBeDeleted"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
+      }
+    }
+  }
+}
