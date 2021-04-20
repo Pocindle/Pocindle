@@ -16,6 +16,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.TsGen", "Pocindle.
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Saturn", "Saturn\src\Saturn\Saturn.fsproj", "{47F25713-A604-4B4D-984B-562A72D8C43B}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Swagger", "Pocindle.Swagger\Pocindle.Swagger.fsproj", "{6A91CD0C-580C-4C21-859A-4A12255D3B8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,5 +56,9 @@ Global
 		{47F25713-A604-4B4D-984B-562A72D8C43B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47F25713-A604-4B4D-984B-562A72D8C43B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47F25713-A604-4B4D-984B-562A72D8C43B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A91CD0C-580C-4C21-859A-4A12255D3B8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A91CD0C-580C-4C21-859A-4A12255D3B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A91CD0C-580C-4C21-859A-4A12255D3B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A91CD0C-580C-4C21-859A-4A12255D3B8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
