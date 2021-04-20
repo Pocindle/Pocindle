@@ -6,7 +6,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Library.fs"/>
+        <Compile Include="Library.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Giraffe" Version="5.0.0-rc-6" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Pocindle.Common\Pocindle.Common.fsproj" />
     </ItemGroup>
 
 </Project>

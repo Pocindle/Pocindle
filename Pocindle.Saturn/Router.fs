@@ -40,12 +40,12 @@ let api =
 let someScopeOrController =
     router {
         getf
-            "/short/%s/%s"
-            (fun (i, j) func ctx ->
+            "/short/%d/%d"
+            (fun (i, (j: int64)) func ctx ->
                 task {
                     Controller.getConfig ctx |> printfn "%A"
 
-                    let! r = json (sprintf "%s short" i) func ctx
+                    let! r = json (sprintf "%d short" i) func ctx
                     return r
                 })
 

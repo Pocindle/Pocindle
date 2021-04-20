@@ -61,5 +61,9 @@ let app =
 let main _ =
     printfn $"Working directory - %s{System.IO.Directory.GetCurrentDirectory()}"
     printfn "%A" Router.appRouter
+    
+    let p = Pocindle.Swagger.endpointsToOperations Router.appRouter
+    printfn "%A" p
+    
     run app
     0
