@@ -8,73 +8,89 @@ open Newtonsoft.Json.Schema
 open Pocindle.Swagger.Path
 open Pocindle.Swagger.Utils
 
-let pathToOpenApi path =
-    let p = OpenApiPathItem()
-    //p.Description <- $"%A{path}"
-
-    let (Path (template, t, lst)) = path
-    let ptypes = tupleTypeOptionToList t
-    let parameterNames = templateToList template
-
-    let parameters =
-        (ptypes, parameterNames)
-        ||> List.map2
-                (fun t name ->
-                    let par = OpenApiParameter()
-                    par.Kind <- OpenApiParameterKind.Path
-                    par.Name <- name
-                    par.IsRequired <- true
-                    par.Schema <- JsonSchema.FromType(t)
-                    par)
-
-    p.Parameters <- parameters |> List.toArray
-
-    for verb, other in lst do
-        let op = OpenApiOperation()
-        let t = extractResponseTypes other
-
-        for responseCode, tp in t do
-            let response = OpenApiResponse()
-            let mt = OpenApiMediaType()
-            let s = Generation.JsonSchemaGeneratorSettings()
-            s.SchemaType <- SchemaType.OpenApi3
-            s.AllowReferencesWithProperties <- true
-            mt.Schema <- JsonSchema.FromType(tp, s)
-            response.Content.Add(ApplicationJson, mt)
-            op.Responses.Add(responseCode |> string, response)
-
-        p.Add(verb |> string, op)
-
-    template |> string, p
-
-
-
-let pathsToOpenApi paths = paths |> List.map pathToOpenApi
 
 let operationsToOpenApi ops =
     let types = Operation.extractAllTypes ops
     let s = Generation.JsonSchemaGeneratorSettings()
     s.SchemaType <- SchemaType.OpenApi3
-    s.AllowReferencesWithProperties <- true
-    
+    //s.AllowReferencesWithProperties <- true
 
-    let schemas =
+    let schemasList =
         types
         |> List.distinct
-        |> List.map (fun tp -> tp.Name, JsonSchema.FromType(tp, s))
+        |> List.map (fun tp -> tp, JsonSchema.FromType(tp, s))
 
-    let oa = OpenApiDocument()
+    let schemas = schemasList |> dict
 
-    for a, i in schemas do
-        oa.Components.Schemas.Add(a, i)
+    let s1 =
+        schemasList
+        |> List.collect
+            (fun (t, schema) ->
+                schema.Definitions
+                |> Seq.map (|KeyValue|)
+                |> Seq.toList)
 
-    let paths =
-        ops |> operationsToPaths |> pathsToOpenApi
+    schemasList
+    |> List.iter (fun (_, schema) -> schema.Definitions.Clear())
 
-    for s, p in paths do
-        oa.Paths.Add(s, p)
+    let document = OpenApiDocument()
+    document.SchemaType <- SchemaType.OpenApi3
 
-    oa
+    for a, i in schemas |> Seq.map (|KeyValue|) do
+        document.Components.Schemas.[a.Name] <- i
+
+    for a, i in s1 do
+        document.Components.Schemas.[a] <- i
+
+    let pathToOpenApi path =
+        let p = OpenApiPathItem()
+        //p.Description <- $"%A{path}"
+
+        let (Path (template, t, lst)) = path
+        let ptypes = tupleTypeOptionToList t
+        let parameterNames = templateToList template
+
+        let parameters =
+            (ptypes, parameterNames)
+            ||> List.map2
+                    (fun t name ->
+                        let par = OpenApiParameter()
+                        par.Kind <- OpenApiParameterKind.Path
+                        par.Name <- name
+                        par.IsRequired <- true
+                        par.Schema <- JsonSchema.FromType(t)
+                        //par.Reference <- schemas.[t]
+                        par)
+
+        p.Parameters <- parameters |> List.toArray
+
+        for verb, other in lst do
+            let op = OpenApiOperation()
+            let t = extractResponseTypes other
+
+            match t with
+            | [] -> op.Responses.["200"] <- OpenApiResponse()
+            | _ ->
+                for responseCode, tp in t do
+                    //response.Reference <- OpenApiResponse(Schema = schemas.[tp])
+                    //response.Schema <- schemas.[tp]
+                    
+                    let response = OpenApiResponse()
+                    response.Content.[ApplicationJson] <-OpenApiMediaType(Schema = schemas.[tp])
+                    op.Responses.[responseCode |> string] <- response
+
+            p.Add(verb |> string, op)
+
+        template |> string, p
+
+    let paths = ops |> operationsToPaths
+
+    let op = paths |> List.map pathToOpenApi
+
+    for s, p in op do
+        document.Paths.[s] <- p
+
+    document
 
 let toJson (doc: OpenApiDocument) =
     doc.ToJson(SchemaType.OpenApi3, Formatting.Indented)

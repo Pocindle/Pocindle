@@ -1,5 +1,6 @@
 module Server
 
+open System.IO
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
@@ -72,9 +73,6 @@ let main _ =
         Pocindle.Swagger.Path.operationsToPaths ops
 
     printfn "%A" p
-
-    let y =
-        Pocindle.Swagger.NSwag.pathToOpenApi (p |> List.head)
 
     let doc =
         Pocindle.Swagger.NSwag.operationsToOpenApi ops
