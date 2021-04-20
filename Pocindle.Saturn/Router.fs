@@ -1,10 +1,11 @@
-module Router
+module Pocindle.Saturn.Router
 
-open Saturn
-open Giraffe.Core
-open Giraffe.ResponseWriters
 open FSharp.Control.Tasks
+open Giraffe.Core
+open Saturn
+open Saturn.Endpoint
 
+open Pocindle.Saturn.Core
 open Pocindle.Saturn.Pocket
 open Pocindle.Saturn
 
@@ -18,6 +19,7 @@ let browser =
 
 let defaultView =
     router {
+        get "/openapi.json" (jsonFile "openapi.json")
         get "/index.html" (redirectTo false "/")
         get "/default.html" (redirectTo false "/")
         get "/" (htmlFile "index.html")
@@ -25,7 +27,7 @@ let defaultView =
 
 let browserRouter =
     router {
-        not_found_handler (htmlView NotFound.layout)
+        //not_found_handler (htmlView NotFound.layout)
         pipe_through browser
 
         forward "" defaultView
@@ -40,21 +42,21 @@ let api =
 let someScopeOrController =
     router {
         getf
-            "/short/%s/%s"
-            (fun (i, j) func ctx ->
+            "/short/%d/%d"
+            (fun (i, j: int64) func ctx ->
                 task {
                     Controller.getConfig ctx |> printfn "%A"
 
-                    let! r = json (sprintf "%s short" i) func ctx
+                    let! r = json (sprintf "%d short" i) func ctx
                     return r
                 })
 
-        not_found_handler (text "Not Found")
+    //not_found_handler (text "Not Found")
     }
 
 let apiRouter =
     router {
-        not_found_handler (text "Api 404")
+        //not_found_handler (text "Api 404")
         pipe_through api
 
         forward "/auth" Auth.topRouter

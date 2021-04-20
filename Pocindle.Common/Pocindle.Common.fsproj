@@ -8,6 +8,7 @@
     <ItemGroup>
         <Compile Include="Common.fs" />
         <Compile Include="Serialization.fs" />
+        <Compile Include="UriQuery.fs" />
     </ItemGroup>
 
     <ItemGroup>

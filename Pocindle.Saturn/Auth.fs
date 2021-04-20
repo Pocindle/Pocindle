@@ -1,14 +1,17 @@
 module Pocindle.Saturn.Auth
 
 open System
-open Saturn
 open System.Security.Claims
 open System.IdentityModel.Tokens.Jwt
-open Microsoft.IdentityModel.Tokens
-open Giraffe
-open FSharp.Control.Tasks
 open Microsoft.AspNetCore.Http
+open Microsoft.IdentityModel.Tokens
 
+open FSharp.Control.Tasks
+open Giraffe
+open Saturn
+open Saturn.Endpoint
+
+open Pocindle.Domain.SimpleTypes
 open Pocindle.Pocket.Auth.PublicTypes
 open Pocindle.Pocket.Auth.SimpleTypes
 open Pocindle.Pocket.Common.SimpleTypes
@@ -33,9 +36,9 @@ let generateToken email =
     claims
     |> Auth.generateJWT (secret, SecurityAlgorithms.HmacSha256) issuer (DateTime.UtcNow.AddHours(1.0))
 
-let generateTokenViaPocket (requestToken: RequestToken) (username: Username) =
+let generateTokenViaPocket (requestToken: RequestToken) (username: PocketUsername) =
     let claims =
-        [| Claim(JwtRegisteredClaimNames.Sub, Username.value username)
+        [| Claim(JwtRegisteredClaimNames.Sub, PocketUsername.value username)
            Claim(JwtRegisteredClaimNames.Iss, issuer)
            Claim(JwtRegisteredClaimNames.UniqueName, RequestToken.value requestToken)
            Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) |]
@@ -70,7 +73,7 @@ let handlePostToken =
 let request =
     fun (next: HttpFunc) (ctx: HttpContext) ->
         task {
-            let consumer_key = ConsumerKey.create "" |> Result.get
+            let consumer_key = (Controller.getConfig ctx).ConsumerKey 
 
             let redirect_uri =
                 RedirectString "https://pocindle.xyz/authorizationFinished/"
@@ -89,7 +92,7 @@ let request =
 let authorize =
     fun (requestToken: string) (next: HttpFunc) (ctx: HttpContext) ->
         task {
-            let consumer_key = ConsumerKey.create "" |> Result.get
+            let consumer_key = (Controller.getConfig ctx).ConsumerKey 
 
             let requestToken =
                 RequestToken.create requestToken |> Result.get
@@ -111,12 +114,13 @@ let securedRouter =
 
 let topRouter =
     router {
-        not_found_handler (setStatusCode 404 >=> text "Not Found")
+        //not_found_handler (setStatusCode 404 >=> text "Not Found")
 
         post "/request" request
         postf "/authorize/%s" authorize
 
         post "/token" handlePostToken
         get "/" (text "public route")
+        post "/" (text "public route")
         forward "/secured" securedRouter
     }

@@ -5,6 +5,7 @@ open System.Threading.Tasks
 open FsToolkit.ErrorHandling
 open NJsonSchema
 open NJsonSchema.CodeGeneration.TypeScript
+open Newtonsoft.Json
 
 let generateSchemaAndTs<'T> () =
     taskResult {
@@ -18,15 +19,27 @@ let generateSchemaAndTs<'T> () =
 let toFilename (schema: JsonSchema) =
     $"%c{Char.ToLowerInvariant(schema.Title.[0])}%s{(schema.Title.Substring(1))}.ts"
 
-[<EntryPoint>]
-let main _ =
+
+let generateOpenApi () =
+    let ops =
+        Pocindle.Swagger.Operation.endpointsToOperations Pocindle.Saturn.Router.appRouter
+
+    let doc =
+        Pocindle.Swagger.NSwag.operationsToOpenApi ops
+
+    use sw =
+        new StreamWriter(Path.Combine(__SOURCE_DIRECTORY__, "../Pocindle.Saturn/openapi.json"))
+
+    sw.WriteLine(doc.ToJson(SchemaType.OpenApi3, Formatting.Indented))
+
+let generateTs () =
     let schemas =
         [ generateSchemaAndTs<Pocindle.Pocket.Retrieve.Dto.PocketRetrieveDto> ()
           generateSchemaAndTs<Pocindle.Domain.Dto.DeliveryDto> ()
           generateSchemaAndTs<Pocindle.Pocket.Auth.Dto.RequestDto> () ]
 
     let dtoPath =
-        Path.Combine(__SOURCE_DIRECTORY__, "../pocindle-client/src/dto/")
+        Path.Combine(__SOURCE_DIRECTORY__, "../pocindle-client/src/api/dto/")
 
     schemas
     |> List.map
@@ -46,4 +59,8 @@ let main _ =
         | Ok fn -> printfn $"Готово: %s{fn}"
         | Error (ex, type') -> eprintfn $"Ошибка при %A{type'}:\n%A{ex}")
 
+[<EntryPoint>]
+let main _ =
+    generateOpenApi ()
+    generateTs ()
     0

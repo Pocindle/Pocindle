@@ -6,7 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="HJson.fs" />
+        <EmbeddedResource Include="q.sql" />
+        <Compile Include="Sql.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 
@@ -17,7 +18,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.0.78" />
+      <PackageReference Include="FSharp.Data.LiteralProviders" Version="0.3.5" />
       <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="10.4.1" />
+      <PackageReference Include="Npgsql" Version="5.0.4" />
     </ItemGroup>
 
 </Project>

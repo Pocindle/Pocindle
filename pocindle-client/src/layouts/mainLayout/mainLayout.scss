@@ -9,13 +9,15 @@
   }
 
   &__footer {
-    margin-top: auto;
+    width: 80vw;
+    margin: auto auto 0;
   }
 }
 
 @media screen and (max-width: 767px) {
   .main-layout {
-    &__page-content {
+    &__page-content,
+    &__footer {
       width: 100%;
     }
   }

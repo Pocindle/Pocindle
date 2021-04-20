@@ -1,3 +1,7 @@
-module Config
+namespace Pocindle.Saturn
 
-type Config = { connectionString: string }
+open Pocindle.Pocket.Common.SimpleTypes
+
+type Config =
+    { ConnectionString: string
+      ConsumerKey: ConsumerKey }

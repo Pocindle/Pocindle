@@ -6,7 +6,6 @@ open System.ComponentModel.DataAnnotations
 open FSharp.UMX
 open FsToolkit.ErrorHandling
 
-
 open Pocindle.Pocket.Retrieve.SimpleTypes
 open Pocindle.Pocket.Retrieve.PublicTypes
 
@@ -56,11 +55,11 @@ module PocketItemDto =
 
         { ItemId = %a.ItemId
           ResolvedId = %a.ResolvedId
-          GivenUrl = givenUrl.ToString()
-          ResolvedUrl = resolvedUrl.ToString()
+          GivenUrl = string givenUrl
+          ResolvedUrl = string resolvedUrl
           AmpUrl =
               ampUrl
-              |> Option.map (fun r -> r.ToString())
+              |> Option.map string
               |> Option.defaultValue null
           GivenTitle = %a.GivenTitle
           ResolvedTitle = %a.ResolvedTitle

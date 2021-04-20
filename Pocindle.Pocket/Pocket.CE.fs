@@ -5,13 +5,14 @@ open Pocindle.Pocket.Auth.PublicTypes
 open Pocindle.Pocket.Auth.SimpleTypes
 open Pocindle.Pocket.Common.SimpleTypes
 open Pocindle.Pocket.Retrieve.PublicTypes
+open Pocindle.Domain.SimpleTypes
 
 module Builder =
     open Pocindle.Pocket.Auth.SimpleTypes
 
     type FreePocketInstruction<'a> =
         | OAuthRequest of (ConsumerKey * RedirectUri * State * (Task<Result<RequestToken * State, AuthError>> -> 'a))
-        | OAuthAuthorize of (ConsumerKey * RequestToken * (Task<Result<AccessToken * Username, AuthError>> -> 'a))
+        | OAuthAuthorize of (ConsumerKey * RequestToken * (Task<Result<AccessToken * PocketUsername, AuthError>> -> 'a))
         | Retrieve of
             (ConsumerKey * AccessToken * RetrieveOptionalParameters * (Task<Result<RetrieveResponse, RetrieveError>> -> 'a))
 

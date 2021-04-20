@@ -9,14 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="appsettings.json" />
+        <Content Include="openapi.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="appsettings.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Compile Include="Core.fs" />
         <Compile Include="Database.fs" />
         <Compile Include="Config.fs" />
-
-        <Compile Include="Templates\App.fs" />
-        <Compile Include="Templates\Index.fs" />
-        <Compile Include="Templates\NotFound.fs" />
-        <Compile Include="Templates\InternalError.fs" />
         <Compile Include="Pocket.fs" />
         <Compile Include="Auth.fs" />
 
@@ -30,15 +31,17 @@
 
     <ItemGroup>
         <PackageReference Include="Dapper" Version="2.0.78" />
+        <PackageReference Include="Giraffe" Version="5.0.0-rc-6" />
         <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.10.0" />
         <PackageReference Include="Ply" Version="0.3.1" />
-        <PackageReference Include="Saturn" Version="0.14.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.3" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
         <ProjectReference Include="..\Pocindle.Pocket\Pocindle.Pocket.fsproj" />
+        <ProjectReference Include="..\Saturn\src\Saturn\Saturn.fsproj" />
     </ItemGroup>
 
     <ItemGroup>

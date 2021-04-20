@@ -1,24 +1,29 @@
 module Pocindle.Saturn.Pocket
 
-open Saturn
-open Giraffe.ResponseWriters
-open FSharp.Control.Tasks
+open Microsoft.AspNetCore.Http
+
 open FsToolkit.ErrorHandling
+open FSharp.Control.Tasks
+open Giraffe
+open Giraffe.EndpointRouting.Routers
+open Saturn
+open Saturn.Endpoint
 
 open Pocindle.Pocket.Retrieve
 open Pocindle.Pocket.Retrieve.PublicTypes
 open Pocindle.Pocket.Common.SimpleTypes
+open Pocindle.Saturn
 
 let pocketApi =
     router {
         getf
-            "/retrieveAll/%s/%s"
-            (fun (access_token, consumer_key) func ctx ->
+            "/retrieveAll/%s"
+            (fun access_token func ctx ->
                 task {
                     let retrieve =
                         result {
                             let! accessToken = AccessToken.create access_token
-                            let! consumerKey = ConsumerKey.create consumer_key
+                            let consumerKey = (Controller.getConfig ctx).ConsumerKey
 
                             return Api.retrieve consumerKey accessToken
                         }
@@ -37,3 +42,4 @@ let pocketApi =
                     | Error a -> return! (json a func ctx)
                 })
     }
+    |> List.map (addMetadata (StatusCodes.Status200OK, typeof<Dto.PocketRetrieveDto>))
