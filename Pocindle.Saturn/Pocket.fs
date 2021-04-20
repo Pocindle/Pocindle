@@ -1,9 +1,10 @@
 module Pocindle.Saturn.Pocket
 
-open Saturn
-open Giraffe.ResponseWriters
-open FSharp.Control.Tasks
 open FsToolkit.ErrorHandling
+open FSharp.Control.Tasks
+open Giraffe
+open Saturn
+open Saturn.Endpoint
 
 open Pocindle.Pocket.Retrieve
 open Pocindle.Pocket.Retrieve.PublicTypes

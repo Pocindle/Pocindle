@@ -6,11 +6,12 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Configuration.Json
 open Microsoft.Extensions.Configuration
-open Pocindle.Pocket.Retrieve.PocketDto
-open Saturn
-open Config
-open Pocindle.Pocket.Common.SimpleTypes
 
+open Saturn
+open Saturn.Endpoint
+
+open Pocindle.Pocket.Common.SimpleTypes
+open Pocindle.Pocket.Retrieve.PocketDto
 open Pocindle.Saturn
 
 
@@ -24,8 +25,8 @@ let app =
     application {
         pipe_through endpointPipe
 
-        error_handler (fun ex _ -> pipeline { render_html (InternalError.layout ex) })
-        use_router Router.appRouter
+        //error_handler (fun ex _ -> pipeline { render_html (InternalError.layout ex) })
+        use_endpoint_router Router.appRouter
         url "http://localhost:61666/"
         memory_cache
         use_static "static"
@@ -59,5 +60,6 @@ let app =
 [<EntryPoint>]
 let main _ =
     printfn $"Working directory - %s{System.IO.Directory.GetCurrentDirectory()}"
+    printfn "%A" Router.appRouter
     run app
     0

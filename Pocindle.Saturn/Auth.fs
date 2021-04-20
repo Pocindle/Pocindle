@@ -1,15 +1,17 @@
 module Pocindle.Saturn.Auth
 
 open System
-open Pocindle.Domain.SimpleTypes
-open Saturn
 open System.Security.Claims
 open System.IdentityModel.Tokens.Jwt
-open Microsoft.IdentityModel.Tokens
-open Giraffe
-open FSharp.Control.Tasks
 open Microsoft.AspNetCore.Http
+open Microsoft.IdentityModel.Tokens
 
+open FSharp.Control.Tasks
+open Giraffe
+open Saturn
+open Saturn.Endpoint
+
+open Pocindle.Domain.SimpleTypes
 open Pocindle.Pocket.Auth.PublicTypes
 open Pocindle.Pocket.Auth.SimpleTypes
 open Pocindle.Pocket.Common.SimpleTypes
@@ -112,7 +114,7 @@ let securedRouter =
 
 let topRouter =
     router {
-        not_found_handler (setStatusCode 404 >=> text "Not Found")
+        //not_found_handler (setStatusCode 404 >=> text "Not Found")
 
         post "/request" request
         postf "/authorize/%s" authorize

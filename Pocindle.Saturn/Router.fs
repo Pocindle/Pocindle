@@ -1,9 +1,9 @@
 module Router
 
-open Saturn
-open Giraffe.Core
-open Giraffe.ResponseWriters
 open FSharp.Control.Tasks
+open Giraffe.Core
+open Saturn
+open Saturn.Endpoint
 
 open Pocindle.Saturn.Pocket
 open Pocindle.Saturn
@@ -25,7 +25,7 @@ let defaultView =
 
 let browserRouter =
     router {
-        not_found_handler (htmlView NotFound.layout)
+        //not_found_handler (htmlView NotFound.layout)
         pipe_through browser
 
         forward "" defaultView
@@ -49,12 +49,12 @@ let someScopeOrController =
                     return r
                 })
 
-        not_found_handler (text "Not Found")
+        //not_found_handler (text "Not Found")
     }
 
 let apiRouter =
     router {
-        not_found_handler (text "Api 404")
+        //not_found_handler (text "Api 404")
         pipe_through api
 
         forward "/auth" Auth.topRouter
