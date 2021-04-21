@@ -1,5 +1,6 @@
 module Pocindle.Saturn.Pocket
 
+open System
 open System.Security.Claims
 open Microsoft.AspNetCore.Http
 
@@ -7,6 +8,7 @@ open FsToolkit.ErrorHandling
 open FSharp.Control.Tasks
 open Giraffe
 open Giraffe.EndpointRouting.Routers
+open Pocindle.Domain.SimpleTypes
 open Saturn
 open Saturn.Endpoint
 
@@ -14,6 +16,7 @@ open Pocindle.Pocket.Retrieve
 open Pocindle.Pocket.Retrieve.PublicTypes
 open Pocindle.Pocket.Common.SimpleTypes
 open Pocindle.Saturn
+open Pocindle.Database.Users
 
 let retrieveAllByAccessToken =
     router {
@@ -52,10 +55,34 @@ let retrieveByClaim =
         get
             "/retrieveAll"
             (fun next ctx ->
-                let email =
-                    ctx.User.FindFirst ClaimTypes.NameIdentifier
+                task {
+                    let! r =
+                        taskResult {
+                            let email =
+                                ctx.User.FindFirst ClaimTypes.NameIdentifier
 
-                unimplemented "")
+                            let! username =
+                                PocketUsername.create email.Value
+                                |> Result.mapError Exception
+
+                            let! a =
+                                getAccessTokenFromPocketUsername (Controller.getConfig ctx).ConnectionString username
+
+                            let accessToken =
+                                AccessToken.create (a |> Option.get) |> Result.get
+
+                            let consumerKey = (Controller.getConfig ctx).ConsumerKey
+
+                            let! a =
+                                Api.retrieve consumerKey accessToken RetrieveOptionalParameters.empty
+                                |> TaskResult.mapError (fun _ -> Exception())
+
+                            let dto = Dto.PocketRetrieveDto.fromDomain a
+
+                            return! (json dto next ctx)
+                        }
+                    return
+                })
     }
 
 let pocketApi =

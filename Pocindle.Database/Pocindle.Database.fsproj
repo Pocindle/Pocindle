@@ -6,7 +6,21 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Content Include="Users\UserFromPocketUsername.sql" />
+        <Content Include="Users\AccessTokenFromPocketUsername.sql" />
+        <Compile Include="Database.fs" />
         <Compile Include="Library.fs" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapper" Version="2.0.78" />
+        <PackageReference Include="FSharp.Data.LiteralProviders" Version="0.3.5" />
+        <PackageReference Include="FsToolkit.ErrorHandling.TaskResult" Version="2.2.0" />
+        <PackageReference Include="Npgsql" Version="5.0.4" />
+    </ItemGroup>
+    
 </Project>

@@ -39,6 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Pocindle.Database\Pocindle.Database.fsproj" />
         <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
         <ProjectReference Include="..\Pocindle.Pocket\Pocindle.Pocket.fsproj" />
         <ProjectReference Include="..\Saturn\src\Saturn\Saturn.fsproj" />

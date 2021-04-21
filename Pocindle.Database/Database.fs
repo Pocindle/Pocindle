@@ -1,10 +1,16 @@
-module Pocindle.Playground.Database
+module Pocindle.Database.Database
+
+open System.Threading.Tasks
 
 open Dapper
 open System.Data.Common
 open FSharp.Control.Tasks
 
-let execute (connection: #DbConnection) (sql: string) (parameters: _) =
+type ExecuteResult = Task<Result<int, exn>>
+type QueryResult<'T> = Task<Result<'T seq, exn>>
+type QuerySingleResult<'T> = Task<Result<'T option, exn>>
+
+let execute (connection: #DbConnection) (sql: string) (parameters: _) : ExecuteResult =
     task {
         try
             let! res = connection.ExecuteAsync(sql, parameters)
@@ -12,7 +18,7 @@ let execute (connection: #DbConnection) (sql: string) (parameters: _) =
         with ex -> return Error ex
     }
 
-let query (connection: #DbConnection) (sql: string) (parameters: _) =
+let query (connection: #DbConnection) (sql: string) (parameters: _) : QueryResult<_> =
     task {
         try
             let! res =
@@ -24,7 +30,7 @@ let query (connection: #DbConnection) (sql: string) (parameters: _) =
         with ex -> return Error ex
     }
 
-let querySingle (connection: #DbConnection) (sql: string) (parameters: _) =
+let querySingle (connection: #DbConnection) (sql: string) (parameters: _) : QuerySingleResult<_> =
     task {
         try
             let! res =

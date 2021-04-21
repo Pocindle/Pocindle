@@ -12,6 +12,7 @@ type User =
     { UserId: UserId
       PocketUsername: PocketUsername
       KindleEmailAddress: KindleEmailAddress option }
+      // AccessToken: AccessToken option }
 
 
 type Article = Article of Undefined
