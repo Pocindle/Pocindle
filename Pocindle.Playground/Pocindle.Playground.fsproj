@@ -8,6 +8,7 @@
     <ItemGroup>
         <EmbeddedResource Include="q.sql" />
         <Compile Include="Sql.fs" />
+        <Compile Include="Database.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

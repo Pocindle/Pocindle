@@ -8,7 +8,7 @@ open FsToolkit.ErrorHandling
 [<Measure>]
 type private userId
 
-type UserId = uint64<userId>
+type UserId = int64<userId>
 
 
 module ConstrainedType =
