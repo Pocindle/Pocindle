@@ -81,7 +81,8 @@ let retrieveByClaim =
 
                             return! (json dto next ctx)
                         }
-                    return
+
+                    return r |> Result.get
                 })
     }
 
