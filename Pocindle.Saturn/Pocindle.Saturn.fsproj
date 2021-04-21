@@ -18,8 +18,8 @@
         <Compile Include="Core.fs" />
         <Compile Include="Database.fs" />
         <Compile Include="Config.fs" />
-        <Compile Include="Pocket.fs" />
         <Compile Include="Auth.fs" />
+        <Compile Include="Pocket.fs" />
 
         <Compile Include="Router.fs" />
         <Compile Include="Program.fs" />
