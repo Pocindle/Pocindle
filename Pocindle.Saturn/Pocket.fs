@@ -66,7 +66,7 @@ let retrieveByClaim =
                                 |> Result.mapError Exception
 
                             let! a =
-                                getAccessTokenFromPocketUsername (Controller.getConfig ctx).ConnectionString username
+                                getAccessTokenFromPocketUsername (Config.getConfig ctx).ConnectionString username
 
                             let accessToken =
                                 AccessToken.create (a |> Option.get) |> Result.get

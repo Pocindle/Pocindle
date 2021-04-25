@@ -1,5 +1,6 @@
 ﻿module Pocindle.Database.Users
 
+open System.Net.Mime.MediaTypeNames
 open System.Threading.Tasks
 
 open FSharp.Data.LiteralProviders
@@ -26,7 +27,7 @@ let getUserFromPocketUsername connectionString (username: PocketUsername) : Quer
         return ret
     }
     
-type AccessTokenFromPocketUsernameQuery = TextFile<"Users/AccessTokenFromPocketUsername.sql">
+//type AccessTokenFromPocketUsernameQuery = TextFile<"Users/AccessTokenFromPocketUsername.sql">
 
 let getAccessTokenFromPocketUsername connectionString (username: PocketUsername) : QuerySingleResult<string> =
     let connection = new NpgsqlConnection(connectionString)
@@ -35,7 +36,7 @@ let getAccessTokenFromPocketUsername connectionString (username: PocketUsername)
         let! ret =
             querySingle
                 connection
-                AccessTokenFromPocketUsernameQuery.Text
+                TextFile.Users.``AccessTokenFromPocketUsername.sql``.Text
                 (Some {| PocketUsername = PocketUsername.value username |})
 
         return ret
