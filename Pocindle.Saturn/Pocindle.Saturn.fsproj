@@ -6,7 +6,8 @@
         <SpaRoot>../pocindle-client/</SpaRoot>
         <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
         <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
-    </PropertyGroup>
+      <UserSecretsId>b1c52587-9b55-40ed-be81-a1c666503c48</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
         <Content Include="openapi.json">
@@ -15,6 +16,7 @@
         <Content Include="appsettings.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="appsettings.Development.json" />
         <Compile Include="Core.fs" />
         <Compile Include="Database.fs" />
         <Compile Include="Config.fs" />
@@ -32,6 +34,7 @@
     <ItemGroup>
         <PackageReference Include="Dapper" Version="2.0.78" />
         <PackageReference Include="Giraffe" Version="5.0.0-rc-6" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
         <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.10.0" />
         <PackageReference Include="Ply" Version="0.3.1" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.3" />
