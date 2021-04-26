@@ -9,6 +9,7 @@ open FSharp.Control.Tasks
 open Giraffe
 open Giraffe.EndpointRouting.Routers
 open Pocindle.Domain.SimpleTypes
+open Giraffe.HttpStatusCodeHandlers
 open Saturn
 open Saturn.Endpoint
 

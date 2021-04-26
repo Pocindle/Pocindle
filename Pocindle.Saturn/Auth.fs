@@ -10,6 +10,7 @@ open FSharp.Control.Tasks
 open Giraffe
 open Saturn
 open Saturn.Endpoint
+open Giraffe.HttpStatusCodeHandlers
 
 open Pocindle.Domain.SimpleTypes
 open Pocindle.Pocket.Auth.PublicTypes
@@ -86,7 +87,7 @@ let request =
                     RequestDto.fromDomain t (RedirectUri.withRequestToken t redirect_uri)
 
                 return! json tr next ctx
-            | Error ex -> return! (setStatusCode 500 >=> json ex) next ctx
+            | Error ex -> return! (json ex |> ServerErrors.internalError) next ctx
         }
 
 let authorize =
