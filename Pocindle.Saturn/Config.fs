@@ -3,7 +3,7 @@ namespace Pocindle.Saturn
 open System
 open Saturn
 
-open Pocindle.Pocket.Common.SimpleTypes
+open Pocindle.Domain.SimpleTypes
 
 type Config =
     { ConnectionString: string
@@ -12,3 +12,4 @@ type Config =
 
 module Config =
     let getConfig ctx : Config = Controller.getConfig ctx
+

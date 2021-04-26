@@ -15,7 +15,7 @@ open Saturn.Endpoint
 
 open Pocindle.Pocket.Retrieve
 open Pocindle.Pocket.Retrieve.PublicTypes
-open Pocindle.Pocket.Common.SimpleTypes
+open Pocindle.Domain.SimpleTypes
 open Pocindle.Saturn
 open Pocindle.Database.Users
 

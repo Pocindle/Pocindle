@@ -3,7 +3,7 @@ module Pocindle.Pocket.Auth.PocketDto
 open FSharp.UMX
 
 open Pocindle.Pocket.Auth.SimpleTypes
-open Pocindle.Pocket.Common.SimpleTypes
+open Pocindle.Domain.SimpleTypes
 
 type ObtainRequestTokenRequestDto =
     { consumer_key: string

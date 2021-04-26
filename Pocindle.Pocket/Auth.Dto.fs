@@ -1,10 +1,6 @@
 module Pocindle.Pocket.Auth.Dto
 
-open System
 open System.ComponentModel.DataAnnotations
-
-open FSharp.UMX
-open FsToolkit.ErrorHandling
 
 open Pocindle.Pocket.Auth.SimpleTypes
 

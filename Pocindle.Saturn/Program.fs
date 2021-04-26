@@ -16,7 +16,7 @@ open Npgsql
 open Saturn
 open Saturn.Endpoint
 
-open Pocindle.Pocket.Common.SimpleTypes
+open Pocindle.Domain.SimpleTypes
 open Pocindle.Pocket.Retrieve.PocketDto
 open Pocindle.Saturn
 
@@ -57,7 +57,6 @@ let app  =
 
         use_jwt_authentication Auth.secret Auth.issuer
 
-
         app_config
             (fun app ->
                 let env =
@@ -74,8 +73,8 @@ let app  =
         host_config
             (fun host ->
                 host.ConfigureAppConfiguration(
-                    System.Action<_, _>
                         (fun (a: HostBuilderContext) (b: IConfigurationBuilder) ->
+                            
                             if a.HostingEnvironment.IsDevelopment() then
                                 b.AddUserSecrets<Config>() |> ignore)
                 ))

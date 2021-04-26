@@ -1,13 +1,8 @@
 module Pocindle.Pocket.Auth.SimpleTypes
 
 open System
-open System.Net.Http
-open System.Text
-open System.Text.Json
 
 open FSharp.UMX
-open FSharp.Control.Tasks
-open FsToolkit.ErrorHandling
 
 open Pocindle.Domain.SimpleTypes
 

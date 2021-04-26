@@ -2,20 +2,11 @@ module internal Pocindle.Pocket.Retrieve.Implementation
 
 open System
 open System.Net.Http
-open System.Text
 
-open System.Text.Json
-open System.Web
-open FSharp.UMX
-open FSharp.Control.Tasks
 open FsToolkit.ErrorHandling
 open FsToolkit.ErrorHandling.Operator.Result
 
-open Pocindle.Pocket.Auth.SimpleTypes
-open Pocindle.Pocket.Auth.PocketDto
-open Pocindle.Pocket.Common.SimpleTypes
-open Pocindle.Common.Serialization
-open Pocindle.Pocket.Auth.PublicTypes
+open Pocindle.Domain.SimpleTypes
 open Pocindle.Common.Serialization
 open Pocindle.Common
 open Pocindle.Pocket.Retrieve.PublicTypes

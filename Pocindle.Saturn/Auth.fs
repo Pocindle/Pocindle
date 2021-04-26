@@ -15,8 +15,7 @@ open Giraffe.HttpStatusCodeHandlers
 open Pocindle.Domain.SimpleTypes
 open Pocindle.Pocket.Auth.PublicTypes
 open Pocindle.Pocket.Auth.SimpleTypes
-open Pocindle.Pocket.Common.SimpleTypes
-open Pocindle.Pocket.Common
+open Pocindle.Domain.SimpleTypes
 open Pocindle.Pocket.Auth.Dto
 
 let secret = "spadR2dre#u-ruBrE@TepA&*Uf@U"
