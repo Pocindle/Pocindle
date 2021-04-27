@@ -2,7 +2,9 @@ module Pocindle.Web.App
 
 open System
 open System.IO
+open System.Text
 open Microsoft.AspNetCore
+open Microsoft.AspNetCore.Authentication.JwtBearer
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.AspNetCore.Hosting
@@ -23,8 +25,11 @@ open Microsoft.AspNetCore.Hosting
 
 open Giraffe
 open Giraffe.EndpointRouting
+open Microsoft.IdentityModel.Protocols.OpenIdConnect
+open Microsoft.IdentityModel.Tokens
 open Npgsql
 open Pocindle.Domain.SimpleTypes
+open Pocindle.Web.Config
 
 // ---------------------------------
 // Models
@@ -69,7 +74,9 @@ let indexHandler (name: string) =
 
 let serveSpa : HttpHandler =
     fun next ctx ->
-        let c = Config.getConfig ctx
+        let c =
+            ctx.GetService<Config.Config>().ConnectionString
+
         match ctx.GetHostingEnvironment().IsDevelopment() with
         | true -> redirectTo false "http://localhost:3000" next ctx
         | false -> htmlFile "index.html" next ctx
@@ -78,22 +85,6 @@ let webApp =
     [ GET [ route "/" serveSpa
             route "/2" (indexHandler "world")
             routef "/hello/%s" indexHandler ] ]
-
-let webAppC =
-    Config.useConfig
-        (fun ic ->
-            { ConsumerKey =
-                  ic.["Pocket:ConsumerKey"]
-                  |> ConsumerKey.create
-                  |> Result.get
-              ConnectionString =
-                  let builder =
-                      NpgsqlConnectionStringBuilder(ic.GetConnectionString("DefaultConnection"))
-
-                  builder.Password <- ic.["DbPassword"]
-                  builder.ConnectionString
-              BaseUrl = ic.["BaseUrl"] |> Uri })
-        webApp
 
 // ---------------------------------
 // Error handler
@@ -110,22 +101,27 @@ let errorHandler (ex: Exception) (logger: ILogger) =
 // Config and Main
 // ---------------------------------
 
-let configureCors (builder: CorsPolicyBuilder) =
-    builder
-        .WithOrigins("http://localhost:5000", "https://localhost:5001")
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-    |> ignore
 
 let configureApp (app: IApplicationBuilder) =
     let env =
         app.ApplicationServices.GetService<IWebHostEnvironment>()
 
+    let config =
+        app.ApplicationServices.GetService<Config>()
+
+    let configureCors (builder: CorsPolicyBuilder) =
+        builder
+            .WithOrigins(string config.BaseUrl)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+        |> ignore
+
     app
         .UseRouting()
-        .UseGiraffe(webAppC)
+        .UseGiraffe(webApp)
         .UseCors(configureCors)
         .UseStaticFiles()
+        .UseSwaggerUI(fun c -> c.SwaggerEndpoint("/openapi.json", "qwerty"))
     |> ignore
 
     match env.IsDevelopment() with
@@ -141,6 +137,41 @@ let configureServices (services: IServiceCollection) =
     services.AddRouting() |> ignore
     services.AddGiraffe() |> ignore
 
+    let sp = services.BuildServiceProvider()
+    let env = sp.GetService<IHostEnvironment>()
+    let c = sp.GetService<IConfiguration>()
+
+    let config =
+        { Config.Config.ConsumerKey =
+              c.["Pocket:ConsumerKey"]
+              |> ConsumerKey.create
+              |> Result.get
+          Config.Config.ConnectionString =
+              let builder =
+                  NpgsqlConnectionStringBuilder(c.GetConnectionString("DefaultConnection"))
+
+              builder.Password <- c.["DbPassword"]
+              builder.ConnectionString
+          Config.Config.BaseUrl = c.["BaseUrl"] |> Uri }
+
+    services.AddSingleton<Config.Config>(config)
+    |> ignore
+
+    services
+        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(fun options ->
+            options.TokenValidationParameters <-
+                TokenValidationParameters(
+                    ValidateActor = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = c.["JwtIssuer"],
+                    ValidAudience = c.["JwtIssuer"],
+                    IssuerSigningKey = SymmetricSecurityKey(Encoding.UTF8.GetBytes(c.["JwtSecret"]))
+                ))
+    |> ignore
+
 let configureLogging (builder: ILoggingBuilder) =
     builder.AddConsole().AddDebug() |> ignore
 
@@ -151,6 +182,7 @@ let main args =
 
     Host
         .CreateDefaultBuilder(args)
+
         .ConfigureWebHostDefaults(fun webHostBuilder ->
             webHostBuilder
                 .UseKestrel()

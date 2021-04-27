@@ -30,25 +30,4 @@ type Config =
     { ConnectionString: string
       ConsumerKey: ConsumerKey
       BaseUrl: Uri }
-
-let useConfig configBuilder endpoints =
-    let mutable (x: Config option) = None
-
-    let handler (nxt: HttpFunc) (ctx: HttpContext) : HttpFuncResult =
-        let v =
-            match x with
-            | None ->
-                let ic = ctx.GetService<IConfiguration>()
-                let v = configBuilder ic
-                x <- Some v
-                v
-            | Some v -> v
-
-        ctx.Items.["Configuration"] <- v
-        nxt ctx
-
-    endpoints
-    |> List.map (fun e -> applyBefore handler e)
-
-let getConfig (ctx: HttpContext) =
-    unbox<Config> ctx.Items.["Configuration"]
+    

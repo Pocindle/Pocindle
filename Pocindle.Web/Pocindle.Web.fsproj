@@ -7,6 +7,7 @@
         <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
         <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
         <UserSecretsId>b1c52587-9b55-40ed-be81-a1c666503c48</UserSecretsId>
+        <EnableDefaultContentItems>false</EnableDefaultContentItems>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,12 +22,19 @@
         <Content Update="appsettings.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Update="WebRoot\openapi.json">
+          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Giraffe" Version="5.0.0-rc-6" />
         <PackageReference Include="Giraffe.ViewEngine" Version="1.3.*" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.2" />
         <PackageReference Include="Ply" Version="0.3.*" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.3" />
     </ItemGroup>
 
     <ItemGroup>
