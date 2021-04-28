@@ -7,12 +7,12 @@
   &__item {
     font-size: 1.2rem;
     font-weight: 500;
-    color: var(--basic-black);
-    padding: 4vh 2vw;
+    color: var(--text-light);
+    padding: 3vh 2vw;
   }
 
   &__item:hover {
-    color: var(--light-yellow);
+    color: var(--blue);
     cursor: pointer;
   }
 

@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import {
+  setLanguageToLocalStorage,
+  getLanguageFromLocalStorage,
+} from '../../utils/localStorage';
 
 interface ILanguageNames {
   ru: string;
@@ -19,7 +23,7 @@ const initialContext: LanguageContext = {
 
 const languages = {
   ru: {
-    name: 'русский',
+    name: 'ru',
     navbar: {
       articles: 'Статьи',
       logOut: 'Выйти',
@@ -27,11 +31,11 @@ const languages = {
     footer: {
       about: 'О сайте',
       siteTheme: 'Тема сайта:',
-      language: 'Язык:',
+      siteLanguage: 'Язык:',
     },
   },
   eng: {
-    name: 'english',
+    name: 'eng',
     navbar: {
       articles: 'Articles',
       logOut: 'Log out',
@@ -39,7 +43,7 @@ const languages = {
     footer: {
       about: 'About',
       siteTheme: 'Site Theme:',
-      language: 'Language:',
+      siteLanguage: 'Language:',
     },
   },
 };
@@ -47,11 +51,13 @@ const languages = {
 export const LanguageContext = React.createContext(initialContext);
 
 export const LanguageProvider: React.FC = ({ children }) => {
-  const [language, setLanguage] = useState<unknown>(languages.ru);
+  const [language, setLanguage] = useState<unknown>(
+    getLanguageFromLocalStorage() === 'ru' ? languages.ru : languages.eng
+  );
 
   const switchLanguage = (languageNameValue: keyof ILanguageNames) => {
-    console.log(languageNameValue);
     setLanguage(languages[languageNameValue]);
+    setLanguageToLocalStorage(languageNameValue);
   };
 
   return (

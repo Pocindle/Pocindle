@@ -1,20 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useAppContext from '../../hooks/useAppContext';
 import './navbar.scss';
 
-const Navbar: React.FC<{ articles?: string; logOut?: string }> = ({
-  articles = 'Articles',
-  logOut = 'Log Out',
-}) => {
+const Navbar: React.FC = () => {
+  const { language } = useAppContext();
+
   return (
     <div className="navbar navbar__wrapper">
       <Link to="/" className="navbar__item navbar__link">
         Pocindle
       </Link>
       <Link to="/articles" className="navbar__item navbar__link">
-        {articles}
+        {language.navbar.articles}
       </Link>
-      <div className="navbar__item">{logOut}</div>
+      <div className="navbar__item">{language.navbar.logOut}</div>
     </div>
   );
 };

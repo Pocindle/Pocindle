@@ -1,22 +1,24 @@
 .main-layout {
   min-height: 100vh;
+  background-color: var(--main-bg);
 
   &__wrapper {
     display: flex;
     flex-direction: column;
   }
 
-  & .content,
-  & .footer {
-    width: 80vw;
+  & .header {
+    background-color: var(--header-bg);
   }
 
   & .content {
+    width: 80vw;
     margin: 0 auto;
+    flex-grow: 2;
   }
 
   & .footer {
-    margin: auto auto 0;
+    background-color: var(--footer-bg);
   }
 }
 

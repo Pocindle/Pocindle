@@ -10,17 +10,12 @@ const TestPage: React.FC = () => {
   console.log('match', match);
   console.log('location', location);
 
-  const { theme, switchTheme, language, switchLanguage } = useAppContext();
+  const { language, switchLanguage } = useAppContext();
 
   return (
     <MainLayout>
       Test page
       <TestComponent />
-      <div>
-        {`Theme: ${theme.name}`}
-        <button onClick={() => switchTheme('light')}>light</button>
-        <button onClick={() => switchTheme('dark')}>dark</button>
-      </div>
       <div>
         {`Language: ${language.name}`}
         <button onClick={() => switchLanguage('ru')}>Русский</button>
