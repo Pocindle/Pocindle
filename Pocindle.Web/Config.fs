@@ -4,11 +4,10 @@ open System
 open Microsoft.Extensions.Configuration
 
 open Npgsql
-
-open Pocindle.Domain.SimpleTypes
 open FsToolkit.ErrorHandling
 open FSharp.UMX
 
+open Pocindle.Domain.SimpleTypes
 open Pocindle.Database
 
 [<Measure>]

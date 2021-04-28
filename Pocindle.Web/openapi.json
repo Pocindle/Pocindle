@@ -15,67 +15,6 @@
         }
       }
     },
-    "/hello": {
-      "get": {
-        "operationId": "hello",
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/hello/{s0}/{s1}": {
-      "parameters": [
-        {
-          "name": "s0",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "title": "String",
-            "type": "string"
-          }
-        },
-        {
-          "name": "s1",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "title": "String",
-            "type": "string"
-          }
-        }
-      ],
-      "get": {
-        "operationId": "hello2",
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/hello/{s0}": {
-      "parameters": [
-        {
-          "name": "s0",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "title": "String",
-            "type": "string"
-          }
-        }
-      ],
-      "get": {
-        "operationId": "hello3",
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/api/auth/authorize/{s0}": {
       "parameters": [
         {
@@ -117,7 +56,30 @@
         "operationId": "request",
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "RequestDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "requestToken",
+                    "redirectUrl"
+                  ],
+                  "properties": {
+                    "requestToken": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "redirectUrl": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -193,6 +155,25 @@
           "jwtToken": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "RequestDto": {
+        "title": "RequestDto",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "requestToken",
+          "redirectUrl"
+        ],
+        "properties": {
+          "requestToken": {
+            "type": "string",
+            "minLength": 1
+          },
+          "redirectUrl": {
+            "type": "string",
+            "minLength": 1
           }
         }
       },

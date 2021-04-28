@@ -22,8 +22,6 @@
 
         <Compile Include="Config.fs" />
 
-        <Compile Include="Template.fs" />
-
         <Compile Include="Auth.fs" />
 
         <Compile Include="Pocket.fs" />

@@ -5,7 +5,6 @@ open Microsoft.AspNetCore.Hosting
 open Giraffe
 open Giraffe.EndpointRouting
 
-open Pocindle.Web.Template
 open Pocindle.Web.Auth
 open Pocindle.Web.Pocket
 open Pocindle.Web.Core
@@ -19,17 +18,13 @@ let serveSpa : HttpHandler =
         | false -> htmlFile "index.html" next ctx
 
 let webApp =
-    [ GET [ route "/" serveSpa
-            route "/hello" (indexHandler ("world", "1"))
-            routefd "/hello/%s/%s" indexHandler
-            routefd "/hello/%s" indexHandler1 ]
-
+    [ GET [ route "/" serveSpa ]
       subRoute
           "/api"
           [ subRoute
               "/auth"
               [ POST [ routefdd "/authorize/%s" authorize
-                       route "/request" request ]
+                       routed "/request" request ]
                 GET [ route "/public" (text "public route") ]
                 GET [ route "/secured" handleGetSecured ]
                 |> applyBefore authorizeJwt ]

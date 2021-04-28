@@ -17,12 +17,12 @@ open Pocindle.Pocket.Auth.Dto
 open Pocindle.Pocket.Auth.SimpleTypes
 open Pocindle.Database
 
+type JwtTokenDto = { JwtToken: string }
+
 let authorizeJwt : HttpHandler =
     requiresAuthentication (challenge JwtBearerDefaults.AuthenticationScheme)
 
-type JwtTokenDto = { JwtToken: string }
-
-let generateTokenViaPocket (requestToken: RequestToken) (username: PocketUsername) (ctx: HttpContext) =
+let private generateTokenViaPocket (requestToken: RequestToken) (username: PocketUsername) (ctx: HttpContext) =
     let config = ctx.GetService<Config>()
 
     let claims =
@@ -65,7 +65,7 @@ let handleGetSecured =
             ctx
 
 let request =
-    fun (next: HttpFunc) (ctx: HttpContext) ->
+    (fun (next: HttpFunc) (ctx: HttpContext) ->
         task {
             let config = ctx.GetService<Config>()
             let consumer_key = config.ConsumerKey
@@ -85,7 +85,8 @@ let request =
 
                 return! json tr next ctx
             | Error ex -> return raise500 ex
-        }
+        }),
+    [ (StatusCodes.Status200OK, typeof<RequestDto>) ]
 
 let authorize =
     (fun (requestToken: string) (next: HttpFunc) (ctx: HttpContext) ->
@@ -116,4 +117,4 @@ let authorize =
                 | Error err -> return raise500 err
             | Error ex -> return raise500 ex
         }),
-        [ (200, typeof<JwtTokenDto>) ]
+    [ (200, typeof<JwtTokenDto>) ]
