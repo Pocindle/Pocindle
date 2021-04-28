@@ -8,6 +8,7 @@ open Giraffe.EndpointRouting
 open Pocindle.Web.Template
 open Pocindle.Web.Auth
 open Pocindle.Web.Pocket
+open Pocindle.Web.Core
 
 let serveSpa : HttpHandler =
     fun next ctx ->
@@ -16,11 +17,6 @@ let serveSpa : HttpHandler =
         match ctx.GetHostingEnvironment().IsDevelopment() with
         | true -> redirectTo false (string c.BaseUrl) next ctx
         | false -> htmlFile "index.html" next ctx
-
-let acceptJson = mustAccept [ ApplicationJson ]
-
-let routefd (path: PrintfFormat<_, _, _, _, 'T>) (routeHandler: 'T -> HttpHandler) : Endpoint =
-    routef path routeHandler |> addMetadata typeof<'T>
 
 let webApp =
     [ GET [ route "/" serveSpa

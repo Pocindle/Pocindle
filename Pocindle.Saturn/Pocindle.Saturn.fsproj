@@ -17,7 +17,6 @@
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="appsettings.Development.json" />
-        <Compile Include="Core.fs" />
         <Compile Include="Database.fs" />
         <Compile Include="Config.fs" />
         <Compile Include="Auth.fs" />

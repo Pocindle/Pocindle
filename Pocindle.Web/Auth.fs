@@ -16,7 +16,6 @@ open Pocindle.Domain.SimpleTypes
 open Pocindle.Pocket.Auth.Dto
 open Pocindle.Pocket.Auth.SimpleTypes
 open Pocindle.Database
-open Pocindle.Database
 
 let authorizeJwt : HttpHandler =
     requiresAuthentication (challenge JwtBearerDefaults.AuthenticationScheme)
@@ -75,7 +74,6 @@ let request =
 
             let! y = Pocindle.Pocket.Auth.Api.obtainRequestToken consumer_key redirect_str None
 
-
             match y with
             | Ok (t, _) ->
                 let redirect_uri =
@@ -85,7 +83,7 @@ let request =
                     RequestDto.fromDomain t (PocketRedirectUri.withRequestTokenAndPocindleRedirectUri t redirect_uri)
 
                 return! json tr next ctx
-            | Error ex -> return! (json ex |> ServerErrors.internalError) next ctx
+            | Error ex -> return raise500 ex
         }
 
 let authorize =
@@ -108,12 +106,12 @@ let authorize =
 
                 match c with
                 | Ok _ -> return! json jwtToken next ctx
-                | Error Database.DbError.Empty ->
+                | Error DbError.Empty ->
                     let! b = Users.createUser %config.ConnectionString a t
 
                     match b with
                     | Ok _ -> return! json jwtToken next ctx
-                    | _ -> return unimplemented (string b)
-                | Error _ -> return unimplemented (string c)
-            | Error ex -> return! (setStatusCode 500 >=> json ex) next ctx
+                    | err -> return raise500 err
+                | Error err -> return raise500 err
+            | Error ex -> return raise500 ex
         }

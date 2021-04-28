@@ -1,3 +1,3 @@
 UPDATE users
 SET pocketaccesstoken = @AccessToken
-WHERE users.pocketusername = @PocketUsername;
+WHERE users.pocketusername = @PocketUsername

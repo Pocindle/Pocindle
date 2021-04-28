@@ -3,20 +3,19 @@ module Pocindle.Database.Database
 open System.Threading.Tasks
 
 open Dapper
-open System.Data.Common
+open Npgsql
 open FSharp.Control.Tasks
+open FSharp.UMX
 
-type DbError =
-    | DbException of exn
-    | ValidationError of string
-    | Empty
-    | TooMuchAffected of int
-    
+open Pocindle.Database
+
 type ExecuteResult = Task<Result<int, exn>>
 type QueryResult<'T> = Task<Result<'T seq, exn>>
 type QuerySingleResult<'T> = Task<Result<'T option, exn>>
 
-let execute (connection: #DbConnection) (sql: string) (parameters: _) : ExecuteResult =
+let execute (connectionString: ConnectionString) (sql: string) (parameters: _) : ExecuteResult =
+    let connection = new NpgsqlConnection(%connectionString)
+
     task {
         try
             let! res = connection.ExecuteAsync(sql, parameters)
@@ -24,7 +23,9 @@ let execute (connection: #DbConnection) (sql: string) (parameters: _) : ExecuteR
         with ex -> return Error ex
     }
 
-let query (connection: #DbConnection) (sql: string) (parameters: _) : QueryResult<_> =
+let query (connectionString: ConnectionString) (sql: string) (parameters: _) : QueryResult<_> =
+    let connection = new NpgsqlConnection(%connectionString)
+
     task {
         try
             let! res =
@@ -36,7 +37,9 @@ let query (connection: #DbConnection) (sql: string) (parameters: _) : QueryResul
         with ex -> return Error ex
     }
 
-let querySingle (connection: #DbConnection) (sql: string) (parameters: _) : QuerySingleResult<_> =
+let querySingle (connectionString: ConnectionString) (sql: string) (parameters: _) : QuerySingleResult<_> =
+    let connection = new NpgsqlConnection(%connectionString)
+
     task {
         try
             let! res =

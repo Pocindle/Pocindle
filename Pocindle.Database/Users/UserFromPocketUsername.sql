@@ -1,3 +1,3 @@
 SELECT *
 FROM Users
-WHERE users.pocketusername = @PocketUsername;
+WHERE users.pocketusername = @PocketUsername

@@ -9,11 +9,7 @@ open Pocindle.Domain.SimpleTypes
 open FsToolkit.ErrorHandling
 open FSharp.UMX
 
-[<Measure>]
-type private connectionString
-
-type ConnectionString = string<connectionString>
-
+open Pocindle.Database
 
 [<Measure>]
 type private jwtIssuer
@@ -24,8 +20,6 @@ type JwtIssuer = string<jwtIssuer>
 type private jwtSecret
 
 type JwtSecret = string<jwtSecret>
-
-
 
 type Config =
     { ConnectionString: ConnectionString

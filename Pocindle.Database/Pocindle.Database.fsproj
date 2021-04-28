@@ -6,12 +6,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Types.fs" />
+        <Compile Include="Database.fs" />
         <EmbeddedResource Include="Users\UserFromPocketUsername.sql" />
         <EmbeddedResource Include="Users\AccessTokenFromPocketUsername.sql" />
         <EmbeddedResource Include="Users\UpdateAccessTokenByPocketUsername.sql" />
         <EmbeddedResource Include="Users\CreateUser.sql" />
-        <Compile Include="Database.fs" />
-        <Compile Include="Library.fs" />
+        <Compile Include="Users\Users.fs" />
     </ItemGroup>
 
     <ItemGroup>

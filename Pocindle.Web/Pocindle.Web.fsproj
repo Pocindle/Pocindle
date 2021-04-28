@@ -18,6 +18,7 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="appsettings.Development.json" />
+        <Compile Include="Core.fs" />
 
         <Compile Include="Config.fs" />
 
