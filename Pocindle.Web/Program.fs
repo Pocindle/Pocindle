@@ -6,25 +6,27 @@ open System.Text
 open Microsoft.AspNetCore
 open Microsoft.AspNetCore.Authentication.JwtBearer
 open Microsoft.AspNetCore.Builder
+open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.AspNetCore.Hosting
+open Microsoft.AspNetCore.Hosting
+open Microsoft.AspNetCore.Hosting
+open Microsoft.Extensions.Configuration
+open Microsoft.Extensions.Configuration
+open Microsoft.Extensions.Configuration.Json
+open Microsoft.Extensions.Configuration.UserSecrets
+open Microsoft.Extensions.DependencyInjection
+open Microsoft.Extensions.DependencyInjection
+open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
-open Microsoft.Extensions.DependencyInjection
-open Microsoft.AspNetCore.Builder
-open Microsoft.AspNetCore.Hosting
-open Microsoft.Extensions.DependencyInjection
-open Microsoft.Extensions.Hosting
-open Microsoft.Extensions.Configuration
-open Microsoft.Extensions.Configuration.UserSecrets
-open Microsoft.Extensions.Configuration.Json
-open Microsoft.Extensions.Configuration
-open Microsoft.AspNetCore.Hosting
+open Microsoft.IdentityModel.Tokens
 
+open FSharp.UMX
 open Giraffe
 open Giraffe.EndpointRouting
-open Microsoft.IdentityModel.Tokens
 open Npgsql
+
 open Pocindle.Domain.SimpleTypes
 open Pocindle.Web.Router
 
@@ -50,7 +52,9 @@ let configureApp (app: IApplicationBuilder) =
         |> ignore
 
     app
+        .UseAuthentication()
         .UseRouting()
+        .UseAuthentication()
         .UseGiraffe(webApp)
         .UseCors(configureCors)
         .UseStaticFiles()
@@ -74,22 +78,31 @@ let configureServices (services: IServiceCollection) =
     let env = sp.GetService<IHostEnvironment>()
     let ic = sp.GetService<IConfiguration>()
 
-    Config.buildConfig ic
-    |> services.AddSingleton<Config>
-    |> ignore
+    let config = Config.buildConfig ic |> Result.get
+
+    services.AddSingleton<Config> config |> ignore
 
     services
-        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddAuthorization()
+        .AddAuthentication(fun cfg ->
+            cfg.DefaultAuthenticateScheme <- JwtBearerDefaults.AuthenticationScheme
+            cfg.DefaultChallengeScheme <- JwtBearerDefaults.AuthenticationScheme
+            cfg.DefaultScheme <- JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(fun options ->
+
+            //options.SaveToken <- true
+            //options.IncludeErrorDetails <- true
+            //options.Authority <- "https://accounts.google.com"
+            //options.Audience <- %config.JwtIssuer
             options.TokenValidationParameters <-
                 TokenValidationParameters(
                     ValidateActor = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = ic.["JwtIssuer"],
-                    ValidAudience = ic.["JwtIssuer"],
-                    IssuerSigningKey = SymmetricSecurityKey(Encoding.UTF8.GetBytes(ic.["JwtSecret"]))
+                    ValidIssuer = %config.JwtIssuer,
+                    ValidAudience = %config.JwtIssuer,
+                    IssuerSigningKey = SymmetricSecurityKey(Encoding.UTF8.GetBytes(%config.JwtSecret))
                 ))
     |> ignore
 
@@ -100,6 +113,8 @@ let configureLogging (builder: ILoggingBuilder) =
 let main args =
     let contentRoot = Directory.GetCurrentDirectory()
     let webRoot = Path.Combine(contentRoot, "WebRoot")
+
+    printfn $"%A{webApp}"
 
     Host
         .CreateDefaultBuilder(args)

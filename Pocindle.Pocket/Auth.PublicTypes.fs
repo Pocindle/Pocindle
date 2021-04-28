@@ -14,6 +14,6 @@ type AuthError =
     | SerializationError of SerializationError
     | DeserializationError of DeserializationError
 
-type ObtainRequestToken = ConsumerKey -> RedirectUri -> State -> Task<Result<RequestToken * State, AuthError>>
+type ObtainRequestToken = ConsumerKey -> PocindleRedirectString -> State -> Task<Result<RequestToken * State, AuthError>>
 
 type Authorize = ConsumerKey -> RequestToken -> Task<Result<AccessToken * PocketUsername, AuthError>>

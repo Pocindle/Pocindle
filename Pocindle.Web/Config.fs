@@ -6,22 +6,67 @@ open Microsoft.Extensions.Configuration
 open Npgsql
 
 open Pocindle.Domain.SimpleTypes
+open FsToolkit.ErrorHandling
+open FSharp.UMX
+
+[<Measure>]
+type private connectionString
+
+type ConnectionString = string<connectionString>
+
+[<Measure>]
+type private jwtIssuer
+
+type JwtIssuer = string<jwtIssuer>
+
+[<Measure>]
+type private jwtSecret
+
+type JwtSecret = string<jwtSecret>
+
+
 
 type Config =
-    { ConnectionString: string
+    { ConnectionString: ConnectionString
       ConsumerKey: ConsumerKey
-      BaseUrl: Uri }
+      BaseUrl: Uri
+      JwtIssuer: JwtIssuer
+      JwtSecret: JwtSecret }
 
 module Config =
     let buildConfig (ic: IConfiguration) =
-        { ConsumerKey =
-              ic.["ConsumerKey"]
-              |> ConsumerKey.create
-              |> Result.get
-          ConnectionString =
-              let builder =
-                  NpgsqlConnectionStringBuilder(ic.GetConnectionString("DefaultConnection"))
+        result {
+            let! consumerKey = ic.["ConsumerKey"] |> ConsumerKey.create
 
-              builder.Password <- ic.["DbPassword"]
-              builder.ConnectionString
-          BaseUrl = ic.["BaseUrl"] |> Uri }
+            let! connectionString =
+                match ic.GetConnectionString("DefaultConnection"), ic.["DbPassword"] with
+                | null, _ -> Error "ConnectionString('DefaultConnection') is not set"
+                | _, null -> Error "DbPassword is not set"
+                | connStr, password ->
+                    let builder = NpgsqlConnectionStringBuilder(connStr)
+
+                    builder.Password <- password
+                    Ok %builder.ConnectionString
+
+            let! baseUrl =
+                match ic.["BaseUrl"] with
+                | null -> Error "BaseUrl is not set"
+                | b -> Ok ^ Uri b
+
+            let! jwtIssuer =
+                match ic.["JwtIssuer"] with
+                | null -> Error "JwtIssuer is not set"
+                | b -> Ok %b
+
+            let! jwtSecret =
+                match ic.["JwtSecret"] with
+                | null -> Error "JwtSecret is not set"
+                | b -> Ok %b
+
+            return
+                { ConsumerKey = consumerKey
+                  ConnectionString = connectionString
+                  BaseUrl = baseUrl
+                  JwtIssuer = jwtIssuer
+                  JwtSecret = jwtSecret }
+        }

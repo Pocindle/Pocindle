@@ -58,36 +58,24 @@ let handleGetSecured =
             next
             ctx
 
-let handlePostToken =
-    fun (next: HttpFunc) (ctx: HttpContext) ->
-        task {
-            let! model = ctx.BindFormAsync<LoginViewModel>()
-
-            // authenticate user
-
-            let tokenResult = generateToken model.Email
-
-            return! json tokenResult next ctx
-        }
-
-let request =
-    fun (next: HttpFunc) (ctx: HttpContext) ->
-        task {
-            let consumer_key = (Controller.getConfig ctx).ConsumerKey 
-
-            let redirect_uri =
-                RedirectString "https://pocindle.xyz/authorizationFinished/"
-
-            let! y = Pocindle.Pocket.Auth.Api.obtainRequestToken consumer_key redirect_uri None
-
-            match y with
-            | Ok (t, _) ->
-                let tr =
-                    RequestDto.fromDomain t (RedirectUri.withRequestToken t redirect_uri)
-
-                return! json tr next ctx
-            | Error ex -> return! (json ex |> ServerErrors.internalError) next ctx
-        }
+//let request =
+//    fun (next: HttpFunc) (ctx: HttpContext) ->
+//        task {
+//            let consumer_key = (Controller.getConfig ctx).ConsumerKey 
+//
+//            let redirect_uri =
+//                RedirectString "https://pocindle.xyz/authorizationFinished/"
+//
+//            let! y = Pocindle.Pocket.Auth.Api.obtainRequestToken consumer_key redirect_uri None
+//
+//            match y with
+//            | Ok (t, _) ->
+//                let tr =
+//                    RequestDto.fromDomain t (PocindleRedirectUri.withRequestToken t redirect_uri)
+//
+//                return! json tr next ctx
+//            | Error ex -> return! (json ex |> ServerErrors.internalError) next ctx
+//        }
 
 let authorize =
     fun (requestToken: string) (next: HttpFunc) (ctx: HttpContext) ->
@@ -112,15 +100,14 @@ let securedRouter =
         get "/" handleGetSecured
     }
 
-let topRouter =
-    router {
-        //not_found_handler (setStatusCode 404 >=> text "Not Found")
-
-        post "/request" request
-        postf "/authorize/%s" authorize
-
-        post "/token" handlePostToken
-        get "/" (text "public route")
-        post "/" (text "public route")
-        forward "/secured" securedRouter
-    }
+//let topRouter =
+//    router {
+//        //not_found_handler (setStatusCode 404 >=> text "Not Found")
+//
+//        post "/request" request
+//        postf "/authorize/%s" authorize
+//
+//        get "/" (text "public route")
+//        post "/" (text "public route")
+//        forward "/secured" securedRouter
+//    }

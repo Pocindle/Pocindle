@@ -23,6 +23,8 @@
 
         <Compile Include="Template.fs" />
 
+        <Compile Include="Auth.fs" />
+
         <Compile Include="Router.fs" />
 
         <Compile Include="Pocket.fs" />

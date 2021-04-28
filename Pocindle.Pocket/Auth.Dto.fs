@@ -11,6 +11,6 @@ type RequestDto =
       RedirectUrl: string }
 
 module RequestDto =
-    let fromDomain (requestToken: RequestToken) (redirectUrl: RedirectUri) =
+    let fromDomain (requestToken: RequestToken) (redirectUrl: PocketRedirectUri) =
         { RequestToken = RequestToken.value requestToken
-          RedirectUrl = RedirectUri.valueStr redirectUrl }
+          RedirectUrl = PocketRedirectUri.valueStr redirectUrl }
