@@ -1,5 +1,5 @@
 import React from 'react';
-import MainLayout from '../../layouts/mainLayout/mainLayout';
+import { MainLayout } from '../../layouts';
 import { useRouteMatch, useLocation } from 'react-router-dom';
 import { TestComponent } from '../../components';
 import useAppContext from '../../hooks/useAppContext';
