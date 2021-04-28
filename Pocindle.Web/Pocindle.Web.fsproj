@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -7,25 +7,29 @@
         <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
         <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
         <UserSecretsId>b1c52587-9b55-40ed-be81-a1c666503c48</UserSecretsId>
-        <EnableDefaultContentItems>false</EnableDefaultContentItems>
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Config.fs" />
-        <Compile Include="Program.fs" />
-    </ItemGroup>
+        <Content Include="Properties\launchSettings.json" />
+        <Content Include="openapi.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="appsettings.Development.json" />
 
-    <ItemGroup>
-        <Content Include="WebRoot\**\*">
+        <Compile Include="Config.fs" />
+
+        <Compile Include="Template.fs" />
+
+        <Compile Include="Router.fs" />
+
+        <Compile Include="Pocket.fs" />
+        <Compile Include="Program.fs" />
+
+        <Content Include="WebRoot\*.*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Update="appsettings.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Update="WebRoot\openapi.json">
-          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </Content>
     </ItemGroup>
 
@@ -39,9 +43,9 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Pocindle.Database\Pocindle.Database.fsproj" />
-      <ProjectReference Include="..\Pocindle.Common\Pocindle.Common.fsproj" />
-      <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
-      <ProjectReference Include="..\Pocindle.Pocket\Pocindle.Pocket.fsproj" />
+        <ProjectReference Include="..\Pocindle.Common\Pocindle.Common.fsproj" />
+        <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
+        <ProjectReference Include="..\Pocindle.Pocket\Pocindle.Pocket.fsproj" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
@@ -71,5 +75,5 @@
             </ResolvedFileToPublish>
         </ItemGroup>
     </Target>
-    
+
 </Project>

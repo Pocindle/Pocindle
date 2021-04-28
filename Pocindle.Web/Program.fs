@@ -11,8 +11,6 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
-open System
-open System.IO
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
@@ -25,70 +23,10 @@ open Microsoft.AspNetCore.Hosting
 
 open Giraffe
 open Giraffe.EndpointRouting
-open Microsoft.IdentityModel.Protocols.OpenIdConnect
 open Microsoft.IdentityModel.Tokens
 open Npgsql
 open Pocindle.Domain.SimpleTypes
-open Pocindle.Web.Config
-
-// ---------------------------------
-// Models
-// ---------------------------------
-
-type Message = { Text: string }
-
-// ---------------------------------
-// Views
-// ---------------------------------
-
-module Views =
-    open Giraffe.ViewEngine
-
-    let layout (content: XmlNode list) =
-        html [] [
-            head [] [
-                title [] [ encodedText "Pocindle.Web" ]
-                link [ _rel "stylesheet"
-                       _type "text/css"
-                       _href "/main.css" ]
-            ]
-            body [] content
-        ]
-
-    let partial () = h1 [] [ encodedText "Pocindle.Web" ]
-
-    let index (model: Message) =
-        [ partial ()
-          p [] [ encodedText model.Text ] ]
-        |> layout
-
-// ---------------------------------
-// Web app
-// ---------------------------------
-
-let indexHandler (name: string) =
-    let greetings = sprintf "Hello %s, from Giraffe!" name
-    let model = { Text = greetings }
-    let view = Views.index model
-    htmlView view
-
-let serveSpa : HttpHandler =
-    fun next ctx ->
-        let c =
-            ctx.GetService<Config.Config>().ConnectionString
-
-        match ctx.GetHostingEnvironment().IsDevelopment() with
-        | true -> redirectTo false "http://localhost:3000" next ctx
-        | false -> htmlFile "index.html" next ctx
-
-let webApp =
-    [ GET [ route "/" serveSpa
-            route "/2" (indexHandler "world")
-            routef "/hello/%s" indexHandler ] ]
-
-// ---------------------------------
-// Error handler
-// ---------------------------------
+open Pocindle.Web.Router
 
 let errorHandler (ex: Exception) (logger: ILogger) =
     logger.LogError(ex, "An unhandled exception has occurred while executing the request.")
@@ -96,11 +34,6 @@ let errorHandler (ex: Exception) (logger: ILogger) =
     clearResponse
     >=> setStatusCode 500
     >=> text ex.Message
-
-// ---------------------------------
-// Config and Main
-// ---------------------------------
-
 
 let configureApp (app: IApplicationBuilder) =
     let env =
@@ -139,22 +72,10 @@ let configureServices (services: IServiceCollection) =
 
     let sp = services.BuildServiceProvider()
     let env = sp.GetService<IHostEnvironment>()
-    let c = sp.GetService<IConfiguration>()
+    let ic = sp.GetService<IConfiguration>()
 
-    let config =
-        { Config.Config.ConsumerKey =
-              c.["Pocket:ConsumerKey"]
-              |> ConsumerKey.create
-              |> Result.get
-          Config.Config.ConnectionString =
-              let builder =
-                  NpgsqlConnectionStringBuilder(c.GetConnectionString("DefaultConnection"))
-
-              builder.Password <- c.["DbPassword"]
-              builder.ConnectionString
-          Config.Config.BaseUrl = c.["BaseUrl"] |> Uri }
-
-    services.AddSingleton<Config.Config>(config)
+    Config.buildConfig ic
+    |> services.AddSingleton<Config>
     |> ignore
 
     services
@@ -166,9 +87,9 @@ let configureServices (services: IServiceCollection) =
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = c.["JwtIssuer"],
-                    ValidAudience = c.["JwtIssuer"],
-                    IssuerSigningKey = SymmetricSecurityKey(Encoding.UTF8.GetBytes(c.["JwtSecret"]))
+                    ValidIssuer = ic.["JwtIssuer"],
+                    ValidAudience = ic.["JwtIssuer"],
+                    IssuerSigningKey = SymmetricSecurityKey(Encoding.UTF8.GetBytes(ic.["JwtSecret"]))
                 ))
     |> ignore
 

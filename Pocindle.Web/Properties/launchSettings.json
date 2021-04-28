@@ -6,6 +6,11 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "Pocindle.Web Production": {
+      "commandName": "Project",
+      "environmentVariables": {
+      }
     }
   }
 }
