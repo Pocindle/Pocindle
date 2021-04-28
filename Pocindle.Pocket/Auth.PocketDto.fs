@@ -3,7 +3,7 @@ module Pocindle.Pocket.Auth.PocketDto
 open FSharp.UMX
 
 open Pocindle.Pocket.Auth.SimpleTypes
-open Pocindle.Pocket.Common.SimpleTypes
+open Pocindle.Domain.SimpleTypes
 
 type ObtainRequestTokenRequestDto =
     { consumer_key: string
@@ -11,9 +11,9 @@ type ObtainRequestTokenRequestDto =
       state: string }
 
 module ObtainRequestTokenRequestDto =
-    let fromDomain (consumer_key: ConsumerKey) (redirect_uri: RedirectUri) (state: State) =
+    let fromDomain (consumer_key: ConsumerKey) (redirect_uri: PocindleRedirectString) (state: State) =
         { consumer_key = ConsumerKey.value consumer_key
-          redirect_uri = RedirectUri.valueStr redirect_uri
+          redirect_uri = PocindleRedirectString.valueStr redirect_uri
           state = state |> Option.map (~%) |> Option.toObj }
 
 type ObtainRequestTokenResponseDto = { code: string; state: string }

@@ -11,9 +11,8 @@ open FsToolkit.ErrorHandling
 open Pocindle.Pocket.Auth.PocketDto
 open Pocindle.Pocket.Auth.PublicTypes
 open Pocindle.Pocket.Auth.SimpleTypes
-open Pocindle.Pocket.Common.SimpleTypes
-open Pocindle.Common.Serialization
 open Pocindle.Domain.SimpleTypes
+open Pocindle.Common.Serialization
 
 let pocketSendRetrieve<'Request, 'Response> (request: 'Request) (uri: Uri) =
     taskResult {
@@ -44,7 +43,7 @@ let pocketSendRetrieve<'Request, 'Response> (request: 'Request) (uri: Uri) =
     }
 
 let obtainRequestToken : ObtainRequestToken =
-    fun (consumer_key: ConsumerKey) (redirect_uri: RedirectUri) (state: State) ->
+    fun (consumer_key: ConsumerKey) (redirect_uri: PocindleRedirectString) (state: State) ->
         taskResult {
             let req =
                 ObtainRequestTokenRequestDto.fromDomain consumer_key redirect_uri state

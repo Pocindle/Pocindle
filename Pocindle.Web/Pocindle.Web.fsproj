@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -6,46 +6,47 @@
         <SpaRoot>../pocindle-client/</SpaRoot>
         <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
         <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
+        <UserSecretsId>b1c52587-9b55-40ed-be81-a1c666503c48</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
+        <Content Include="Properties\launchSettings.json" />
         <Content Include="openapi.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="appsettings.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="appsettings.Development.json" />
         <Compile Include="Core.fs" />
-        <Compile Include="Database.fs" />
+
         <Compile Include="Config.fs" />
-        <Compile Include="Pocket.fs" />
+
         <Compile Include="Auth.fs" />
+
+        <Compile Include="Pocket.fs" />
 
         <Compile Include="Router.fs" />
         <Compile Include="Program.fs" />
 
-        <Content Include="static\*.*">
+        <Content Include="WebRoot\*.*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Dapper" Version="2.0.78" />
         <PackageReference Include="Giraffe" Version="5.0.0-rc-6" />
-        <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.10.0" />
-        <PackageReference Include="Ply" Version="0.3.1" />
+        <PackageReference Include="Giraffe.ViewEngine" Version="1.3.*" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.2" />
+        <PackageReference Include="Ply" Version="0.3.*" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.3" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Pocindle.Database\Pocindle.Database.fsproj" />
+        <ProjectReference Include="..\Pocindle.Common\Pocindle.Common.fsproj" />
         <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
         <ProjectReference Include="..\Pocindle.Pocket\Pocindle.Pocket.fsproj" />
-        <ProjectReference Include="..\Saturn\src\Saturn\Saturn.fsproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="Properties\launchSettings.json" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

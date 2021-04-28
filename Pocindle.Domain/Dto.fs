@@ -9,7 +9,7 @@ open Pocindle.Domain.SimpleTypes
 
 type DeliveryDto =
     { [<Required>]
-      UserId: uint64
+      UserId: int64
       [<Required>]
       To: string }
 

@@ -4,7 +4,7 @@ open System
 open System.Threading.Tasks
 
 open Pocindle.Common.Serialization
-open Pocindle.Pocket.Common.SimpleTypes
+open Pocindle.Domain.SimpleTypes
 open Pocindle.Pocket.Retrieve.SimpleTypes
 
 type Favorite =

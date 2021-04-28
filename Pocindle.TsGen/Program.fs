@@ -22,13 +22,13 @@ let toFilename (schema: JsonSchema) =
 
 let generateOpenApi () =
     let ops =
-        Pocindle.Swagger.Operation.endpointsToOperations Pocindle.Saturn.Router.appRouter
+        Pocindle.Swagger.Operation.endpointsToOperations Pocindle.Web.Router.webApp
 
     let doc =
         Pocindle.Swagger.NSwag.operationsToOpenApi ops
 
     use sw =
-        new StreamWriter(Path.Combine(__SOURCE_DIRECTORY__, "../Pocindle.Saturn/openapi.json"))
+        new StreamWriter(Path.Combine(__SOURCE_DIRECTORY__, "../Pocindle.Web/openapi.json"))
 
     sw.WriteLine(doc.ToJson(SchemaType.OpenApi3, Formatting.Indented))
 

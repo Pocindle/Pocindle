@@ -1,13 +1,8 @@
 module Pocindle.Pocket.Auth.SimpleTypes
 
 open System
-open System.Net.Http
-open System.Text
-open System.Text.Json
 
 open FSharp.UMX
-open FSharp.Control.Tasks
-open FsToolkit.ErrorHandling
 
 open Pocindle.Domain.SimpleTypes
 
@@ -24,17 +19,35 @@ module RequestToken =
     let create str =
         ConstrainedType.createFixedString "RequestToken" RequestToken 30 str
 
-type RedirectUri =
-    | RedirectUri of Uri
-    | RedirectString of string
 
-module RedirectUri =
-    let valueStr =
-        function
-        | RedirectUri uri -> uri.ToString()
-        | RedirectString str -> str
+type PocindleRedirectString = PocindleRedirectString of string
 
-    let withRequestToken (RequestToken requestToken) uri =
-        match uri with
-        | RedirectUri u -> RedirectUri ^ Uri(u, requestToken)
-        | RedirectString s -> RedirectString $"{s}{requestToken}"
+module PocindleRedirectString =
+    let valueStr (PocindleRedirectString str) = str
+type PocindleRedirectUri = PocindleRedirectUri of Uri
+
+module PocindleRedirectUri =
+
+    let fromPocindleRedirectString (RequestToken requestToken) (PocindleRedirectString str) =
+        $"%s{str}%s{requestToken}"
+        |> Uri
+        |> PocindleRedirectUri
+        
+    let valueStr (PocindleRedirectUri uri) = string uri
+
+
+type PocketRedirectUri = PocketRedirectUri of Uri
+
+module PocketRedirectUri =
+    let valueStr (PocketRedirectUri uri) = string uri
+
+    let withRequestTokenAndPocindleRedirectUri (RequestToken requestToken) (uri: PocindleRedirectUri) =
+        let q =
+            [ struct ("request_token", requestToken)
+              struct ("redirect_uri", uri |> PocindleRedirectUri.valueStr) ]
+
+        let ret =
+            UriBuilder("https://getpocket.com/auth/authorize")
+
+        ret.Query <- Pocindle.Common.UriQuery.fromValueTuple q
+        PocketRedirectUri ret.Uri

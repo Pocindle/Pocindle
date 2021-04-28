@@ -8,7 +8,7 @@ open FsToolkit.ErrorHandling
 [<Measure>]
 type private userId
 
-type UserId = uint64<userId>
+type UserId = int64<userId>
 
 
 module ConstrainedType =
@@ -72,3 +72,23 @@ module PocketUsername =
 
     let create str =
         ConstrainedType.createString "PocketUsername" PocketUsername 100 str
+        
+type ConsumerKey = private ConsumerKey of string
+
+module ConsumerKey =
+    let value (ConsumerKey key) = key
+
+    let create str =
+        ConstrainedType.createFixedString "ConsumerKey" ConsumerKey 30 str
+
+    let toQuery (ConsumerKey key) = struct ("consumer_key", key)
+
+type AccessToken = private AccessToken of string
+
+module AccessToken =
+    let value (AccessToken key) = key
+
+    let create str =
+        ConstrainedType.createFixedString "AccessToken" AccessToken 30 str
+
+    let toQuery (AccessToken key) = struct ("access_token", key)
