@@ -13,22 +13,20 @@ const TestPage: React.FC = () => {
   const { theme, switchTheme, language, switchLanguage } = useAppContext();
 
   return (
-    <React.Fragment>
-      <MainLayout>
-        Test page
-        <TestComponent />
-        <div>
-          {`Theme: ${theme.name}`}
-          <button onClick={() => switchTheme('light')}>light</button>
-          <button onClick={() => switchTheme('dark')}>dark</button>
-        </div>
-        <div>
-          {`Language: ${language.name}`}
-          <button onClick={() => switchLanguage('ru')}>Русский</button>
-          <button onClick={() => switchLanguage('eng')}>English</button>
-        </div>
-      </MainLayout>
-    </React.Fragment>
+    <MainLayout>
+      Test page
+      <TestComponent />
+      <div>
+        {`Theme: ${theme.name}`}
+        <button onClick={() => switchTheme('light')}>light</button>
+        <button onClick={() => switchTheme('dark')}>dark</button>
+      </div>
+      <div>
+        {`Language: ${language.name}`}
+        <button onClick={() => switchLanguage('ru')}>Русский</button>
+        <button onClick={() => switchLanguage('eng')}>English</button>
+      </div>
+    </MainLayout>
   );
 };
 

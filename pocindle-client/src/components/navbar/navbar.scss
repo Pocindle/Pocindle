@@ -1,14 +1,14 @@
 .navbar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+  &__wrapper {
+    display: flex;
+    align-items: center;
+  }
 
   &__item {
     font-size: 1.2rem;
     font-weight: 500;
     color: var(--basic-black);
-    padding: 2vh 2vw;
-    text-decoration: none;
+    padding: 4vh 2vw;
   }
 
   &__item:hover {
@@ -18,5 +18,9 @@
 
   &__item:last-child {
     margin-left: auto;
+  }
+
+  &__link {
+    text-decoration: none;
   }
 }

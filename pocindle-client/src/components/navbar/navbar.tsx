@@ -7,11 +7,11 @@ const Navbar: React.FC<{ articles?: string; logOut?: string }> = ({
   logOut = 'Log Out',
 }) => {
   return (
-    <div className="navbar">
-      <Link to="/" className="navbar__item">
+    <div className="navbar navbar__wrapper">
+      <Link to="/" className="navbar__item navbar__link">
         Pocindle
       </Link>
-      <Link to="/articles" className="navbar__item">
+      <Link to="/articles" className="navbar__item navbar__link">
         {articles}
       </Link>
       <div className="navbar__item">{logOut}</div>

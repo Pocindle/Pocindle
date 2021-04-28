@@ -1,23 +1,29 @@
 .main-layout {
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
 
-  &__page-content {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  & .content,
+  & .footer {
     width: 80vw;
+  }
+
+  & .content {
     margin: 0 auto;
   }
 
-  &__footer {
-    width: 80vw;
+  & .footer {
     margin: auto auto 0;
   }
 }
 
 @media screen and (max-width: 767px) {
   .main-layout {
-    &__page-content,
-    &__footer {
+    & .content,
+    & .footer {
       width: 100%;
     }
   }

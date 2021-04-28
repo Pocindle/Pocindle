@@ -12,34 +12,34 @@ const Footer: React.FC<{
   language = 'Language:',
 }) => {
   return (
-    <div className="footer">
+    <footer className="footer footer__wrapper">
       <div className="footer__top">
-        <div className="footer__theme">
-          <span className="footer__item">{siteTheme}</span>
-          <div className="footer__theme-options">
-            <span className="footer__item footer__option footer__option_active">
-              Dark
+        <div className="footer__switcher theme-switcher">
+          <span className="theme-switcher__title">{siteTheme}</span>
+          <ul className="theme-switcher__options">
+            <span className="theme-switcher__option option option_active">
+              Light
             </span>
-            <span className="footer__item footer__option">Light</span>
-          </div>
+            <span className="theme-switcher__option option">Dark</span>
+          </ul>
         </div>
-        <div className="footer__language">
-          <span className="footer__item">{language}</span>
-          <div className="footer__language-options">
-            <span className="footer__item footer__option footer__option_active">
-              Eng
+        <div className="footer__switcher language-switcher">
+          <span className="language-switcher__title">{language}</span>
+          <ul className="language-switcher__options">
+            <span className="language-switcher__option option option_active">
+              Ru
             </span>
-            <span className="footer__item footer__option">Ru</span>
-          </div>
+            <span className="language-switcher__option option">Eng</span>
+          </ul>
         </div>
-        <Link to="/about" className="footer__item">
+        <Link to="/about" className="footer__link">
           {about}
         </Link>
       </div>
       <div className="footer__bottom">
-        <div className="footer__info footer__item">2021 Pocindle</div>
+        <span className="footer__copyright">2021 Pocindle</span>
       </div>
-    </div>
+    </footer>
   );
 };
 
