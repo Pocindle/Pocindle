@@ -6,8 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="Users\UserFromPocketUsername.sql" />
-        <Content Include="Users\AccessTokenFromPocketUsername.sql" />
+        <EmbeddedResource Include="Users\UserFromPocketUsername.sql" />
+        <EmbeddedResource Include="Users\AccessTokenFromPocketUsername.sql" />
+        <EmbeddedResource Include="Users\UpdateAccessTokenByPocketUsername.sql" />
+        <EmbeddedResource Include="Users\CreateUser.sql" />
         <Compile Include="Database.fs" />
         <Compile Include="Library.fs" />
     </ItemGroup>

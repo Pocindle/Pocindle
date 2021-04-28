@@ -15,6 +15,8 @@ open Giraffe
 open Pocindle.Domain.SimpleTypes
 open Pocindle.Pocket.Auth.Dto
 open Pocindle.Pocket.Auth.SimpleTypes
+open Pocindle.Database
+open Pocindle.Database
 
 let authorizeJwt : HttpHandler =
     requiresAuthentication (challenge JwtBearerDefaults.AuthenticationScheme)
@@ -99,7 +101,19 @@ let authorize =
 
             match y with
             | Ok (t, a) ->
-                let jwtToken = generateTokenViaPocket requestToken a ctx
-                return! json jwtToken next ctx
+                let jwtToken =
+                    generateTokenViaPocket requestToken a ctx
+
+                let! c = Users.setAccessTokenByPocketUsername %config.ConnectionString a t
+
+                match c with
+                | Ok _ -> return! json jwtToken next ctx
+                | Error Database.DbError.Empty ->
+                    let! b = Users.createUser %config.ConnectionString a t
+
+                    match b with
+                    | Ok _ -> return! json jwtToken next ctx
+                    | _ -> return unimplemented (string b)
+                | Error _ -> return unimplemented (string c)
             | Error ex -> return! (setStatusCode 500 >=> json ex) next ctx
         }

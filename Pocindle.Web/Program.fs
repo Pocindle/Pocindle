@@ -78,7 +78,10 @@ let configureServices (services: IServiceCollection) =
     let env = sp.GetService<IHostEnvironment>()
     let ic = sp.GetService<IConfiguration>()
 
-    let config = Config.buildConfig ic |> Result.get
+    let config =
+        match Config.buildConfig ic with
+        | Ok a -> a
+        | Error b -> raise ^ ApplicationException(string b)
 
     services.AddSingleton<Config> config |> ignore
 

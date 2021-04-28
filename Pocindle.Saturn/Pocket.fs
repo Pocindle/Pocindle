@@ -64,7 +64,7 @@ let retrieveByClaim =
 
                             let! username =
                                 PocketUsername.create email.Value
-                                |> Result.mapError Exception
+                                |> Result.mapError DbException
 
                             let! a =
                                 getAccessTokenFromPocketUsername (Config.getConfig ctx).ConnectionString username
@@ -76,7 +76,7 @@ let retrieveByClaim =
 
                             let! a =
                                 Api.retrieve consumerKey accessToken RetrieveOptionalParameters.empty
-                                |> TaskResult.mapError (fun _ -> Exception())
+                                |> TaskResult.mapError (fun _ -> DbException())
 
                             let dto = Dto.PocketRetrieveDto.fromDomain a
 

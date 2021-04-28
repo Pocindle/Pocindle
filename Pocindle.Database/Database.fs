@@ -6,6 +6,12 @@ open Dapper
 open System.Data.Common
 open FSharp.Control.Tasks
 
+type DbError =
+    | DbException of exn
+    | ValidationError of string
+    | Empty
+    | TooMuchAffected of int
+    
 type ExecuteResult = Task<Result<int, exn>>
 type QueryResult<'T> = Task<Result<'T seq, exn>>
 type QuerySingleResult<'T> = Task<Result<'T option, exn>>

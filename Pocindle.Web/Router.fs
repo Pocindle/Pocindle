@@ -7,6 +7,7 @@ open Giraffe.EndpointRouting
 
 open Pocindle.Web.Template
 open Pocindle.Web.Auth
+open Pocindle.Web.Pocket
 
 let serveSpa : HttpHandler =
     fun next ctx ->
@@ -18,20 +19,26 @@ let serveSpa : HttpHandler =
 
 let acceptJson = mustAccept [ ApplicationJson ]
 
+let routefd (path: PrintfFormat<_, _, _, _, 'T>) (routeHandler: 'T -> HttpHandler) : Endpoint =
+    routef path routeHandler |> addMetadata typeof<'T>
+
 let webApp =
     [ GET [ route "/" serveSpa
             route "/hello" (indexHandler ("world", "1"))
-            routef "/hello/%s/%s" indexHandler
-            routef "/hello/%s" indexHandler1 ]
+            routefd "/hello/%s/%s" indexHandler
+            routefd "/hello/%s" indexHandler1 ]
 
       subRoute
           "/api"
           [ subRoute
               "/auth"
-              [ POST [ routef "/authorize/%s" authorize
+              [ POST [ routefd "/authorize/%s" authorize
                        route "/request" request ]
                 GET [ route "/public" (text "public route") ]
                 GET [ route "/secured" handleGetSecured ]
                 |> applyBefore authorizeJwt ]
-            subRoute "/pocket" [] ]
+            subRoute
+                "/pocket"
+                [ GET [ route "/retrieveAll" retrieveAll ]
+                  |> applyBefore authorizeJwt ] ]
       |> applyBefore acceptJson ]

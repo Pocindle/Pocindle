@@ -25,9 +25,9 @@
 
         <Compile Include="Auth.fs" />
 
-        <Compile Include="Router.fs" />
-
         <Compile Include="Pocket.fs" />
+
+        <Compile Include="Router.fs" />
         <Compile Include="Program.fs" />
 
         <Content Include="WebRoot\*.*">
