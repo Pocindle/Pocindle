@@ -1,5 +1,6 @@
 module Pocindle.Web.Core
 
+open System
 open System.IO
 open Microsoft.AspNetCore.Http
 
@@ -30,3 +31,19 @@ let acceptJson : HttpHandler = mustAccept [ ApplicationJson ]
 
 let routefd (path: PrintfFormat<_, _, _, _, 'T>) (routeHandler: 'T -> HttpHandler) : Endpoint =
     routef path routeHandler |> addMetadata typeof<'T>
+
+let routefdd
+    (path: PrintfFormat<_, _, _, _, 'T>)
+    (routeHandler: 'T -> HttpHandler, routeResponses: (int * Type) list)
+    : Endpoint =
+    let r =
+        routef path routeHandler |> addMetadata typeof<'T>
+
+    (r, routeResponses)
+    ||> List.fold (fun st t -> st |> addMetadata t)
+
+let routed path (routeHandler: HttpHandler, routeResponses: (int * Type) list) : Endpoint =
+    let r = route path routeHandler
+
+    (r, routeResponses)
+    ||> List.fold (fun st t -> st |> addMetadata t)

@@ -28,13 +28,13 @@ let webApp =
           "/api"
           [ subRoute
               "/auth"
-              [ POST [ routefd "/authorize/%s" authorize
+              [ POST [ routefdd "/authorize/%s" authorize
                        route "/request" request ]
                 GET [ route "/public" (text "public route") ]
                 GET [ route "/secured" handleGetSecured ]
                 |> applyBefore authorizeJwt ]
             subRoute
                 "/pocket"
-                [ GET [ route "/retrieveAll" retrieveAll ]
+                [ GET [ routed "/retrieveAll" retrieveAll ]
                   |> applyBefore authorizeJwt ] ]
       |> applyBefore acceptJson ]

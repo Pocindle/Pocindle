@@ -15,7 +15,7 @@ open Pocindle.Pocket.Retrieve.PublicTypes
 open Pocindle.Database.Users
 
 let retrieveAll =
-    fun next (ctx: HttpContext) ->
+    (fun next (ctx: HttpContext) ->
         task {
             let config = ctx.GetService<Config>()
 
@@ -47,4 +47,5 @@ let retrieveAll =
 
                 return! json dto next ctx
             | Error a -> return raise500 a
-        }
+        }),
+    [ (StatusCodes.Status200OK, typeof<Dto.PocketRetrieveDto>) ]

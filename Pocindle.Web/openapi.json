@@ -92,7 +92,22 @@
         "operationId": "authorize",
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "JwtTokenDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "jwtToken": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -132,7 +147,33 @@
         "operationId": "retrieveAll",
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PocketRetrieveDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "items",
+                    "since"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PocketItemDto"
+                      }
+                    },
+                    "since": {
+                      "type": "string",
+                      "format": "date-time",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -143,6 +184,139 @@
       "String": {
         "title": "String",
         "type": "string"
+      },
+      "JwtTokenDto": {
+        "title": "JwtTokenDto",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "jwtToken": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PocketRetrieveDto": {
+        "title": "PocketRetrieveDto",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "since"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PocketItemDto"
+            }
+          },
+          "since": {
+            "type": "string",
+            "format": "date-time",
+            "minLength": 1
+          }
+        }
+      },
+      "PocketItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "itemId",
+          "resolvedId",
+          "givenUrl",
+          "resolvedUrl",
+          "givenTitle",
+          "resolvedTitle",
+          "favorite",
+          "status",
+          "excerpt",
+          "isArticle",
+          "wordCount",
+          "listenDurationEstimate",
+          "timeAdded",
+          "timeUpdated"
+        ],
+        "properties": {
+          "itemId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resolvedId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "givenUrl": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resolvedUrl": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ampUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "givenTitle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resolvedTitle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "favorite": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/StatusDto"
+          },
+          "excerpt": {
+            "type": "string",
+            "minLength": 1
+          },
+          "isArticle": {
+            "type": "boolean"
+          },
+          "wordCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "listenDurationEstimate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeToRead": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "timeAdded": {
+            "type": "string",
+            "format": "date-time",
+            "minLength": 1
+          },
+          "timeUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "minLength": 1
+          }
+        }
+      },
+      "StatusDto": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Normal",
+          "Archived",
+          "ShouldBeDeleted"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
       }
     }
   }
