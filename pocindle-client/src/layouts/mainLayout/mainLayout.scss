@@ -1,23 +1,31 @@
 .main-layout {
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
+  background-color: var(--main-bg);
 
-  &__page-content {
-    width: 80vw;
-    margin: 0 auto;
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
   }
 
-  &__footer {
+  & .header {
+    background-color: var(--header-bg);
+  }
+
+  & .content {
     width: 80vw;
-    margin: auto auto 0;
+    margin: 0 auto;
+    flex-grow: 2;
+  }
+
+  & .footer {
+    background-color: var(--footer-bg);
   }
 }
 
 @media screen and (max-width: 767px) {
   .main-layout {
-    &__page-content,
-    &__footer {
+    & .content,
+    & .footer {
       width: 100%;
     }
   }

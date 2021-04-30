@@ -1,5 +1,5 @@
 import React from 'react';
-import MainLayout from '../../layouts/mainLayout/mainLayout';
+import { MainLayout } from '../../layouts';
 import { useRouteMatch, useLocation } from 'react-router-dom';
 import { TestComponent } from '../../components';
 import useAppContext from '../../hooks/useAppContext';
@@ -10,25 +10,18 @@ const TestPage: React.FC = () => {
   console.log('match', match);
   console.log('location', location);
 
-  const { theme, switchTheme, language, switchLanguage } = useAppContext();
+  const { language, switchLanguage } = useAppContext();
 
   return (
-    <React.Fragment>
-      <MainLayout>
-        Test page
-        <TestComponent />
-        <div>
-          {`Theme: ${theme.name}`}
-          <button onClick={() => switchTheme('light')}>light</button>
-          <button onClick={() => switchTheme('dark')}>dark</button>
-        </div>
-        <div>
-          {`Language: ${language.name}`}
-          <button onClick={() => switchLanguage('ru')}>Русский</button>
-          <button onClick={() => switchLanguage('eng')}>English</button>
-        </div>
-      </MainLayout>
-    </React.Fragment>
+    <MainLayout>
+      Test page
+      <TestComponent />
+      <div>
+        {`Language: ${language.name}`}
+        <button onClick={() => switchLanguage('ru')}>Русский</button>
+        <button onClick={() => switchLanguage('eng')}>English</button>
+      </div>
+    </MainLayout>
   );
 };
 

@@ -1,22 +1,26 @@
 .navbar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+  &__wrapper {
+    display: flex;
+    align-items: center;
+  }
 
   &__item {
     font-size: 1.2rem;
     font-weight: 500;
-    color: var(--basic-black);
-    padding: 2vh 2vw;
-    text-decoration: none;
+    color: var(--text-light);
+    padding: 3vh 2vw;
   }
 
   &__item:hover {
-    color: var(--light-yellow);
+    color: var(--blue);
     cursor: pointer;
   }
 
   &__item:last-child {
     margin-left: auto;
+  }
+
+  &__link {
+    text-decoration: none;
   }
 }

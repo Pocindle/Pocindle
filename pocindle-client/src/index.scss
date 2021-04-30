@@ -1,8 +1,13 @@
 :root {
   --basic-black: #000000;
   --light-yellow: #e9bc68;
-  --light-blue: #1890ff;
+  --blue: #3db4f2;
   --light-gray: rgba(23, 23, 25, 0.3);
+  --text-light: #7a858f;
+  --text: #5c728a;
+  --header-bg: #ffffff;
+  --main-bg: #edf1f5;
+  --footer-bg: #11161d;
 }
 
 *,
@@ -18,4 +23,5 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif !important;
   font-size: 16px;
   overflow-y: scroll;
+  color: var(--text);
 }
