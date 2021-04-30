@@ -15,16 +15,35 @@ open Pocindle.Domain
 let getUserFromPocketUsername connectionString (username: PocketUsername) =
     taskResult {
         let! ret =
-            querySingle
+            querySingle<{| UserId: int64
+                           PocketUsername: string
+                           KindleEmailAddress: string |}, _>
                 connectionString
                 TextFile.Users.``UserFromPocketUsername.sql``.Text
                 (Some {| PocketUsername = PocketUsername.value username |})
             |> TaskResult.mapError DbException
 
-        return
-            (match ret with
-             | Some (r: User) -> Ok r
-             | None -> Error Empty)
+
+        let! ret1 =
+            match ret with
+            | Some r ->
+                result {
+                    let! pocketUsername =
+                        PocketUsername.create r.PocketUsername
+                        |> Result.mapError ValidationError
+
+                    return!
+                        Ok
+                            { User.UserId = %r.UserId
+                              PocketUsername = pocketUsername
+                              KindleEmailAddress =
+                                  r.KindleEmailAddress
+                                  |> Option.ofObj
+                                  |> Option.map (System.Net.Mail.MailAddress >> KindleEmailAddress) }
+                }
+            | None -> Error Empty
+
+        return ret1
     }
 
 let getAccessTokenFromPocketUsername connectionString (username: PocketUsername) =

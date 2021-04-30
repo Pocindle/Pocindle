@@ -14,6 +14,7 @@ open Pocindle.Pocket.Retrieve
 open Pocindle.Pocket.Retrieve.PublicTypes
 open Pocindle.Database.Users
 
+
 let retrieveAll =
     (fun next (ctx: HttpContext) ->
         task {
@@ -37,7 +38,19 @@ let retrieveAll =
 
             let! p =
                 match retrieve with
-                | Ok retrieve -> retrieve RetrieveOptionalParameters.empty
+                | Ok retrieve ->
+                    let parameters =
+                        { RetrieveOptionalParameters.empty with
+                              Count =
+                                  ctx.Request.Query.["count"]
+                                  |> Core.queryStringValuesToOption
+                                  |> Option.map int
+                              Offset =
+                                  ctx.Request.Query.["offset"]
+                                  |> Core.queryStringValuesToOption
+                                  |> Option.map int }
+
+                    retrieve parameters
                 | Error validationError -> raise500 validationError
 
             match p with

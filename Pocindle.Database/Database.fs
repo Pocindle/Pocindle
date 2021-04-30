@@ -23,7 +23,7 @@ let execute (connectionString: ConnectionString) (sql: string) (parameters: _) :
         with ex -> return Error ex
     }
 
-let query (connectionString: ConnectionString) (sql: string) (parameters: _) : QueryResult<_> =
+let query<'T, 'U> (connectionString: ConnectionString) (sql: string) (parameters: 'U option) : QueryResult<'T> =
     let connection = new NpgsqlConnection(%connectionString)
 
     task {
@@ -37,7 +37,7 @@ let query (connectionString: ConnectionString) (sql: string) (parameters: _) : Q
         with ex -> return Error ex
     }
 
-let querySingle (connectionString: ConnectionString) (sql: string) (parameters: _) : QuerySingleResult<_> =
+let querySingle<'T, 'U>   (connectionString: ConnectionString) (sql: string) (parameters: 'U option) : QuerySingleResult<'T> =
     let connection = new NpgsqlConnection(%connectionString)
 
     task {

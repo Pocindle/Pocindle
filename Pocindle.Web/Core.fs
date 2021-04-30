@@ -47,3 +47,9 @@ let routed path (routeHandler: HttpHandler, routeResponses: (int * Type) list) :
 
     (r, routeResponses)
     ||> List.fold (fun st t -> st |> addMetadata t)
+
+let queryStringValuesToOption (qs: Microsoft.Extensions.Primitives.StringValues) =
+    if qs.Count = 0 then
+        None
+    else
+        Some qs.[0]

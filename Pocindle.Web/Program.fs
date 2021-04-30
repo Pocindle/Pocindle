@@ -51,22 +51,22 @@ let configureApp (app: IApplicationBuilder) =
             .AllowAnyHeader()
         |> ignore
 
-    app
-        .UseAuthentication()
-        .UseRouting()
-        .UseAuthentication()
-        .UseGiraffe(webApp)
-        .UseCors(configureCors)
-        .UseStaticFiles()
-        .UseSwaggerUI(fun c -> c.SwaggerEndpoint("/openapi.json", "qwerty"))
-    |> ignore
-
     match env.IsDevelopment() with
     | true -> app.UseDeveloperExceptionPage()
     | false ->
         app
             .UseGiraffeErrorHandler(errorHandler)
             .UseHttpsRedirection()
+    |> ignore
+    
+    app
+        .UseAuthentication()
+        .UseRouting()
+        .UseAuthentication()
+        .UseStaticFiles()
+        .UseCors(configureCors)
+        .UseSwaggerUI(fun c -> c.SwaggerEndpoint("/openapi.json", "qwerty"))
+        .UseGiraffe(webApp)
     |> ignore
 
 let configureServices (services: IServiceCollection) =
@@ -92,11 +92,6 @@ let configureServices (services: IServiceCollection) =
             cfg.DefaultChallengeScheme <- JwtBearerDefaults.AuthenticationScheme
             cfg.DefaultScheme <- JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(fun options ->
-
-            //options.SaveToken <- true
-            //options.IncludeErrorDetails <- true
-            //options.Authority <- "https://accounts.google.com"
-            //options.Audience <- %config.JwtIssuer
             options.TokenValidationParameters <-
                 TokenValidationParameters(
                     ValidateActor = true,
@@ -115,7 +110,11 @@ let configureLogging (builder: ILoggingBuilder) =
 [<EntryPoint>]
 let main args =
     let contentRoot = Directory.GetCurrentDirectory()
-    let webRoot = Path.Combine(contentRoot, "WebRoot")
+
+    let webRoot =
+        Path.Combine(contentRoot, """pocindle-client/build""")
+
+    printfn $"%s{webRoot}"
 
     printfn $"%A{webApp}"
 
@@ -126,6 +125,7 @@ let main args =
             webHostBuilder
                 .UseKestrel()
                 .UseContentRoot(contentRoot)
+                //.UseContentRoot(webRoot)
                 .UseWebRoot(webRoot)
                 .Configure(Action<IApplicationBuilder> configureApp)
                 .ConfigureServices(configureServices)

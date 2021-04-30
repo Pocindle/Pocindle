@@ -15,7 +15,7 @@ let serveSpa : HttpHandler =
 
         match ctx.GetHostingEnvironment().IsDevelopment() with
         | true -> redirectTo false (string c.BaseUrl) next ctx
-        | false -> htmlFile "index.html" next ctx
+        | false -> htmlFile "pocindle-client/build/index.html" next ctx
 
 let webApp =
     [ GET [ route "/" serveSpa ]
