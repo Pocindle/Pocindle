@@ -15,6 +15,8 @@ let inline unimplemented a =
     | "" -> raise ^ NotImplementedException()
     | _ -> raise ^ NotImplementedException a
 
+let inline raise500 a = a |> string |> Exception |> raise
+
 module Result =
     let inline get result =
         match result with

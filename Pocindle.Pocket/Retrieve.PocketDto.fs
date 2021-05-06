@@ -6,7 +6,7 @@ open System.Collections.Generic
 open FsToolkit.ErrorHandling
 open FSharp.UMX
 open FsToolkit.ErrorHandling.Operator.Result
-open Pocindle.Pocket.Common.SimpleTypes
+open Pocindle.Domain.SimpleTypes
 open Pocindle.Pocket.Retrieve.PublicTypes
 open Pocindle.Pocket.Retrieve.SimpleTypes
 

@@ -1,12 +1,15 @@
 module Pocindle.Domain.SimpleTypes
 
 open System
+
+open FSharp.UMX
 open FsToolkit.ErrorHandling
 
-type UserId = UserId of uint64
+[<Measure>]
+type private userId
 
-type String50 = private String50 of string
-type String1000 = private String1000 of string
+type UserId = int64<userId>
+
 
 module ConstrainedType =
     let createString fieldName ctor maxLen str =
@@ -61,20 +64,31 @@ module ConstrainedType =
         else
             Error $"%s{fieldName}: '%s{str}' must match the pattern '%s{pattern}'"
 
-module String50 =
-    let value (String50 str) = str
 
-    let create fieldName str =
-        ConstrainedType.createString fieldName String50 50 str
+type PocketUsername = private PocketUsername of string
 
-    let createOption fieldName str =
-        ConstrainedType.createStringOption fieldName String50 50 str
+module PocketUsername =
+    let value (PocketUsername key) = key
 
-module String1000 =
-    let value (String1000 str) = str
+    let create str =
+        ConstrainedType.createString "PocketUsername" PocketUsername 100 str
+        
+type ConsumerKey = private ConsumerKey of string
 
-    let create fieldName str =
-        ConstrainedType.createString fieldName String1000 1000 str
+module ConsumerKey =
+    let value (ConsumerKey key) = key
 
-    let createOption fieldName str =
-        ConstrainedType.createStringOption fieldName String1000 1000 str
+    let create str =
+        ConstrainedType.createFixedString "ConsumerKey" ConsumerKey 30 str
+
+    let toQuery (ConsumerKey key) = struct ("consumer_key", key)
+
+type AccessToken = private AccessToken of string
+
+module AccessToken =
+    let value (AccessToken key) = key
+
+    let create str =
+        ConstrainedType.createFixedString "AccessToken" AccessToken 30 str
+
+    let toQuery (AccessToken key) = struct ("access_token", key)

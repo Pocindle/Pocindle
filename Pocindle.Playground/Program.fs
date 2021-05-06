@@ -3,14 +3,14 @@ open System.IO
 open System.Text.Json
 
 open FSharp.UMX
-open Pocindle.Playground
-open Pocindle.Pocket.PocketDto
-open Pocindle.Pocket.Dto
 open FsToolkit.ErrorHandling
 open Pocindle.Common.Serialization
 
 [<EntryPoint>]
-let main args = 0
+let main args =
+    Pocindle.Playground.Sql.zxc ()
+
+    0
 //    let s () =
 //        let b = face {
 //           let! a = member1 "123"

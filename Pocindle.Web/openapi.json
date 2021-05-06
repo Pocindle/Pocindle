@@ -1,0 +1,304 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Swagger specification",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "Anonymous",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/auth/authorize/{s0}": {
+      "parameters": [
+        {
+          "name": "s0",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "authorize",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "JwtTokenDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "jwtToken": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/request": {
+      "post": {
+        "operationId": "request",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "RequestDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "requestToken",
+                    "redirectUrl"
+                  ],
+                  "properties": {
+                    "requestToken": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "redirectUrl": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/public": {
+      "get": {
+        "operationId": "public",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/auth/secured": {
+      "get": {
+        "operationId": "secured",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/pocket/retrieveAll": {
+      "get": {
+        "operationId": "retrieveAll",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PocketRetrieveDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "items",
+                    "since"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PocketItemDto"
+                      }
+                    },
+                    "since": {
+                      "type": "string",
+                      "format": "date-time",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "String": {
+        "title": "String",
+        "type": "string"
+      },
+      "JwtTokenDto": {
+        "title": "JwtTokenDto",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "jwtToken": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RequestDto": {
+        "title": "RequestDto",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "requestToken",
+          "redirectUrl"
+        ],
+        "properties": {
+          "requestToken": {
+            "type": "string",
+            "minLength": 1
+          },
+          "redirectUrl": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "PocketRetrieveDto": {
+        "title": "PocketRetrieveDto",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "since"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PocketItemDto"
+            }
+          },
+          "since": {
+            "type": "string",
+            "format": "date-time",
+            "minLength": 1
+          }
+        }
+      },
+      "PocketItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "itemId",
+          "resolvedId",
+          "givenUrl",
+          "resolvedUrl",
+          "givenTitle",
+          "resolvedTitle",
+          "favorite",
+          "status",
+          "excerpt",
+          "isArticle",
+          "wordCount",
+          "listenDurationEstimate",
+          "timeAdded",
+          "timeUpdated"
+        ],
+        "properties": {
+          "itemId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resolvedId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "givenUrl": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resolvedUrl": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ampUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "givenTitle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resolvedTitle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "favorite": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/StatusDto"
+          },
+          "excerpt": {
+            "type": "string",
+            "minLength": 1
+          },
+          "isArticle": {
+            "type": "boolean"
+          },
+          "wordCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "listenDurationEstimate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeToRead": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "timeAdded": {
+            "type": "string",
+            "format": "date-time",
+            "minLength": 1
+          },
+          "timeUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "minLength": 1
+          }
+        }
+      },
+      "StatusDto": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Normal",
+          "Archived",
+          "ShouldBeDeleted"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
+      }
+    }
+  }
+}

@@ -1,10 +1,6 @@
 module Pocindle.Pocket.Auth.Dto
 
-open System
 open System.ComponentModel.DataAnnotations
-
-open FSharp.UMX
-open FsToolkit.ErrorHandling
 
 open Pocindle.Pocket.Auth.SimpleTypes
 
@@ -15,6 +11,6 @@ type RequestDto =
       RedirectUrl: string }
 
 module RequestDto =
-    let fromDomain (requestToken: RequestToken) (redirectUrl: RedirectUri) =
+    let fromDomain (requestToken: RequestToken) (redirectUrl: PocketRedirectUri) =
         { RequestToken = RequestToken.value requestToken
-          RedirectUrl = RedirectUri.valueStr redirectUrl }
+          RedirectUrl = PocketRedirectUri.valueStr redirectUrl }

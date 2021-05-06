@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Scripts\202104212333 - Create user.sql" />
+        <EmbeddedResource Include="Scripts\202104212359 - Modify user.sql" />
+        <EmbeddedResource Include="Scripts\202104220016 - Unique index.sql" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="dbup-postgresql" Version="4.5.0" />
+    </ItemGroup>
+</Project>

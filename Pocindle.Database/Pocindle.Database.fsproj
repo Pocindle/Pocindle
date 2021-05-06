@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Types.fs" />
+        <Compile Include="Database.fs" />
+        <EmbeddedResource Include="Users\UserFromPocketUsername.sql" />
+        <EmbeddedResource Include="Users\AccessTokenFromPocketUsername.sql" />
+        <EmbeddedResource Include="Users\UpdateAccessTokenByPocketUsername.sql" />
+        <EmbeddedResource Include="Users\CreateUser.sql" />
+        <Compile Include="Users\Users.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapper" Version="2.0.78" />
+        <PackageReference Include="FSharp.Data.LiteralProviders" Version="0.3.5" />
+        <PackageReference Include="FsToolkit.ErrorHandling.TaskResult" Version="2.2.0" />
+        <PackageReference Include="Npgsql" Version="5.0.4" />
+    </ItemGroup>
+    
+</Project>
