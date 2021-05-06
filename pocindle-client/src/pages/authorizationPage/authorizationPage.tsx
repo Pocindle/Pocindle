@@ -9,7 +9,9 @@ const AuthorizationPage: React.FC<{ onAuthorize: () => null }> = () => {
         <div className="authorization-page__wrapper">
           <div className="authorization-page__auth auth">
             <h1 className="auth__title">Authorize through Pocket</h1>
-            <button className="auth__button">Login</button>
+            <button className="auth__button" type="button">
+              Login
+            </button>
           </div>
         </div>
       </div>

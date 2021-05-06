@@ -6,7 +6,7 @@
   --light-gray: rgba(23, 23, 25, 0.3);
   --text-light: #7a858f;
   --text: #5c728a;
-  --header-bg: #ffffff;
+  --header-bg: var(--basic-white);
   --main-bg: #edf1f5;
   --footer-bg: #11161d;
 }
