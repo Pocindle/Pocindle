@@ -4,16 +4,19 @@ import { Route, Redirect } from 'react-router-dom';
 const PrivateRoute: React.FC<{
   component: React.FC<any>;
   isAuthorized?: boolean;
-  redirectPath?: string;
+  redirectPath: string;
+  exact?: boolean;
   path: string;
 }> = ({
   component: Component,
   isAuthorized = false,
-  redirectPath = '/',
+  redirectPath,
+  exact,
   path,
 }) => {
   return (
     <Route
+      exact={exact ? true : false}
       path={path}
       render={(props) =>
         isAuthorized ? (
