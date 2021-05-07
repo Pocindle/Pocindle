@@ -1,9 +1,11 @@
 import axios from 'axios';
 
+const siteUrl = 'http://localhost:61666';
+
 const axiosConfig = axios.create({
-  baseURL: 'https://pocindle.xyz/api',
+  baseURL: `${siteUrl}/api`,
   headers: {
-    'content-type': 'multipart/form-data',
+    Accept: 'application/json',
   },
 });
 
