@@ -10332,9 +10332,11 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Database.Migration
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Web", "Pocindle.Web\Pocindle.Web.fsproj", "{4B7D08CE-8C0F-4866-AF09-8542E8EB5CE4}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Mobile", "Pocindle.Mobile\Pocindle.Mobile\Pocindle.Mobile.fsproj", "{F45EFB98-18F4-4A7E-A9EA-891A0D2C40FA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pocindle.Mobile", "Pocindle.Mobile", "{2F803B0D-32B5-4E23-844B-5E5016184516}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Mobile.Android", "Pocindle.Mobile\Pocindle.Mobile.Android\Pocindle.Mobile.Android.fsproj", "{CC9528D9-5836-4050-AD0C-59EDD3269287}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle", "Pocindle.Mobile\Pocindle\Pocindle\Pocindle.fsproj", "{55D516E9-B804-4762-B5EA-C7C634B325E3}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Android", "Pocindle.Mobile\Pocindle\Pocindle.Android\Pocindle.Android.fsproj", "{C598F96F-2F08-446D-BA89-EDCE52B503D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10386,13 +10388,17 @@ Global
 		{4B7D08CE-8C0F-4866-AF09-8542E8EB5CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B7D08CE-8C0F-4866-AF09-8542E8EB5CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B7D08CE-8C0F-4866-AF09-8542E8EB5CE4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F45EFB98-18F4-4A7E-A9EA-891A0D2C40FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F45EFB98-18F4-4A7E-A9EA-891A0D2C40FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F45EFB98-18F4-4A7E-A9EA-891A0D2C40FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F45EFB98-18F4-4A7E-A9EA-891A0D2C40FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC9528D9-5836-4050-AD0C-59EDD3269287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC9528D9-5836-4050-AD0C-59EDD3269287}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC9528D9-5836-4050-AD0C-59EDD3269287}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC9528D9-5836-4050-AD0C-59EDD3269287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55D516E9-B804-4762-B5EA-C7C634B325E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55D516E9-B804-4762-B5EA-C7C634B325E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55D516E9-B804-4762-B5EA-C7C634B325E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55D516E9-B804-4762-B5EA-C7C634B325E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C598F96F-2F08-446D-BA89-EDCE52B503D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C598F96F-2F08-446D-BA89-EDCE52B503D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C598F96F-2F08-446D-BA89-EDCE52B503D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C598F96F-2F08-446D-BA89-EDCE52B503D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{55D516E9-B804-4762-B5EA-C7C634B325E3} = {2F803B0D-32B5-4E23-844B-5E5016184516}
+		{C598F96F-2F08-446D-BA89-EDCE52B503D7} = {2F803B0D-32B5-4E23-844B-5E5016184516}
 	EndGlobalSection
 EndGlobal
