@@ -46,7 +46,7 @@ let configureApp (app: IApplicationBuilder) =
 
     let configureCors (builder: CorsPolicyBuilder) =
         builder
-            .WithOrigins(string config.BaseUrl)
+            .AllowAnyOrigin() //(string config.BaseUrl, "http://localhost:3000/")
             .AllowAnyMethod()
             .AllowAnyHeader()
         |> ignore
@@ -58,14 +58,14 @@ let configureApp (app: IApplicationBuilder) =
             .UseGiraffeErrorHandler(errorHandler)
             .UseHttpsRedirection()
     |> ignore
-    
+
     app
-        .UseAuthentication()
-        .UseRouting()
-        .UseAuthentication()
-        .UseStaticFiles()
-        .UseCors(configureCors)
         .UseSwaggerUI(fun c -> c.SwaggerEndpoint("/openapi.json", "qwerty"))
+        .UseStaticFiles()
+        .UseRouting()
+        .UseCors(configureCors)
+        .UseAuthentication()
+        .UseAuthorization()
         .UseGiraffe(webApp)
     |> ignore
 
@@ -126,7 +126,9 @@ let main args =
                 .UseKestrel()
                 .UseContentRoot(contentRoot)
                 //.UseContentRoot(webRoot)
-                .UseWebRoot(webRoot)
+                .UseWebRoot(
+                    webRoot
+                )
                 .Configure(Action<IApplicationBuilder> configureApp)
                 .ConfigureServices(configureServices)
                 .ConfigureLogging(configureLogging)

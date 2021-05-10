@@ -65,20 +65,23 @@ let handleGetSecured =
             ctx
 
 let request =
-    (fun (next: HttpFunc) (ctx: HttpContext) ->
+    (fun redirectPrefix (next: HttpFunc) (ctx: HttpContext) ->
         task {
             let config = ctx.GetService<Config>()
             let consumer_key = config.ConsumerKey
 
-            let redirect_str =
-                PocindleRedirectString "https://pocindle.xyz/authorizationFinished/"
+            //let redirectPrefix =
+            //    PocindleRedirectString "https://pocindle.xyz/authorizationFinished/"
 
-            let! y = Pocindle.Pocket.Auth.Api.obtainRequestToken consumer_key redirect_str None
+            let redirectPrefix =
+                PocindleRedirectPrefix redirectPrefix
+
+            let! y = Pocindle.Pocket.Auth.Api.obtainRequestToken consumer_key redirectPrefix None
 
             match y with
             | Ok (t, _) ->
                 let redirect_uri =
-                    PocindleRedirectUri.fromPocindleRedirectString t redirect_str
+                    PocindleRedirectUri.fromPocindleRedirectString t redirectPrefix
 
                 let tr =
                     RequestDto.fromDomain t (PocketRedirectUri.withRequestTokenAndPocindleRedirectUri t redirect_uri)

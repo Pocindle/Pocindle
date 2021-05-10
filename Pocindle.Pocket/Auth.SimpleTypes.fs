@@ -19,22 +19,23 @@ module RequestToken =
     let create str =
         ConstrainedType.createFixedString "RequestToken" RequestToken 30 str
 
-
-type PocindleRedirectString = PocindleRedirectString of string
+type PocindleRedirectPrefix = PocindleRedirectPrefix of string
 
 module PocindleRedirectString =
-    let valueStr (PocindleRedirectString str) = str
+    let valueStr (PocindleRedirectPrefix str) = str
+
 type PocindleRedirectUri = PocindleRedirectUri of Uri
 
 module PocindleRedirectUri =
-
-    let fromPocindleRedirectString (RequestToken requestToken) (PocindleRedirectString str) =
-        $"%s{str}%s{requestToken}"
+    let fromPocindleRedirectString (RequestToken requestToken) (PocindleRedirectPrefix str) =
+        (if str.EndsWith "/" then
+             $"%s{str}%s{requestToken}"
+         else
+             $"%s{str}/%s{requestToken}")
         |> Uri
         |> PocindleRedirectUri
-        
-    let valueStr (PocindleRedirectUri uri) = string uri
 
+    let valueStr (PocindleRedirectUri uri) = string uri
 
 type PocketRedirectUri = PocketRedirectUri of Uri
 
