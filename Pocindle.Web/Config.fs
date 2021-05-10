@@ -23,7 +23,7 @@ type JwtSecret = string<jwtSecret>
 type Config =
     { ConnectionString: ConnectionString
       ConsumerKey: ConsumerKey
-      BaseUrl: Uri
+      SpaUrl: Uri
       JwtIssuer: JwtIssuer
       JwtSecret: JwtSecret }
 
@@ -42,9 +42,9 @@ module Config =
                     builder.Password <- password
                     Ok %builder.ConnectionString
 
-            let! baseUrl =
-                match ic.["BaseUrl"] with
-                | null -> Error "BaseUrl is not set"
+            let! spaUrl =
+                match ic.["SpaUrl"] with
+                | null -> Error "SpaUrl is not set"
                 | b -> Ok ^ Uri b
 
             let! jwtIssuer =
@@ -60,7 +60,7 @@ module Config =
             return
                 { ConsumerKey = consumerKey
                   ConnectionString = connectionString
-                  BaseUrl = baseUrl
+                  SpaUrl = spaUrl
                   JwtIssuer = jwtIssuer
                   JwtSecret = jwtSecret }
         }

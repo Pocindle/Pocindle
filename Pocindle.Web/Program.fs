@@ -59,6 +59,7 @@ let configureApp (app: IApplicationBuilder) =
             .UseHttpsRedirection()
     |> ignore
 
+
     app
         .UseSwaggerUI(fun c -> c.SwaggerEndpoint("/openapi.json", "qwerty"))
         .UseStaticFiles()
@@ -68,6 +69,15 @@ let configureApp (app: IApplicationBuilder) =
         .UseAuthorization()
         .UseGiraffe(webApp)
     |> ignore
+
+    app.UseSpa
+        (fun spaBuilder ->
+            if env.IsDevelopment() then
+                spaBuilder.UseProxyToSpaDevelopmentServer(string config.SpaUrl)
+            else
+                spaBuilder.Options.SourcePath <- "pocindle-client/build"
+
+            ())
 
 let configureServices (services: IServiceCollection) =
     services.AddCors() |> ignore
@@ -114,10 +124,6 @@ let main args =
     let webRoot =
         Path.Combine(contentRoot, """pocindle-client/build""")
 
-    printfn $"%s{webRoot}"
-
-    printfn $"%A{webApp}"
-
     Host
         .CreateDefaultBuilder(args)
 
@@ -125,10 +131,7 @@ let main args =
             webHostBuilder
                 .UseKestrel()
                 .UseContentRoot(contentRoot)
-                //.UseContentRoot(webRoot)
-                .UseWebRoot(
-                    webRoot
-                )
+                .UseWebRoot(webRoot)
                 .Configure(Action<IApplicationBuilder> configureApp)
                 .ConfigureServices(configureServices)
                 .ConfigureLogging(configureLogging)
