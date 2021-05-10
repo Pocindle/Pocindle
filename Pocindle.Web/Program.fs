@@ -20,6 +20,7 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
+open Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer
 open Microsoft.IdentityModel.Tokens
 
 open FSharp.UMX
@@ -46,7 +47,7 @@ let configureApp (app: IApplicationBuilder) =
 
     let configureCors (builder: CorsPolicyBuilder) =
         builder
-            .AllowAnyOrigin() //(string config.BaseUrl, "http://localhost:3000/")
+            .WithOrigins(config.SpaUrl |> SpaUrl.value |> string)
             .AllowAnyMethod()
             .AllowAnyHeader()
         |> ignore
@@ -73,11 +74,10 @@ let configureApp (app: IApplicationBuilder) =
     app.UseSpa
         (fun spaBuilder ->
             if env.IsDevelopment() then
-                spaBuilder.UseProxyToSpaDevelopmentServer(string config.SpaUrl)
+                spaBuilder.Options.SourcePath <- "../pocindle-client"
+                spaBuilder.UseReactDevelopmentServer("start")
             else
-                spaBuilder.Options.SourcePath <- "pocindle-client/build"
-
-            ())
+                spaBuilder.Options.SourcePath <- "pocindle-client/build")
 
 let configureServices (services: IServiceCollection) =
     services.AddCors() |> ignore

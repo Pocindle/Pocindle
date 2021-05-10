@@ -24,7 +24,7 @@ let webApp =
           [ subRoute
               "/auth"
               [ POST [ routefdd "/authorize/%s" authorize
-                       routefdd "/request/%s" request ]
+                       routed "/request" request ]
                 GET [ route "/public" (text "public route") ]
                 GET [ route "/secured" handleGetSecured ]
                 |> applyBefore authorizeJwt ]
