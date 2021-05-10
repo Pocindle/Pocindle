@@ -17,6 +17,12 @@ let inline unimplemented a =
 
 let inline raise500 a = a |> string |> Exception |> raise
 
+module Option =
+    let toResult error opt =
+        match opt with
+        | Some a -> Ok a
+        | None -> Error error
+
 module Result =
     let inline get result =
         match result with
@@ -32,6 +38,14 @@ module Result =
         try
             f a |> Ok
         with ex -> Error ex
+
+    let liftOk res =
+        match res with
+        | Ok ok ->
+            match ok with
+            | Ok a -> Ok a
+            | Error b -> Error b
+        | Error b -> Error b
 
 module AsyncResult =
     let inline get asyncResult =

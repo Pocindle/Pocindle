@@ -72,7 +72,7 @@ module PocketUsername =
 
     let create str =
         ConstrainedType.createString "PocketUsername" PocketUsername 100 str
-        
+
 type ConsumerKey = private ConsumerKey of string
 
 module ConsumerKey =
@@ -92,3 +92,11 @@ module AccessToken =
         ConstrainedType.createFixedString "AccessToken" AccessToken 30 str
 
     let toQuery (AccessToken key) = struct ("access_token", key)
+
+
+type SpaUrl = private SpaUrl of Uri
+
+module SpaUrl =
+    let value (SpaUrl spaUrl) = spaUrl
+
+    let fromString str = str |> Uri |> SpaUrl

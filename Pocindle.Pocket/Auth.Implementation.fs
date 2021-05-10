@@ -43,7 +43,7 @@ let pocketSendRetrieve<'Request, 'Response> (request: 'Request) (uri: Uri) =
     }
 
 let obtainRequestToken : ObtainRequestToken =
-    fun (consumer_key: ConsumerKey) (redirect_uri: PocindleRedirectString) (state: State) ->
+    fun (consumer_key: ConsumerKey) (redirect_uri: PocindleRedirectPrefix) (state: State) ->
         taskResult {
             let req =
                 ObtainRequestTokenRequestDto.fromDomain consumer_key redirect_uri state

@@ -9,6 +9,7 @@ open FSharp.UMX
 
 open Pocindle.Domain.SimpleTypes
 open Pocindle.Database
+open Pocindle.Domain
 
 [<Measure>]
 type private jwtIssuer
@@ -23,7 +24,7 @@ type JwtSecret = string<jwtSecret>
 type Config =
     { ConnectionString: ConnectionString
       ConsumerKey: ConsumerKey
-      BaseUrl: Uri
+      SpaUrl: SpaUrl
       JwtIssuer: JwtIssuer
       JwtSecret: JwtSecret }
 
@@ -42,10 +43,10 @@ module Config =
                     builder.Password <- password
                     Ok %builder.ConnectionString
 
-            let! baseUrl =
-                match ic.["BaseUrl"] with
-                | null -> Error "BaseUrl is not set"
-                | b -> Ok ^ Uri b
+            let! spaUrl =
+                match ic.["SpaUrl"] with
+                | null -> Error "SpaUrl is not set"
+                | b -> SpaUrl.fromString b |> Ok
 
             let! jwtIssuer =
                 match ic.["JwtIssuer"] with
@@ -60,7 +61,7 @@ module Config =
             return
                 { ConsumerKey = consumerKey
                   ConnectionString = connectionString
-                  BaseUrl = baseUrl
+                  SpaUrl = spaUrl
                   JwtIssuer = jwtIssuer
                   JwtSecret = jwtSecret }
         }

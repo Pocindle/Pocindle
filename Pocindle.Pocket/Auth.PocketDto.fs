@@ -11,9 +11,9 @@ type ObtainRequestTokenRequestDto =
       state: string }
 
 module ObtainRequestTokenRequestDto =
-    let fromDomain (consumer_key: ConsumerKey) (redirect_uri: PocindleRedirectString) (state: State) =
+    let fromDomain (consumer_key: ConsumerKey) (redirect_uri: PocindleRedirectPrefix) (state: State) =
         { consumer_key = ConsumerKey.value consumer_key
-          redirect_uri = PocindleRedirectString.valueStr redirect_uri
+          redirect_uri = PocindleRedirectPrefix.valueStr redirect_uri
           state = state |> Option.map (~%) |> Option.toObj }
 
 type ObtainRequestTokenResponseDto = { code: string; state: string }

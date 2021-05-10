@@ -1,0 +1,22 @@
+.authorization-layout {
+  height: 100vh;
+  background-color: var(--main-bg);
+
+  &__wrapper {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &__col {
+    grid-column: 2 / span 1;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .authorization-layout {
+    &__col {
+      grid-column: 1 / span 3;
+    }
+  }
+}

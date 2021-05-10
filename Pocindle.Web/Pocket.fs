@@ -19,7 +19,7 @@ let retrieveAll =
     (fun next (ctx: HttpContext) ->
         task {
             let config = ctx.GetService<Config>()
-
+            
             let! retrieve =
                 taskResult {
                     let! pocketUsername =

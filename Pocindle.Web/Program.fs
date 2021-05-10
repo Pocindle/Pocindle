@@ -20,6 +20,7 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
+open Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer
 open Microsoft.IdentityModel.Tokens
 
 open FSharp.UMX
@@ -46,7 +47,7 @@ let configureApp (app: IApplicationBuilder) =
 
     let configureCors (builder: CorsPolicyBuilder) =
         builder
-            .WithOrigins(string config.BaseUrl)
+            .WithOrigins(config.SpaUrl |> SpaUrl.value |> string)
             .AllowAnyMethod()
             .AllowAnyHeader()
         |> ignore
@@ -58,16 +59,25 @@ let configureApp (app: IApplicationBuilder) =
             .UseGiraffeErrorHandler(errorHandler)
             .UseHttpsRedirection()
     |> ignore
-    
+
+
     app
-        .UseAuthentication()
-        .UseRouting()
-        .UseAuthentication()
-        .UseStaticFiles()
-        .UseCors(configureCors)
         .UseSwaggerUI(fun c -> c.SwaggerEndpoint("/openapi.json", "qwerty"))
+        .UseStaticFiles()
+        .UseRouting()
+        .UseCors(configureCors)
+        .UseAuthentication()
+        .UseAuthorization()
         .UseGiraffe(webApp)
     |> ignore
+
+    app.UseSpa
+        (fun spaBuilder ->
+            if env.IsDevelopment() then
+                spaBuilder.Options.SourcePath <- "../pocindle-client"
+                spaBuilder.UseReactDevelopmentServer("start")
+            else
+                spaBuilder.Options.SourcePath <- "pocindle-client/build")
 
 let configureServices (services: IServiceCollection) =
     services.AddCors() |> ignore
@@ -114,10 +124,6 @@ let main args =
     let webRoot =
         Path.Combine(contentRoot, """pocindle-client/build""")
 
-    printfn $"%s{webRoot}"
-
-    printfn $"%A{webApp}"
-
     Host
         .CreateDefaultBuilder(args)
 
@@ -125,7 +131,6 @@ let main args =
             webHostBuilder
                 .UseKestrel()
                 .UseContentRoot(contentRoot)
-                //.UseContentRoot(webRoot)
                 .UseWebRoot(webRoot)
                 .Configure(Action<IApplicationBuilder> configureApp)
                 .ConfigureServices(configureServices)
