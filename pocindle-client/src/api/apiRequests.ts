@@ -1,5 +1,5 @@
 import axios from './axiosConfig';
-import { RequestDto } from './dto/requestDto';
+import { RequestDto, JwtTokenDto } from './dto';
 
 export const postAuthRequest = async () => {
   const data = await axios.post<RequestDto>('/auth/request');
@@ -13,7 +13,7 @@ export const postRequestToken = (
   callbackOnError: () => void
 ): Promise<void> => {
   return axios
-    .post(`auth/authorize/${requestToken}`)
+    .post<JwtTokenDto>(`auth/authorize/${requestToken}`)
     .then((result) => {
       console.log(result.data);
       callbackOnSuccess();
