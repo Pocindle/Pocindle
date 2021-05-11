@@ -5,6 +5,16 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/openapi.json": {
+      "get": {
+        "operationId": "openapi.json",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/auth/authorize/{s0}": {
       "parameters": [
         {
