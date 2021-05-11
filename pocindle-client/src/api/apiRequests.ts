@@ -11,7 +11,7 @@ export const postRequestToken = (
   requestToken: string,
   callbackOnSuccess: () => void,
   callbackOnError: () => void
-) => {
+): Promise<void> => {
   return axios
     .post(`auth/authorize/${requestToken}`)
     .then((result) => {
