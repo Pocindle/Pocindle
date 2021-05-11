@@ -97,4 +97,4 @@ module TaskResult =
 let XAccept = "X-Accept"
 
 [<Literal>]
-let ApplicationJson = "application/json"
+let ApplicationJson = System.Net.Mime.MediaTypeNames.Application.Json

@@ -5,16 +5,6 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/": {
-      "get": {
-        "operationId": "Anonymous",
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/api/auth/authorize/{s0}": {
       "parameters": [
         {

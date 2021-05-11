@@ -18,7 +18,7 @@ let serveSpa : HttpHandler =
         | false -> htmlFile "pocindle-client/build/index.html" next ctx
 
 let webApp =
-    [ //GET [ route "/" serveSpa ]
+    [ GET [ route "/openapi.json" (jsonFile "openapi.json") ]
       subRoute
           "/api"
           [ subRoute
