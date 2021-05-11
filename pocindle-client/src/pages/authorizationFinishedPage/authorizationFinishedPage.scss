@@ -1,0 +1,34 @@
+@import '../../styles/mixins.scss';
+
+.authorization-finished-page {
+  height: 100vh;
+
+  &__wrapper {
+    @include wrapper-column-flex;
+  }
+
+  &__message {
+    @include auth-column-flex;
+  }
+}
+
+.message {
+  @include auth-content;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__status {
+    display: block;
+    font-size: 2rem;
+  }
+
+  &__link {
+    color: var(--blue);
+    text-decoration: none;
+  }
+}
