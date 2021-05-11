@@ -7,14 +7,12 @@ import {
 } from '../pages';
 import PrivateRoute from './privateRoute';
 import { postAuthRequest } from '../api/apiRequests';
-import { useHistory } from 'react-router-dom';
 
 const AppRouter: React.FC = () => {
-  const history = useHistory();
-
-  const handleAuthorization = () => {
-    postAuthRequest();
-    history.push('/authorizationFinished/test');
+  const handleAuthorization = async () => {
+    const { data } = await postAuthRequest();
+    console.log(data);
+    window.location.assign(data.redirectUrl);
   };
 
   return (
