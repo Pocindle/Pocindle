@@ -1,6 +1,7 @@
 module Pocindle.Web.Auth
 
 open System
+open System.ComponentModel.DataAnnotations
 open System.Text
 open System.Security.Claims
 open System.IdentityModel.Tokens.Jwt
@@ -17,7 +18,10 @@ open Pocindle.Pocket.Auth.Dto
 open Pocindle.Pocket.Auth.SimpleTypes
 open Pocindle.Database
 
-type JwtTokenDto = { JwtToken: string }
+type JwtTokenDto = {
+    [<Required>]
+    JwtToken: string
+}
 
 let authorizeJwt : HttpHandler =
     requiresAuthentication (challenge JwtBearerDefaults.AuthenticationScheme)
