@@ -9,7 +9,7 @@
 
 
 export class JwtTokenDto implements IJwtTokenDto {
-    jwtToken!: string | undefined;
+    jwtToken!: string;
 
     constructor(data?: IJwtTokenDto) {
         if (data) {
@@ -41,5 +41,5 @@ export class JwtTokenDto implements IJwtTokenDto {
 }
 
 export interface IJwtTokenDto {
-    jwtToken: string | undefined;
+    jwtToken: string;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import {
   TestPage,
@@ -7,14 +7,24 @@ import {
 } from '../pages';
 import PrivateRoute from './privateRoute';
 import { postAuthRequest } from '../api/apiRequests';
-import { useHistory } from 'react-router-dom';
+import {
+  getJwtFromLocalStorage,
+  setJwtToLocalStorage,
+} from '../utils/localStorage';
 
 const AppRouter: React.FC = () => {
-  const history = useHistory();
+  const [jwt, setJwt] = useState<string>(getJwtFromLocalStorage() || '');
 
-  const handleAuthorization = () => {
-    postAuthRequest();
-    history.push('/authorizationFinished/test');
+  const handleAuthorization = async () => {
+    const { data } = await postAuthRequest();
+    console.log(data);
+    window.location.assign(data.redirectUrl);
+  };
+
+  const handleSuccessfulAuthorization = (jwtToken: string) => {
+    setJwt(jwtToken);
+    setJwtToLocalStorage(jwtToken);
+    console.log(jwt);
   };
 
   return (
@@ -25,9 +35,19 @@ const AppRouter: React.FC = () => {
       />
       <Route
         path="/authorizationFinished/:requestToken"
-        component={AuthorizationFinishedPage}
+        render={() => (
+          <AuthorizationFinishedPage
+            onSuccessfulAuthorization={handleSuccessfulAuthorization}
+          />
+        )}
       />
-      <PrivateRoute exact path="/" component={TestPage} redirectPath="/auth" />
+      <PrivateRoute
+        exact
+        path="/"
+        isAuthorized={!!jwt}
+        component={TestPage}
+        redirectPath="/auth"
+      />
       <Redirect to="/" />
     </Switch>
   );

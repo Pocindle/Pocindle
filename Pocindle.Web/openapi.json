@@ -38,10 +38,13 @@
                   "title": "JwtTokenDto",
                   "type": "object",
                   "additionalProperties": false,
+                  "required": [
+                    "jwtToken"
+                  ],
                   "properties": {
                     "jwtToken": {
                       "type": "string",
-                      "nullable": true
+                      "minLength": 1
                     }
                   }
                 }
@@ -151,10 +154,13 @@
         "title": "JwtTokenDto",
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "jwtToken"
+        ],
         "properties": {
           "jwtToken": {
             "type": "string",
-            "nullable": true
+            "minLength": 1
           }
         }
       },
