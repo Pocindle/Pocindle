@@ -4,21 +4,26 @@ import { AuthorizationLayout } from '../../layouts';
 import { postRequestToken } from '../../api/apiRequests';
 import './authorizationFinishedPage.scss';
 
-const AuthorizationFinishedPage: React.FC = () => {
+const AuthorizationFinishedPage: React.FC<{
+  onSuccessfulAuthorization: (jwtToken: string) => void;
+}> = ({ onSuccessfulAuthorization }) => {
   const [isSuccessful, setIsSuccessful] = useState<boolean | null>(null);
   const { requestToken } = useParams<{ requestToken: string }>();
 
   useEffect(() => {
     const postRequest = () => {
-      postRequestToken(
-        requestToken,
-        () => setIsSuccessful(true),
-        () => setIsSuccessful(false)
+      postRequestToken(requestToken, handleSuccessfulAuthorization, () =>
+        setIsSuccessful(false)
       );
     };
 
     postRequest();
   }, []);
+
+  function handleSuccessfulAuthorization(jwtToken: string) {
+    onSuccessfulAuthorization(jwtToken);
+    setIsSuccessful(true);
+  }
 
   return (
     <AuthorizationLayout>

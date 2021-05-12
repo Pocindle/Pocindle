@@ -9,14 +9,14 @@ export const postAuthRequest = async () => {
 
 export const postRequestToken = (
   requestToken: string,
-  callbackOnSuccess: () => void,
+  callbackOnSuccess: (jwtToken: string) => void,
   callbackOnError: () => void
 ): Promise<void> => {
   return axios
     .post<JwtTokenDto>(`auth/authorize/${requestToken}`)
     .then((result) => {
       console.log(result.data);
-      callbackOnSuccess();
+      callbackOnSuccess(result.data.jwtToken);
     })
     .catch((error) => {
       console.log(error.message);
