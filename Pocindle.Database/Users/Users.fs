@@ -13,12 +13,15 @@ open Pocindle.Domain.SimpleTypes
 open Pocindle.Database.Database
 open Pocindle.Domain
 
+type private UserData =
+    { UserId: int64
+      PocketUsername: string
+      KindleEmailAddress: string }
+
 let getUserFromPocketUsername connectionString (username: PocketUsername) =
     taskResult {
         let! ret =
-            querySingle<{| UserId: int64
-                           PocketUsername: string
-                           KindleEmailAddress: string |}, _>
+            querySingle<UserData, _>
                 connectionString
                 TextFile.Users.``UserFromPocketUsername.sql``.Text
                 (Some {| PocketUsername = PocketUsername.value username |})
@@ -100,9 +103,9 @@ let getUserIdByPocketUsername connectionString (username: PocketUsername) =
                 (Some {| PocketUsername = PocketUsername.value username |}))
             |> TaskResult.mapError DbException
 
-        let! (ret1 : UserId) =
+        let! (ret1: UserId) =
             match ret with
-            | Some r -> Ok (%r) 
+            | Some r -> Ok(%r)
             | None -> Error Empty
 
         return ret1

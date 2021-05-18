@@ -142,6 +142,73 @@
           }
         }
       }
+    },
+    "/api/user/": {
+      "get": {
+        "operationId": "user",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "UserDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "userId",
+                    "pocketUsername"
+                  ],
+                  "properties": {
+                    "userId": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "pocketUsername": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "kindleEmailAddress": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/kindle-email/{s0}": {
+      "parameters": [
+        {
+          "name": "s0",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "kindle-email",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Unit",
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -204,6 +271,34 @@
             "minLength": 1
           }
         }
+      },
+      "UserDto": {
+        "title": "UserDto",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "userId",
+          "pocketUsername"
+        ],
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pocketUsername": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kindleEmailAddress": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Unit": {
+        "title": "Unit",
+        "type": "object",
+        "additionalProperties": false
       },
       "PocketItemDto": {
         "type": "object",
