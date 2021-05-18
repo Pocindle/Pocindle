@@ -1,3 +1,3 @@
-﻿UPDATE users
+UPDATE users
 SET kindleemailaddress = @KindleEmailAddress
-WHERE users.userid = @UserId 
+WHERE users.userid = @UserId;

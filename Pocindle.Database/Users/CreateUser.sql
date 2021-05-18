@@ -1,1 +1,1 @@
-INSERT INTO users VALUES (default, @PocketUsername, null, @AccessToken)
+INSERT INTO users VALUES (default, @PocketUsername, null, @AccessToken);

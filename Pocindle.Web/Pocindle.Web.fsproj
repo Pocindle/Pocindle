@@ -11,6 +11,9 @@
 
     <ItemGroup>
         <Content Include="Properties\launchSettings.json" />
+        <Content Include="http-client.env.json" />
+        <Content Include="http-client.private.env.json" />
+        <Content Include="requests.http" />
         <Content Include="openapi.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
