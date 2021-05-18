@@ -6,13 +6,25 @@ open System.Threading.Tasks
 open Pocindle.Domain.SimpleTypes
 
 
-type KindleEmailAddress = KindleEmailAddress of MailAddress
+type KindleEmailAddress =
+    | HasKindleEmailAddress of MailAddress
+    | NoneKindleEmailAddress
+
+module KindleEmailAddress =
+    let toDomain kmaString =
+        match kmaString |> Option.ofObj with
+        | Some m -> HasKindleEmailAddress(MailAddress(m))
+        | None -> NoneKindleEmailAddress
+
+    let fromDomain kma =
+        match kma with
+        | HasKindleEmailAddress mail -> string mail
+        | NoneKindleEmailAddress -> null
 
 type User =
     { UserId: UserId
       PocketUsername: PocketUsername
-      KindleEmailAddress: KindleEmailAddress option }
-      // AccessToken: AccessToken option }
+      KindleEmailAddress: KindleEmailAddress }
 
 
 type Article = Article of Undefined

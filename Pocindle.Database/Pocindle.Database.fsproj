@@ -12,6 +12,8 @@
         <EmbeddedResource Include="Users\AccessTokenFromPocketUsername.sql" />
         <EmbeddedResource Include="Users\UpdateAccessTokenByPocketUsername.sql" />
         <EmbeddedResource Include="Users\CreateUser.sql" />
+        <Content Include="Users\SetKindleEmailAddressByUserId.sql" />
+        <Content Include="Users\getUserIdByPocketUsername.sql" />
         <Compile Include="Users\Users.fs" />
     </ItemGroup>
 

@@ -26,6 +26,8 @@
 
         <Compile Include="Pocket.fs" />
 
+        <Compile Include="User.fs" />
+
         <Compile Include="Router.fs" />
         <Compile Include="Program.fs" />
 
