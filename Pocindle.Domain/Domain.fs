@@ -1,8 +1,10 @@
 ﻿namespace Pocindle.Domain
 
 open System.Net.Mail
+open System.Threading
 open System.Threading.Tasks
 
+open Pocindle.Convert.Domain
 open Pocindle.Domain.SimpleTypes
 
 
@@ -27,9 +29,19 @@ type User =
       KindleEmailAddress: KindleEmailAddress }
 
 
-type Article = Article of Undefined
+type DeliveryStatus =
+    | HasNotDeliveryAddress
+    | Failed of string
+    | DeliveryNotConfigured
+    | NotStarted
+    | InProcess
+    | Done
 
 type Delivery =
-    { UserId: UserId
-      Data: Undefined
-      To: KindleEmailAddress }
+    { DeliveryId: DeliveryId
+      UserId: UserId
+      Article: Article
+      EpubFile: EpubFile
+      MobiFile: MobiFile
+      To: KindleEmailAddress
+      Status: DeliveryStatus }

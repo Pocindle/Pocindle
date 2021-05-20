@@ -13,7 +13,7 @@ type ConvertError =
     | NoPandoc
     | NoCalibre
     | UndefinedTool
-    | OtherError of Undefined
+    | OtherError of exn 
 
 type WebToEpubConverter =
     | Pandoc
