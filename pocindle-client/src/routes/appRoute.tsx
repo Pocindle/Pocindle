@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import {
-  TestPage,
+  MainPage,
   AuthorizationPage,
   AuthorizationFinishedPage,
 } from '../pages';
@@ -45,7 +45,7 @@ const AppRouter: React.FC = () => {
         exact
         path="/"
         isAuthorized={!!jwt}
-        component={TestPage}
+        component={MainPage}
         redirectPath="/auth"
       />
       <Redirect to="/" />

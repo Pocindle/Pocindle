@@ -1,6 +1,5 @@
 .main-layout {
   height: 100vh;
-  background-color: var(--main-bg);
 
   &__wrapper {
     display: flex;
@@ -12,6 +11,7 @@
   }
 
   & .content {
+    background-color: var(--content-bg);
     width: 80vw;
     margin: 0 auto;
     flex-grow: 2;
