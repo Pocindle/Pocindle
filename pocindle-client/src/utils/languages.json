@@ -1,0 +1,26 @@
+{
+  "ru": {
+    "name": "ru",
+    "navbar": {
+      "articles": "Статьи",
+      "logOut": "Выйти"
+    },
+    "footer": {
+      "about": "О сайте",
+      "siteTheme": "Тема сайта:",
+      "siteLanguage": "Язык:"
+    }
+  },
+  "eng": {
+    "name": "eng",
+    "navbar": {
+      "articles": "Articles",
+      "logOut": "Log out"
+    },
+    "footer": {
+      "about": "About",
+      "siteTheme": "Site Theme:",
+      "siteLanguage": "Language:"
+    }
+  }
+}
