@@ -9,6 +9,19 @@
       "about": "О сайте",
       "siteTheme": "Тема сайта:",
       "siteLanguage": "Язык:"
+    },
+    "authorizationPage": {
+      "login": "Войти",
+      "title": "Авторизоваться через Pocket"
+    },
+    "authorizationFinishedPage": {
+      "statusWaiting": "Ожидание результата...",
+      "successfulAuthorization": "Авторизация прошла успешно!",
+      "successfulRedirect": "Перейти в ",
+      "successfulLink": "Pocindle",
+      "statusError": "Ошибка авторизации!",
+      "errorRedirect": "Вернуться на ",
+      "errorLink": "страницу авторизации"
     }
   },
   "eng": {
@@ -21,6 +34,19 @@
       "about": "About",
       "siteTheme": "Site Theme:",
       "siteLanguage": "Language:"
+    },
+    "authorizationPage": {
+      "login": "Login",
+      "title": "Authorize through Pocket"
+    },
+    "authorizationFinishedPage": {
+      "statusWaiting": "Waiting for result...",
+      "successfulAuthorization": "Authorization is successful!",
+      "successfulRedirect": "Go to ",
+      "successfulLink": "Pocindle",
+      "statusError": "Authorization error!",
+      "errorRedirect": "Return to ",
+      "errorLink": "Authentification Page"
     }
   }
 }
