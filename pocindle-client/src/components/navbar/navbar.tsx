@@ -12,10 +12,8 @@ const Navbar: React.FC<{ onLogOut: () => void }> = ({ onLogOut }) => {
 
   return (
     <div className="navbar navbar__wrapper">
+      <div className="navbar__item">Pocindle</div>
       <Link to="/" className="navbar__item navbar__link">
-        Pocindle
-      </Link>
-      <Link to="/articles" className="navbar__item navbar__link">
         {language.navbar.articles}
       </Link>
       <div className="navbar__item" onClick={handleLogOut}>

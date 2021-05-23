@@ -9,15 +9,24 @@
     font-weight: 500;
     color: var(--text-light);
     padding: 3vh 2vw;
-  }
 
-  &__item:hover {
-    color: var(--blue);
-    cursor: pointer;
-  }
+    &:first-child {
+      font-weight: 600;
+    }
 
-  &__item:last-child {
-    margin-left: auto;
+    &:hover {
+      color: var(--blue);
+      cursor: pointer;
+    }
+
+    &:last-child {
+      margin-left: auto;
+    }
+
+    &:hover:first-child {
+      color: var(--text-light);
+      cursor: default;
+    }
   }
 
   &__link {
