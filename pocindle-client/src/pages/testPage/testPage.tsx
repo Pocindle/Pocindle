@@ -13,7 +13,7 @@ const TestPage: React.FC = () => {
   const { language, switchLanguage } = useAppContext();
 
   return (
-    <MainLayout>
+    <MainLayout onLogOut={() => console.log('test')}>
       Test page
       <TestComponent />
       <div>

@@ -65,7 +65,7 @@ const AppRouter: React.FC = () => {
         exact
         path="/"
         isAuthorized={!!jwt}
-        component={MainPage}
+        component={() => <MainPage onLogOut={handleLogOut} />}
         redirectPath="/auth"
       />
       <Redirect to="/" />
