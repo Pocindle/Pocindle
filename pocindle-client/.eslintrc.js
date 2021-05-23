@@ -21,6 +21,7 @@ module.exports = {
     },
   },
   rules: {
+    'no-debugger': 'off',
     'no-unused-vars': 'warn',
     'react/prop-types': 'off',
     quotes: [2, 'single', { avoidEscape: true }],
