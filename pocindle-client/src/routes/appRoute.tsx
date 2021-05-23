@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import {
   MainPage,
@@ -8,12 +8,27 @@ import {
 import PrivateRoute from './privateRoute';
 import { postAuthRequest } from '../api/apiRequests';
 import {
-  getJwtFromLocalStorage,
-  setJwtToLocalStorage,
+  getJwtTokenFromLocalStorage,
+  setJwtTokenToLocalStorage,
+  removeJwtTokenFromLocalStorage,
 } from '../utils/localStorage';
+import { setExpirationDateInterval } from '../utils/jwtTokenValidation';
 
 const AppRouter: React.FC = () => {
-  const [jwt, setJwt] = useState<string>(getJwtFromLocalStorage() || '');
+  const [jwt, setJwt] = useState<string>(getJwtTokenFromLocalStorage() || '');
+  const expirationDateInterval = useRef<number>(0);
+
+  useEffect(() => {
+    if (jwt) {
+      expirationDateInterval.current = setExpirationDateInterval(
+        handleLogOut,
+        30000
+      );
+      return () => {
+        window.clearInterval(expirationDateInterval.current);
+      };
+    }
+  }, [jwt]);
 
   const handleAuthorization = async () => {
     const { data } = await postAuthRequest();
@@ -21,10 +36,15 @@ const AppRouter: React.FC = () => {
     window.location.assign(data.redirectUrl);
   };
 
+  const handleLogOut = () => {
+    window.clearInterval(expirationDateInterval.current);
+    removeJwtTokenFromLocalStorage();
+    setJwt('');
+  };
+
   const handleSuccessfulAuthorization = (jwtToken: string) => {
     setJwt(jwtToken);
-    setJwtToLocalStorage(jwtToken);
-    console.log(jwt);
+    setJwtTokenToLocalStorage(jwtToken);
   };
 
   return (
