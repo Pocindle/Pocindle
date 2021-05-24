@@ -14,9 +14,12 @@ open Pocindle.Database.Database
 open Pocindle.Domain
 
 type private UserData =
-    { UserId: int64
-      PocketUsername: string
-      KindleEmailAddress: string }
+    { userid: int64
+      pocketusername: string
+      ``to``: string
+      from: string
+      smtpserver: string
+      password: string }
 
 let getUserFromPocketUsername connectionString (username: PocketUsername) =
     taskResult {
@@ -33,16 +36,24 @@ let getUserFromPocketUsername connectionString (username: PocketUsername) =
             | Some r ->
                 result {
                     let! pocketUsername =
-                        PocketUsername.create r.PocketUsername
+                        PocketUsername.create r.pocketusername
                         |> Result.mapError ValidationError
+
+                    let deliveryConfig =
+                        match r.smtpserver |> Option.ofObj with
+                        | Some _ ->
+                            { SmtpServer = SmtpServer.toDomain r.smtpserver |> Result.get
+                              From = MailAddress(r.from)
+                              To = MailAddress(r.``to``)
+                              Password = r.password }
+                            |> Some
+                        | None -> None
 
                     return!
                         Ok
-                            { User.UserId = %r.UserId
+                            { User.UserId = %r.userid
                               PocketUsername = pocketUsername
-                              KindleEmailAddress =
-                                  r.KindleEmailAddress
-                                  |> KindleEmailAddress.toDomain }
+                              DeliveryConfig = deliveryConfig }
                 }
             | None -> Error Empty
 

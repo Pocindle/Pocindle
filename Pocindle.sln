@@ -22,6 +22,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Database.Migration
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.Web", "Pocindle.Web\Pocindle.Web.fsproj", "{4B7D08CE-8C0F-4866-AF09-8542E8EB5CE4}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pocindle.UserSending", "Pocindle.UserSending\Pocindle.UserSending.fsproj", "{57DC16E4-491D-43C6-891B-39B77A9F8B9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,9 @@ Global
 		{4B7D08CE-8C0F-4866-AF09-8542E8EB5CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B7D08CE-8C0F-4866-AF09-8542E8EB5CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B7D08CE-8C0F-4866-AF09-8542E8EB5CE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57DC16E4-491D-43C6-891B-39B77A9F8B9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57DC16E4-491D-43C6-891B-39B77A9F8B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57DC16E4-491D-43C6-891B-39B77A9F8B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57DC16E4-491D-43C6-891B-39B77A9F8B9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

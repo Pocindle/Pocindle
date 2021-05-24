@@ -8,6 +8,12 @@ open Pocindle.Convert.Domain
 open Pocindle.Domain.SimpleTypes
 
 
+type DeliveryConfig =
+    { SmtpServer: SmtpServer
+      From: MailAddress
+      To: MailAddress
+      Password: string }
+
 type KindleEmailAddress =
     | HasKindleEmailAddress of MailAddress
     | NoneKindleEmailAddress
@@ -26,8 +32,7 @@ module KindleEmailAddress =
 type User =
     { UserId: UserId
       PocketUsername: PocketUsername
-      KindleEmailAddress: KindleEmailAddress }
-
+      DeliveryConfig: DeliveryConfig option }
 
 type DeliveryStatus =
     | HasNotDeliveryAddress

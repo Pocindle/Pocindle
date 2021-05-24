@@ -104,3 +104,21 @@ module SpaUrl =
     let value (SpaUrl spaUrl) = spaUrl
 
     let fromString str = str |> Uri |> SpaUrl
+
+type SmtpServer =
+    | SmtpServerWithPort of string * int
+    | SmtpServer of string
+
+module SmtpServer =
+    let toDomain (s: string) =
+        try
+            match s.Split(":") |> List.ofArray with
+            | [ host; port ] -> Ok ^ SmtpServerWithPort(host, int port)
+            | [ host ] -> Ok ^ SmtpServer host
+            | _ -> invalidArg s "s"
+        with ex -> Error ^ ex
+
+    let fromDomain s =
+        match s with
+        | SmtpServerWithPort (h, p) -> h, p
+        | SmtpServer h -> h, 587
