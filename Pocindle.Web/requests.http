@@ -49,3 +49,8 @@ Authorization: Bearer {{bearer}}
 GET {{baseUrl}}/api/delivery/{{delivery_id}}
 Accept: application/json
 Authorization: Bearer {{bearer}}
+
+####
+POST {{baseUrl}}/api/delivery/send/{{delivery_id}}
+Accept: application/json
+Authorization: Bearer {{bearer}}

@@ -34,6 +34,9 @@ let webApp =
             |> applyBefore authorizeJwt
             subRoute "/convert" [ POST [ routefdd "/%s" convert ] ]
             |> applyBefore authorizeJwt
-            subRoute "/delivery" [ GET [ routefdd "/%d" getDelivery ] ]
+            subRoute
+                "/delivery"
+                [ GET [ routefdd "/%d" getDelivery ]
+                  POST [ routefdd "/send/%d" sendDelivery ] ]
             |> applyBefore authorizeJwt ]
       |> applyBefore acceptJson ]

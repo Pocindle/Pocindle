@@ -104,3 +104,19 @@ let getDeliveryById connectionString (deliveryId: DeliveryId) =
 
         return ret1
     }
+
+let updateDeliveryStatus connectionString (deliveryId: DeliveryId) (newStatus: DeliveryStatus) =
+    taskResult {
+        let status, message = deliveryStatusToData newStatus
+
+        let! ret =
+            execute
+                connectionString
+                TextFile.Delivery.``UpdateDeliveryStatus.sql``.Text
+                {| DeliveryStatus = status
+                   DeliveryFailedMessage = message |> Option.toObj
+                   DeliveryId = %deliveryId |}
+            |> TaskResult.mapError DbException
+
+        return! matchExecuteResult ret
+    }
