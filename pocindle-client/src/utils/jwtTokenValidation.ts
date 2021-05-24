@@ -1,10 +1,14 @@
 import { getJwtTokenExpirationDate } from './localStorage';
 
-const validateExpirationDate = (onUnsuccessfulValidation: () => void): void => {
+export const isDateExpired = (): boolean => {
   const expirationDate = getJwtTokenExpirationDate();
   const currentDate = new Date();
   console.log(currentDate, expirationDate);
-  if (currentDate > expirationDate) onUnsuccessfulValidation();
+  return currentDate > expirationDate;
+};
+
+const validateExpirationDate = (onUnsuccessfulValidation: () => void): void => {
+  if (isDateExpired()) onUnsuccessfulValidation();
 };
 
 export const setExpirationDateInterval = (
