@@ -13,6 +13,12 @@ type ExecuteResult = Task<Result<int, exn>>
 type QueryResult<'T> = Task<Result<'T seq, exn>>
 type QuerySingleResult<'T> = Task<Result<'T option, exn>>
 
+let matchExecuteResult ret =
+    match ret with
+    | 0 -> Error Empty
+    | 1 -> Ok()
+    | r -> Error ^ TooMuchAffected r
+
 let execute (connectionString: ConnectionString) (sql: string) (parameters: _) : ExecuteResult =
     let connection = new NpgsqlConnection(%connectionString)
 

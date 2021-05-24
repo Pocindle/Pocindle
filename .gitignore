@@ -916,3 +916,6 @@ yarn-error.log
 /Playground/
 
 /Pocindle.Pocket/pocket_retrieve_sample.json
+
+/Pocindle.Web/*-*-*-*-*.epub
+/Pocindle.Web/*-*-*-*-*.mobi

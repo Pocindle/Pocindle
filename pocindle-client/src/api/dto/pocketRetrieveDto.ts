@@ -113,6 +113,7 @@ export enum StatusDto {
 export class PocketRetrieveDto implements IPocketRetrieveDto {
     items!: PocketItemDto[];
     since!: Date;
+    count!: number;
 
     constructor(data?: IPocketRetrieveDto) {
         if (data) {
@@ -134,6 +135,7 @@ export class PocketRetrieveDto implements IPocketRetrieveDto {
                     this.items!.push(PocketItemDto.fromJS(item));
             }
             this.since = _data["Since"] ? new Date(_data["Since"].toString()) : <any>undefined;
+            this.count = _data["Count"];
         }
     }
 
@@ -152,6 +154,7 @@ export class PocketRetrieveDto implements IPocketRetrieveDto {
                 data["Items"].push(item.toJSON());
         }
         data["Since"] = this.since ? this.since.toISOString() : <any>undefined;
+        data["Count"] = this.count;
         return data; 
     }
 }
@@ -159,4 +162,5 @@ export class PocketRetrieveDto implements IPocketRetrieveDto {
 export interface IPocketRetrieveDto {
     items: PocketItemDto[];
     since: Date;
+    count: number;
 }

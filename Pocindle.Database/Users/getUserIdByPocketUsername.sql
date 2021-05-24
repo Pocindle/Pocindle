@@ -1,3 +1,3 @@
-SELECT users.pocketaccesstoken
-FROM Users
+SELECT users.userid
+FROM users
 WHERE users.pocketusername = @PocketUsername;

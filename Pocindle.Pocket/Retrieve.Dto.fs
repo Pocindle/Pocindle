@@ -85,12 +85,17 @@ type PocketRetrieveDto =
     { [<Required>]
       Items: PocketItemDto array
       [<Required>]
-      Since: DateTimeOffset }
+      Since: DateTimeOffset
+      [<Required>]
+      Count: int }
 
 module PocketRetrieveDto =
     let fromDomain (a: RetrieveResponse) =
-        { Items =
-              a.Items
-              |> List.map PocketItemDto.fromDomain
-              |> List.toArray
-          Since = a.Since }
+        let items =
+            a.Items
+            |> List.map PocketItemDto.fromDomain
+            |> List.toArray
+
+        { Items = items
+          Since = a.Since
+          Count = items |> Array.length }

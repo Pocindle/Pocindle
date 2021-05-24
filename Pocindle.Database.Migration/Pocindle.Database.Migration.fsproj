@@ -9,6 +9,8 @@
         <EmbeddedResource Include="Scripts\202104212333 - Create user.sql" />
         <EmbeddedResource Include="Scripts\202104212359 - Modify user.sql" />
         <EmbeddedResource Include="Scripts\202104220016 - Unique index.sql" />
+        <EmbeddedResource Include="Scripts\202105192322 - Create delivery.sql" />
+        <EmbeddedResource Include="Scripts\202105192359 - Delivery to.sql" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

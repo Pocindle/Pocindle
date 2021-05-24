@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
@@ -12,7 +12,13 @@
         <EmbeddedResource Include="Users\AccessTokenFromPocketUsername.sql" />
         <EmbeddedResource Include="Users\UpdateAccessTokenByPocketUsername.sql" />
         <EmbeddedResource Include="Users\CreateUser.sql" />
+        <EmbeddedResource Include="Users\SetKindleEmailAddressByUserId.sql" />
+        <EmbeddedResource Include="Users\getUserIdByPocketUsername.sql" />
         <Compile Include="Users\Users.fs" />
+        <EmbeddedResource Include="Delivery\CreateDelivery.sql" />
+        <EmbeddedResource Include="Delivery\UpdateDeliveryStatus.sql" />
+        <EmbeddedResource Include="Delivery\GetDeliveryById.sql" />
+        <Compile Include="Delivery\Delivery.fs" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,5 +31,5 @@
         <PackageReference Include="FsToolkit.ErrorHandling.TaskResult" Version="2.2.0" />
         <PackageReference Include="Npgsql" Version="5.0.4" />
     </ItemGroup>
-    
+
 </Project>

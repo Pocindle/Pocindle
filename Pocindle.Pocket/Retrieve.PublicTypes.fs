@@ -93,6 +93,6 @@ type RetrieveError =
     | FetchException of exn
     | SerializationError of SerializationError
     | DeserializationError of DeserializationError
-    | ValidationError of string list
+    //| ValidationError of string list
 
 type Retrieve = ConsumerKey -> AccessToken -> RetrieveOptionalParameters -> Task<Result<RetrieveResponse, RetrieveError>>

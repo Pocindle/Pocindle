@@ -10,6 +10,10 @@ type private userId
 
 type UserId = int64<userId>
 
+[<Measure>]
+type private deliveryId
+
+type DeliveryId = int64<deliveryId>
 
 module ConstrainedType =
     let createString fieldName ctor maxLen str =
