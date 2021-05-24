@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AuthorizationLayout } from '../../layouts';
 import { postRequestToken } from '../../api/apiRequests';
+import useAppContext from '../../hooks/useAppContext';
 import './authorizationFinishedPage.scss';
 
 const AuthorizationFinishedPage: React.FC<{
@@ -9,6 +10,8 @@ const AuthorizationFinishedPage: React.FC<{
 }> = ({ onSuccessfulAuthorization }) => {
   const [isSuccessful, setIsSuccessful] = useState<boolean | null>(null);
   const { requestToken } = useParams<{ requestToken: string }>();
+
+  const { language } = useAppContext();
 
   useEffect(() => {
     const postRequest = () => {
@@ -32,26 +35,30 @@ const AuthorizationFinishedPage: React.FC<{
           <div className="authorization-finished-page__message message">
             <div className="message__content">
               {typeof isSuccessful === 'object' ? (
-                <span className="message__status">Waiting for result...</span>
+                <span className="message__status">
+                  {language.authorizationFinishedPage.statusWaiting}
+                </span>
               ) : isSuccessful === true ? (
                 <React.Fragment>
                   <span className="message__status">
-                    Authorization is successful!
+                    {language.authorizationFinishedPage.successfulAuthorization}
                   </span>
                   <span className="message__redirect">
-                    {'Go to '}
+                    {language.authorizationFinishedPage.successfulRedirect}
                     <Link to="/" className="message__link">
-                      Pocindle
+                      {language.authorizationFinishedPage.successfulLink}
                     </Link>
                   </span>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <span className="message__status">Authorization error!</span>
+                  <span className="message__status">
+                    {language.authorizationFinishedPage.statusError}
+                  </span>
                   <span className="message__redirect">
-                    {'Return to '}
+                    {language.authorizationFinishedPage.errorRedirect}
                     <Link to="/auth" className="message__link">
-                      Authentification Page
+                      {language.authorizationFinishedPage.errorLink}
                     </Link>
                   </span>
                 </React.Fragment>

@@ -3,6 +3,7 @@ import {
   setLanguageToLocalStorage,
   getLanguageFromLocalStorage,
 } from '../../utils/localStorage';
+import languages from '../../utils/languages.json';
 
 interface ILanguageNames {
   ru: string;
@@ -18,33 +19,6 @@ const initialContext: LanguageContext = {
   language: {},
   switchLanguage: () => {
     return;
-  },
-};
-
-const languages = {
-  ru: {
-    name: 'ru',
-    navbar: {
-      articles: 'Статьи',
-      logOut: 'Выйти',
-    },
-    footer: {
-      about: 'О сайте',
-      siteTheme: 'Тема сайта:',
-      siteLanguage: 'Язык:',
-    },
-  },
-  eng: {
-    name: 'eng',
-    navbar: {
-      articles: 'Articles',
-      logOut: 'Log out',
-    },
-    footer: {
-      about: 'About',
-      siteTheme: 'Site Theme:',
-      siteLanguage: 'Language:',
-    },
   },
 };
 

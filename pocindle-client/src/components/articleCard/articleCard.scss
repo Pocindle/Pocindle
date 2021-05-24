@@ -1,0 +1,32 @@
+@import '../../styles/mixins.scss';
+
+.article-card {
+  &__wrapper {
+    @include wrapper-column-flex;
+    background-color: var(--basic-white);
+    overflow: hidden;
+    border: 2px solid var(--light-gray);
+    border-radius: 10px;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  &__name {
+    font-weight: 700;
+  }
+
+  &__title {
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  &__item {
+    word-wrap: break-word;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: var(--blue);
+  }
+}

@@ -7,7 +7,7 @@
   --text-light: #7a858f;
   --text: #5c728a;
   --header-bg: var(--basic-white);
-  --main-bg: #edf1f5;
+  --body-bg: #edf1f5;
   --footer-bg: #11161d;
 }
 
@@ -25,4 +25,5 @@ body {
   font-size: 16px;
   overflow-y: auto;
   color: var(--text);
+  background-color: var(--body-bg);
 }
