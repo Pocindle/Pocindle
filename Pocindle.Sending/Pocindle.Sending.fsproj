@@ -1,24 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Utils.fs" />
-        <Compile Include="Operation.fs" />
-        <Compile Include="Path.fs" />
-        <Compile Include="NSwag.fs" />
+        <Compile Include="SimpleTypes.fs" />
+        <Compile Include="SendMobiDelivery.fs" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Giraffe" Version="5.0.0" />
-      <PackageReference Include="NSwag.Core" Version="13.11.1" />
+      <PackageReference Include="FsToolkit.ErrorHandling.TaskResult" Version="2.4.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Pocindle.Common\Pocindle.Common.fsproj" />
+      <ProjectReference Include="..\Pocindle.Domain\Pocindle.Domain.fsproj" />
     </ItemGroup>
 
 </Project>

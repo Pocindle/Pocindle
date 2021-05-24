@@ -19,6 +19,7 @@ open Pocindle.Pocket.Retrieve.PublicTypes
 open Pocindle.Database
 open Pocindle.Convert.Api
 open Pocindle.Convert.Domain
+open Pocindle.Sending
 
 let private articleToFiles articleUrl =
     taskResult {
@@ -27,6 +28,13 @@ let private articleToFiles articleUrl =
         let! mobi = convertEpubToMobi Calible epub
         return article, epub, mobi
     }
+
+type ConvertRequestError =
+    | DbError of DbError
+    | ValidationError of string
+    | DeliverySendingError of exn
+    | ConvertError of ConvertError
+    | NoneKindleEmailAddress'
 
 let convert =
     (fun (articleUrl: string) next (ctx: HttpContext) ->
@@ -37,15 +45,18 @@ let convert =
                 taskResult {
                     let! pocketUsername =
                         ctx.User.FindFirst ClaimTypes.NameIdentifier
-                        |> fun claim -> claim.Value |> PocketUsername.create
+                        |> fun claim ->
+                            claim.Value
+                            |> PocketUsername.create
+                            |> Result.mapError ValidationError
 
                     let! article, epub, mobi =
                         articleToFiles articleUrl
-                        |> TaskResult.mapError string
+                        |> TaskResult.mapError ConvertError
 
                     let! user =
                         Users.getUserFromPocketUsername config.ConnectionString pocketUsername
-                        |> TaskResult.mapError string
+                        |> TaskResult.mapError DbError
 
                     let! deliveryId =
                         Delivery.createDelivery
@@ -54,19 +65,20 @@ let convert =
                             article
                             epub
                             mobi
-                            DeliveryNotConfigured
+                            NotStarted
                             user.KindleEmailAddress
-                        |> TaskResult.mapError string
+                        |> TaskResult.mapError DbError
+
 
                     let! delivery =
                         Delivery.getDeliveryById config.ConnectionString deliveryId
-                        |> TaskResult.mapError string
+                        |> TaskResult.mapError DbError
 
-                    return delivery
+                    return user, delivery
                 }
 
             match a with
-            | Ok delivery ->
+            | Ok (user, delivery) ->
                 let dto = DeliveryDto.fromDomain delivery
                 return! json dto next ctx
             | Error error -> return raise500 error
