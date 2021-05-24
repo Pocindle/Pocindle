@@ -45,10 +45,10 @@ module PocketItemPocketDto =
                     | true, b -> Ok b
                     | _ -> Error "Invalid given_url"
 
-                let! resolvedUrl =
+                let resolvedUrl =
                     match Uri.TryCreate(a.resolved_url, UriKind.Absolute) with
-                    | true, b -> Ok b
-                    | _ -> Error "Invalid resolved_url"
+                    | true, b -> b
+                    | _ -> givenUrl
 
                 let! ampUrl =
                     match Uri.TryCreate(a.amp_url, UriKind.Absolute) with
@@ -124,15 +124,14 @@ module RetrieveResponsePocketDto =
             |> List.filter Result.isError
             |> List.map Result.getError
 
-        match errors with
-        | [] ->
-            Ok
-                { Since = a.since |> DateTimeOffset.FromUnixTimeSeconds
-                  Items =
-                      items
-                      |> List.filter Result.isOk
-                      |> List.map Result.get }
-        | _ -> Error errors
+        let response =
+            { Since = a.since |> DateTimeOffset.FromUnixTimeSeconds
+              Items =
+                  items
+                  |> List.filter Result.isOk
+                  |> List.map Result.get }
+
+        response, errors
 
 type RetrieveOptionalParametersQuery = list<struct (string * string)>
 

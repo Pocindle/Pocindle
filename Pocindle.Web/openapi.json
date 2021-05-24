@@ -121,7 +121,8 @@
                   "additionalProperties": false,
                   "required": [
                     "items",
-                    "since"
+                    "since",
+                    "count"
                   ],
                   "properties": {
                     "items": {
@@ -134,6 +135,231 @@
                       "type": "string",
                       "format": "date-time",
                       "minLength": 1
+                    },
+                    "count": {
+                      "type": "integer",
+                      "format": "int32"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/": {
+      "get": {
+        "operationId": "user",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "UserDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "userId",
+                    "pocketUsername"
+                  ],
+                  "properties": {
+                    "userId": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "pocketUsername": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "kindleEmailAddress": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/kindle-email/{s0}": {
+      "parameters": [
+        {
+          "name": "s0",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "kindle-email",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Unit",
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/convert/{s0}": {
+      "parameters": [
+        {
+          "name": "s0",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "title": "String",
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "convert",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "DeliveryDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "deliveryId",
+                    "userId",
+                    "articleUrl",
+                    "epubFile",
+                    "mobiFile"
+                  ],
+                  "properties": {
+                    "deliveryId": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "userId": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "articleUrl": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "epubFile": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "mobiFile": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "to": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "statusMessage": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/delivery/{d0:long}": {
+      "parameters": [
+        {
+          "name": "d0:long",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "title": "Long",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "delivery",
+        "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "String",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "DeliveryDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "deliveryId",
+                    "userId",
+                    "articleUrl",
+                    "epubFile",
+                    "mobiFile"
+                  ],
+                  "properties": {
+                    "deliveryId": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "userId": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "articleUrl": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "epubFile": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "mobiFile": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "to": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "statusMessage": {
+                      "type": "string",
+                      "nullable": true
                     }
                   }
                 }
@@ -189,7 +415,8 @@
         "additionalProperties": false,
         "required": [
           "items",
-          "since"
+          "since",
+          "count"
         ],
         "properties": {
           "items": {
@@ -202,8 +429,91 @@
             "type": "string",
             "format": "date-time",
             "minLength": 1
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
           }
         }
+      },
+      "UserDto": {
+        "title": "UserDto",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "userId",
+          "pocketUsername"
+        ],
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pocketUsername": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kindleEmailAddress": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Unit": {
+        "title": "Unit",
+        "type": "object",
+        "additionalProperties": false
+      },
+      "DeliveryDto": {
+        "title": "DeliveryDto",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "deliveryId",
+          "userId",
+          "articleUrl",
+          "epubFile",
+          "mobiFile"
+        ],
+        "properties": {
+          "deliveryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "articleUrl": {
+            "type": "string",
+            "minLength": 1
+          },
+          "epubFile": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mobiFile": {
+            "type": "string",
+            "minLength": 1
+          },
+          "to": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "statusMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Int64": {
+        "title": "Long",
+        "type": "integer",
+        "format": "int64"
       },
       "PocketItemDto": {
         "type": "object",

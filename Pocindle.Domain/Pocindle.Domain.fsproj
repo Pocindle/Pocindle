@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Pocindle.Common\Pocindle.Common.fsproj" />
+      <ProjectReference Include="..\Pocindle.Convert\Pocindle.Convert.fsproj" />
     </ItemGroup>
 
 </Project>

@@ -36,10 +36,8 @@ let retrieve : Retrieve =
                 deserialize<RetrieveResponsePocketDto> y
                 |> Result.mapError DeserializationError
 
-            let! p =
-                r
-                |> RetrieveResponsePocketDto.toDomain
-                |> Result.mapError ValidationError
+            // TODO: errors
+            let response, errors = r |> RetrieveResponsePocketDto.toDomain
 
-            return p
+            return response
         }

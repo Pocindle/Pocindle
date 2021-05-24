@@ -37,7 +37,8 @@ let generateTs () =
         [ generateSchemaAndTs<Pocindle.Pocket.Retrieve.Dto.PocketRetrieveDto> ()
           generateSchemaAndTs<Pocindle.Domain.Dto.DeliveryDto> ()
           generateSchemaAndTs<Pocindle.Pocket.Auth.Dto.RequestDto> ()
-          generateSchemaAndTs<Pocindle.Web.Auth.JwtTokenDto> () ]
+          generateSchemaAndTs<Pocindle.Web.Auth.JwtTokenDto> ()
+          generateSchemaAndTs<Pocindle.Domain.Dto.UserDto> () ]
 
     let dtoPath =
         Path.Combine(__SOURCE_DIRECTORY__, "../pocindle-client/src/api/dto/")
@@ -50,6 +51,7 @@ let generateTs () =
                 let filename = Path.Combine(dtoPath, toFilename schema)
                 use sw = new StreamWriter(filename)
                 do! sw.WriteLineAsync(file)
+                sw.Close()
                 return filename
             })
     |> List.map Async.AwaitTask

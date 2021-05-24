@@ -6,8 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="q.sql" />
-        <Compile Include="Sql.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

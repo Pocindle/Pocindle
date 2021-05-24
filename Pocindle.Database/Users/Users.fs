@@ -1,6 +1,7 @@
 ﻿module Pocindle.Database.Users
 
 open System
+open System.Net.Mail
 open System.Threading.Tasks
 
 open FSharp.Data.LiteralProviders
@@ -12,12 +13,15 @@ open Pocindle.Domain.SimpleTypes
 open Pocindle.Database.Database
 open Pocindle.Domain
 
+type private UserData =
+    { UserId: int64
+      PocketUsername: string
+      KindleEmailAddress: string }
+
 let getUserFromPocketUsername connectionString (username: PocketUsername) =
     taskResult {
         let! ret =
-            querySingle<{| UserId: int64
-                           PocketUsername: string
-                           KindleEmailAddress: string |}, _>
+            querySingle<UserData, _>
                 connectionString
                 TextFile.Users.``UserFromPocketUsername.sql``.Text
                 (Some {| PocketUsername = PocketUsername.value username |})
@@ -38,8 +42,7 @@ let getUserFromPocketUsername connectionString (username: PocketUsername) =
                               PocketUsername = pocketUsername
                               KindleEmailAddress =
                                   r.KindleEmailAddress
-                                  |> Option.ofObj
-                                  |> Option.map (System.Net.Mail.MailAddress >> KindleEmailAddress) }
+                                  |> KindleEmailAddress.toDomain }
                 }
             | None -> Error Empty
 
@@ -75,11 +78,7 @@ let setAccessTokenByPocketUsername connectionString (username: PocketUsername) (
                    PocketUsername = PocketUsername.value username |}
             |> TaskResult.mapError DbException
 
-        return!
-            (match ret with
-             | 0 -> Error Empty
-             | 1 -> Ok()
-             | r -> Error ^ TooMuchAffected r)
+        return! matchExecuteResult ret
     }
 
 let createUser connectionString (username: PocketUsername) (accessToken: AccessToken) =
@@ -92,9 +91,35 @@ let createUser connectionString (username: PocketUsername) (accessToken: AccessT
                    PocketUsername = PocketUsername.value username |}
             |> TaskResult.mapError DbException
 
-        return!
-            (match ret with
-             | 0 -> Error Empty
-             | 1 -> Ok()
-             | r -> Error ^ TooMuchAffected r)
+        return! matchExecuteResult ret
+    }
+
+let getUserIdByPocketUsername connectionString (username: PocketUsername) =
+    taskResult {
+        let! ret =
+            (querySingle<int64, _>
+                connectionString
+                TextFile.Users.``getUserIdByPocketUsername.sql``.Text
+                (Some {| PocketUsername = PocketUsername.value username |}))
+            |> TaskResult.mapError DbException
+
+        let! (ret1: UserId) =
+            match ret with
+            | Some r -> Ok(%r)
+            | None -> Error Empty
+
+        return ret1
+    }
+
+let setKindleMailAddressByUserId connectionString (userId: UserId) (kindleMail: KindleEmailAddress) =
+    taskResult {
+        let! ret =
+            execute
+                connectionString
+                TextFile.Users.``SetKindleEmailAddressByUserId.sql``.Text
+                {| KindleEmailAddress = KindleEmailAddress.fromDomain kindleMail
+                   UserId = %userId |}
+            |> TaskResult.mapError DbException
+
+        return! matchExecuteResult ret
     }

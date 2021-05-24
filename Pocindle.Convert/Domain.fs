@@ -5,8 +5,6 @@ open System.IO
 open System.Net.Mail
 open System.Threading.Tasks
 
-type Undefined = exn
-
 type Article = Article of Uri
 
 type EpubFile = EpubFile of string
@@ -14,9 +12,19 @@ type EpubFile = EpubFile of string
 type ConvertError =
     | NoPandoc
     | NoCalibre
-    | OtherError of Undefined
+    | UndefinedTool
+    | OtherError of exn 
 
-type WebToEpubConverter = | Pandoc 
-                          | Other of Undefined
+type WebToEpubConverter =
+    | Pandoc
+    | Other of Undefined
 
 type ConvertWebToEpub = WebToEpubConverter -> Article -> Task<Result<EpubFile, ConvertError>>
+
+type MobiFile = MobiFile of string
+
+type EpubToMobiConverter =
+    | Calible
+    | Other of Undefined
+
+type ConvertEpubToMobi = EpubToMobiConverter -> EpubFile -> Task<Result<MobiFile, ConvertError>>

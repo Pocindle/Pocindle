@@ -8,14 +8,9 @@ open Giraffe.EndpointRouting
 open Pocindle.Web.Auth
 open Pocindle.Web.Pocket
 open Pocindle.Web.Core
-
-let serveSpa : HttpHandler =
-    fun next ctx ->
-        let c = ctx.GetService<Config>()
-
-        match ctx.GetHostingEnvironment().IsDevelopment() with
-        | true -> redirectTo false (string c.SpaUrl) next ctx
-        | false -> htmlFile "pocindle-client/build/index.html" next ctx
+open Pocindle.Web.User
+open Pocindle.Web.Convert
+open Pocindle.Web.Delivery
 
 let webApp =
     [ GET [ route "/openapi.json" (jsonFile "openapi.json") ]
@@ -31,5 +26,14 @@ let webApp =
             subRoute
                 "/pocket"
                 [ GET [ routed "/retrieveAll" retrieveAll ]
-                  |> applyBefore authorizeJwt ] ]
+                  |> applyBefore authorizeJwt ]
+            subRoute
+                "/user"
+                [ GET [ routed "/" getUser ]
+                  POST [ routefdd "/kindle-email/%s" setKindleEmailAddress ] ]
+            |> applyBefore authorizeJwt
+            subRoute "/convert" [ POST [ routefdd "/%s" convert ] ]
+            |> applyBefore authorizeJwt
+            subRoute "/delivery" [ GET [ routefdd "/%d" getDelivery ] ]
+            |> applyBefore authorizeJwt ]
       |> applyBefore acceptJson ]
