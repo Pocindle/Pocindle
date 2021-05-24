@@ -3,7 +3,7 @@ POST {{baseUrl}}/api/auth/request/
 Accept: application/json
 
 ###
-POST {{baseUrl}}/api/auth/authorize/{{s0}}
+POST {{baseUrl}}/api/auth/authorize/{{request_token}}
 Accept: application/json
 
 
@@ -36,7 +36,16 @@ Accept: application/json
 Authorization: Bearer {{bearer}}
 
 ####
-POST {{baseUrl}}/api/user/kindle-email/{{s1}}
+POST {{baseUrl}}/api/user/kindle-email/{{kindle_email}}
 Accept: application/json
 Authorization: Bearer {{bearer}}
 
+####
+POST {{baseUrl}}/api/convert/{{article_to_convert}}
+Accept: application/json
+Authorization: Bearer {{bearer}}
+
+####
+GET {{baseUrl}}/api/delivery/{{delivery_id}}
+Accept: application/json
+Authorization: Bearer {{bearer}}

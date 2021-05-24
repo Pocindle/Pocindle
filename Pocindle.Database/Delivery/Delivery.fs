@@ -56,7 +56,7 @@ let createDelivery
                        Epubfile = epub
                        MobiFile = mobi
                        DeliveryStatus = ds
-                       DeliveryFailedMessage = dm
+                       DeliveryFailedMessage = dm |> Option.toObj
                        To = to' |> KindleEmailAddress.fromDomain |}))
             |> TaskResult.mapError DbException
 

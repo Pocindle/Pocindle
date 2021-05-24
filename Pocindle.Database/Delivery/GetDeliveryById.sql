@@ -1,4 +1,4 @@
-﻿SELECT delivery.deliveryid,
+SELECT delivery.deliveryid,
        delivery.userid,
        delivery.articleurl,
        delivery.epubfile,

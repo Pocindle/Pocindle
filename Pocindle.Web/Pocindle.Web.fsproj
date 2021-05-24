@@ -33,6 +33,8 @@
 
         <Compile Include="Convert.fs" />
 
+        <Compile Include="Delivery.fs" />
+
         <Compile Include="Router.fs" />
         <Compile Include="Program.fs" />
 
