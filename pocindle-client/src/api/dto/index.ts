@@ -4,4 +4,4 @@ import { DeliveryDto } from './deliveryDto';
 import { PocketRetrieveDto } from './pocketRetrieveDto';
 import { UserDto } from './userDto';
 
-export { RequestDto, JwtTokenDto, DeliveryDto, PocketRetrieveDto };
+export { RequestDto, JwtTokenDto, DeliveryDto, PocketRetrieveDto, UserDto };
