@@ -19,7 +19,7 @@ const AppRouter: React.FC = () => {
   const expirationDateInterval = useRef<number>(0);
 
   useEffect(() => {
-    if (jwt) {
+    if (getJwtTokenFromLocalStorage()) {
       expirationDateInterval.current = setExpirationDateInterval(
         handleLogOut,
         30000
