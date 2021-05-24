@@ -9,8 +9,14 @@
 
 
 export class DeliveryDto implements IDeliveryDto {
+    deliveryId!: number;
     userId!: number;
-    to!: string;
+    articleUrl!: string;
+    epubFile!: string;
+    mobiFile!: string;
+    to!: string | undefined;
+    status!: boolean | undefined;
+    statusMessage!: string | undefined;
 
     constructor(data?: IDeliveryDto) {
         if (data) {
@@ -23,8 +29,14 @@ export class DeliveryDto implements IDeliveryDto {
 
     init(_data?: any) {
         if (_data) {
+            this.deliveryId = _data["DeliveryId"];
             this.userId = _data["UserId"];
+            this.articleUrl = _data["ArticleUrl"];
+            this.epubFile = _data["EpubFile"];
+            this.mobiFile = _data["MobiFile"];
             this.to = _data["To"];
+            this.status = _data["Status"];
+            this.statusMessage = _data["StatusMessage"];
         }
     }
 
@@ -37,13 +49,25 @@ export class DeliveryDto implements IDeliveryDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["DeliveryId"] = this.deliveryId;
         data["UserId"] = this.userId;
+        data["ArticleUrl"] = this.articleUrl;
+        data["EpubFile"] = this.epubFile;
+        data["MobiFile"] = this.mobiFile;
         data["To"] = this.to;
+        data["Status"] = this.status;
+        data["StatusMessage"] = this.statusMessage;
         return data; 
     }
 }
 
 export interface IDeliveryDto {
+    deliveryId: number;
     userId: number;
-    to: string;
+    articleUrl: string;
+    epubFile: string;
+    mobiFile: string;
+    to: string | undefined;
+    status: boolean | undefined;
+    statusMessage: string | undefined;
 }
