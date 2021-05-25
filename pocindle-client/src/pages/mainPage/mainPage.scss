@@ -1,6 +1,17 @@
+@import '../../styles/mixins.scss';
+
 .main-page {
   &__wrapper {
     margin: 10px 0;
+  }
+
+  &__info-wrapper {
+    @include wrapper-column-flex;
+    gap: 5px;
+  }
+
+  &__logged-in-message {
+    font-weight: initial;
   }
 
   &__title {
@@ -16,18 +27,14 @@
     margin: 18px auto;
   }
 
-  &__input {
-    width: 100%;
-    border: 2px solid transparent;
-    outline: none;
-    padding: 5px 10px;
-    color: inherit;
-    font-size: 1.125rem;
+  &__username {
+    font-weight: 600;
+  }
 
-    &:focus {
-      transition: border-bottom-color linear 0.2s;
-      border-bottom-color: var(--blue);
-    }
+  &__input {
+    @include input;
+    padding: 5px 10px;
+    font-size: 1.125rem;
 
     &::placeholder {
       font-size: 1.125rem;

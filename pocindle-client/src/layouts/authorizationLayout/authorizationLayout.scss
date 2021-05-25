@@ -4,18 +4,18 @@
   &__wrapper {
     height: 100%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(7, 1fr);
   }
 
   &__col {
-    grid-column: 2 / span 3;
+    grid-column: 3 / span 3;
   }
 }
 
 @media screen and (max-width: 1024px) {
   .authorization-layout {
     &__col {
-      grid-column: 1 / span 5;
+      grid-column: 1 / span 7;
     }
   }
 }

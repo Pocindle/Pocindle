@@ -5,8 +5,8 @@ interface article {
   url: string;
   title: string;
   excerpt?: string;
-  listenDurationEstimate?: number;
   wordCount?: number;
+  onArticleCardClick?: (url: string) => void;
 }
 
 export type { article };
@@ -15,16 +15,20 @@ const ArticleCard: React.FC<article> = ({
   url,
   title,
   excerpt,
-  listenDurationEstimate,
   wordCount,
+  onArticleCardClick,
 }) => {
   const handleUrlClick = (event: React.MouseEvent<HTMLSpanElement>) => {
     event.stopPropagation();
     window.open(url, '_blank');
   };
 
+  const handleArticleCardClick = () => {
+    if (onArticleCardClick) onArticleCardClick(url);
+  };
+
   return (
-    <div className="article-card" onClick={() => console.log('123')}>
+    <div className="article-card" onClick={handleArticleCardClick}>
       <div className="article-card__wrapper">
         <div className="article-card__item">
           <span className="article-card__name">Title: </span>
@@ -44,12 +48,6 @@ const ArticleCard: React.FC<article> = ({
         <div className="article-card__item">
           <span className="article-card__name">Excerpt: </span>
           <span className="article-card__content">{excerpt}</span>
-        </div>
-        <div className="article-card__item">
-          <span className="article-card__name">Listen duration: </span>
-          <span className="article-card__content">
-            {listenDurationEstimate + ' seconds'}
-          </span>
         </div>
         <div className="article-card__item">
           <span className="article-card__name">Word count: </span>

@@ -15,6 +15,18 @@
 
 @mixin auth-content {
   border-radius: 10px;
-  padding: 8vh 0;
+  padding: 12vh 0;
   background-color: var(--basic-white);
+}
+
+@mixin input {
+  width: 100%;
+  border: 2px solid transparent;
+  outline: none;
+  color: inherit;
+
+  &:focus {
+    transition: border-bottom-color linear 0.2s;
+    border-bottom-color: var(--blue);
+  }
 }

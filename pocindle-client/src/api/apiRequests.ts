@@ -1,6 +1,12 @@
 import axios from './axiosConfig';
 import { AxiosResponse } from 'axios';
-import { RequestDto, JwtTokenDto, PocketRetrieveDto } from './dto';
+import {
+  RequestDto,
+  JwtTokenDto,
+  PocketRetrieveDto,
+  UserDto,
+  DeliveryDto,
+} from './dto';
 
 export const postAuthRequest = async (): Promise<AxiosResponse<RequestDto>> => {
   const data = await axios.post<RequestDto>('/auth/request');
@@ -20,7 +26,7 @@ export const postRequestToken = (
       callbackOnSuccess(result.data.jwtToken);
     })
     .catch((error) => {
-      console.log(error.message);
+      console.log(error);
       callbackOnError();
     });
 };
@@ -34,4 +40,59 @@ export const retrieveArticles = (
       Authorization: `Bearer ${jwtToken}`,
     },
   });
+};
+
+export const retrieveUserInfo = (
+  jwtToken: string
+): Promise<AxiosResponse<UserDto>> => {
+  return axios.get<UserDto>('user/', {
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+  });
+};
+
+export const setKindleEmailAddress = (
+  jwtToken: string,
+  kindleEmail: string
+): Promise<AxiosResponse<null>> => {
+  return axios.post<null>(
+    `user/kindle-email/${kindleEmail}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }
+  );
+};
+
+export const sendArticleForConvertation = (
+  jwtToken: string,
+  articleUrl: string
+): Promise<AxiosResponse<DeliveryDto>> => {
+  return axios.post<DeliveryDto>(
+    `/convert/${encodeURIComponent(articleUrl)}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }
+  );
+};
+
+export const deliverArticle = (
+  jwtToken: string,
+  deliveryId: number
+): Promise<AxiosResponse<DeliveryDto>> => {
+  return axios.post<DeliveryDto>(
+    `delivery/send/${deliveryId}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }
+  );
 };

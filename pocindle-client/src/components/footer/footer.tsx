@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
               </span>
             </ul>
           </div>
-          <Link to="/about" className="footer__link">
+          <Link to="/" className="footer__link">
             {language.footer.about}
           </Link>
         </div>
