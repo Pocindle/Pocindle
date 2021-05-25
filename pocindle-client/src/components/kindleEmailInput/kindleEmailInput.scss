@@ -42,11 +42,12 @@
     cursor: pointer;
     background-color: var(--blue);
     border-radius: 5px;
-    padding: 3px 6px;
+    padding: 7px;
     color: var(--basic-white);
+    transition: opacity linear 0.3s;
 
     &:hover {
-      opacity: 0.9;
+      opacity: 0.8;
     }
   }
 }
