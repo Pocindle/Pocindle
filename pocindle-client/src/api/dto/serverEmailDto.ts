@@ -8,11 +8,10 @@
 
 
 
-export class RequestDto implements IRequestDto {
-    requestToken!: string;
-    redirectUrl!: string;
+export class ServerEmailDto implements IServerEmailDto {
+    serverEmailAddress!: string;
 
-    constructor(data?: IRequestDto) {
+    constructor(data?: IServerEmailDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -23,27 +22,24 @@ export class RequestDto implements IRequestDto {
 
     init(_data?: any) {
         if (_data) {
-            this.requestToken = _data["RequestToken"];
-            this.redirectUrl = _data["RedirectUrl"];
+            this.serverEmailAddress = _data["ServerEmailAddress"];
         }
     }
 
-    static fromJS(data: any): RequestDto {
+    static fromJS(data: any): ServerEmailDto {
         data = typeof data === 'object' ? data : {};
-        let result = new RequestDto();
+        let result = new ServerEmailDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["RequestToken"] = this.requestToken;
-        data["RedirectUrl"] = this.redirectUrl;
+        data["ServerEmailAddress"] = this.serverEmailAddress;
         return data; 
     }
 }
 
-export interface IRequestDto {
-    requestToken: string;
-    redirectUrl: string;
+export interface IServerEmailDto {
+    serverEmailAddress: string;
 }

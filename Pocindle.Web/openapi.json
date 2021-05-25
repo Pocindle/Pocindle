@@ -207,6 +207,7 @@
                 "schema": {
                   "title": "Unit",
                   "type": "object",
+                  "description": "The type 'unit', which has only one value \"()\". This value is special and\n always uses the representation 'null'.",
                   "additionalProperties": false
                 }
               }
@@ -368,6 +369,117 @@
           }
         }
       }
+    },
+    "/api/delivery/server-email-address": {
+      "get": {
+        "operationId": "server-email-address",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ServerEmailDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "serverEmailAddress"
+                  ],
+                  "properties": {
+                    "serverEmailAddress": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/delivery/send/{d0:long}": {
+      "parameters": [
+        {
+          "name": "d0:long",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "title": "Long",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "send",
+        "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "String",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "DeliveryDto",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "deliveryId",
+                    "userId",
+                    "articleUrl",
+                    "epubFile",
+                    "mobiFile"
+                  ],
+                  "properties": {
+                    "deliveryId": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "userId": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "articleUrl": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "epubFile": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "mobiFile": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "to": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "statusMessage": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -462,6 +574,7 @@
       "Unit": {
         "title": "Unit",
         "type": "object",
+        "description": "The type 'unit', which has only one value \"()\". This value is special and\n always uses the representation 'null'.",
         "additionalProperties": false
       },
       "DeliveryDto": {
@@ -514,6 +627,20 @@
         "title": "Long",
         "type": "integer",
         "format": "int64"
+      },
+      "ServerEmailDto": {
+        "title": "ServerEmailDto",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "serverEmailAddress"
+        ],
+        "properties": {
+          "serverEmailAddress": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
       },
       "PocketItemDto": {
         "type": "object",

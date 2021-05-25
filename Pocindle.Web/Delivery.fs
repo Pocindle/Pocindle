@@ -1,6 +1,7 @@
 ﻿module Pocindle.Web.Delivery
 
 open System
+open System.ComponentModel.DataAnnotations
 open System.Security.Claims
 open System.Threading.Tasks
 open FsToolkit.ErrorHandling.Operator.TaskResult
@@ -130,3 +131,16 @@ let sendDelivery =
         }),
     [ (StatusCodes.Status200OK, typeof<DeliveryDto>)
       (StatusCodes.Status403Forbidden, typeof<string>) ]
+
+type ServerEmailDto =
+    { [<Required>]
+      ServerEmailAddress: string }
+
+let getServerEmailAddress =
+    (fun next (ctx: HttpContext) ->
+        task {
+            let config = ctx.GetService<Config>()
+
+            return! json { ServerEmailAddress = config.SmtpSenderEmail.Address } next ctx
+        }),
+    [ (StatusCodes.Status200OK, typeof<ServerEmailDto>) ]

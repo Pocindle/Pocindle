@@ -38,7 +38,8 @@ let generateTs () =
           generateSchemaAndTs<Pocindle.Domain.Dto.DeliveryDto> ()
           generateSchemaAndTs<Pocindle.Pocket.Auth.Dto.RequestDto> ()
           generateSchemaAndTs<Pocindle.Web.Auth.JwtTokenDto> ()
-          generateSchemaAndTs<Pocindle.Domain.Dto.UserDto> () ]
+          generateSchemaAndTs<Pocindle.Domain.Dto.UserDto> ()
+          generateSchemaAndTs<Pocindle.Web.Delivery.ServerEmailDto> () ]
 
     let dtoPath =
         Path.Combine(__SOURCE_DIRECTORY__, "../pocindle-client/src/api/dto/")
