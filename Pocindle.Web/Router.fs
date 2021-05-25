@@ -36,7 +36,8 @@ let webApp =
             |> applyBefore authorizeJwt
             subRoute
                 "/delivery"
-                [ GET [ routefdd "/%d" getDelivery ]
+                [ GET [ routefdd "/%d" getDelivery
+                        routed "/server-email-address" getServerEmailAddress ]
                   POST [ routefdd "/send/%d" sendDelivery ] ]
             |> applyBefore authorizeJwt ]
       |> applyBefore acceptJson ]

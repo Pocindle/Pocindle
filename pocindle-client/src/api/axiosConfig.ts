@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-const siteUrl = 'http://localhost:61666';
-//const siteUrl = 'https://pocindle.xyz';
+const productionSiteUrl = 'https://pocindle.xyz';
+const developSiteUrl = 'http://localhost:61666';
+
+const siteUrl =
+  process.env.NODE_ENV === 'production' ? productionSiteUrl : developSiteUrl;
 
 const axiosConfig = axios.create({
   baseURL: `${siteUrl}/api`,

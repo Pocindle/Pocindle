@@ -4,6 +4,7 @@ open System.IO
 open System.Net
 open System.Net.Mail
 
+open System.Threading
 open FsToolkit.ErrorHandling
 open FSharp.Control.Tasks
 open FSharp.UMX
@@ -18,9 +19,10 @@ let send (host: SmtpServer) (from: MailAddress) (to': MailAddress) (password: Sm
         try
             use smtpClient =
                 new SmtpClient(
-                    %host,
-                    Port = 587,
+                    UseDefaultCredentials = false,
                     Credentials = NetworkCredential(from.Address, %password),
+                    Host = %host,
+                    Port = 587,
                     EnableSsl = true
                 )
 

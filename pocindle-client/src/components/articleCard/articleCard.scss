@@ -1,6 +1,8 @@
 @import '../../styles/mixins.scss';
 
 .article-card {
+  cursor: pointer;
+
   &__wrapper {
     @include wrapper-column-flex;
     background-color: var(--basic-white);
@@ -26,7 +28,10 @@
   }
 
   &__link {
-    text-decoration: none;
     color: var(--blue);
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }

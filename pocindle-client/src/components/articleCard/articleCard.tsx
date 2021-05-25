@@ -18,8 +18,13 @@ const ArticleCard: React.FC<article> = ({
   listenDurationEstimate,
   wordCount,
 }) => {
+  const handleUrlClick = (event: React.MouseEvent<HTMLSpanElement>) => {
+    event.stopPropagation();
+    window.open(url, '_blank');
+  };
+
   return (
-    <div className="article-card">
+    <div className="article-card" onClick={() => console.log('123')}>
       <div className="article-card__wrapper">
         <div className="article-card__item">
           <span className="article-card__name">Title: </span>
@@ -29,15 +34,11 @@ const ArticleCard: React.FC<article> = ({
         </div>
         <div className="article-card__item">
           <span className="article-card__name">Article URL: </span>
-          <span className="article-card__content">
-            <a
-              href={url}
-              target="_blank"
-              className="article-card__link"
-              rel="noreferrer"
-            >
-              {url}
-            </a>
+          <span
+            className="article-card__content article-card__link"
+            onClick={handleUrlClick}
+          >
+            {url}
           </span>
         </div>
         <div className="article-card__item">

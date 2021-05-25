@@ -12,7 +12,10 @@ import {
   setJwtTokenToLocalStorage,
   removeJwtTokenFromLocalStorage,
 } from '../utils/localStorage';
-import { setExpirationDateInterval } from '../utils/jwtTokenValidation';
+import {
+  setExpirationDateInterval,
+  isDateExpired,
+} from '../utils/jwtTokenValidation';
 
 const AppRouter: React.FC = () => {
   const [jwt, setJwt] = useState<string>(getJwtTokenFromLocalStorage() || '');
@@ -20,6 +23,8 @@ const AppRouter: React.FC = () => {
 
   useEffect(() => {
     if (getJwtTokenFromLocalStorage()) {
+      if (isDateExpired()) handleLogOut();
+
       expirationDateInterval.current = setExpirationDateInterval(
         handleLogOut,
         30000
