@@ -6,6 +6,7 @@ import {
   PocketRetrieveDto,
   UserDto,
   DeliveryDto,
+  ServerEmailDto,
 } from './dto';
 
 export const postAuthRequest = async (): Promise<AxiosResponse<RequestDto>> => {
@@ -95,4 +96,14 @@ export const deliverArticle = (
       },
     }
   );
+};
+
+export const retrieveServerEmailAddress = (
+  jwtToken: string
+): Promise<AxiosResponse<ServerEmailDto>> => {
+  return axios.get<ServerEmailDto>('delivery/server-email-address', {
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+  });
 };

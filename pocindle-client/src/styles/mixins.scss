@@ -24,9 +24,9 @@
   border: 2px solid transparent;
   outline: none;
   color: inherit;
+  transition: border-bottom-color linear 0.2s;
 
   &:focus {
-    transition: border-bottom-color linear 0.2s;
     border-bottom-color: var(--blue);
   }
 }
