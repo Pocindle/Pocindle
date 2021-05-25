@@ -12,6 +12,7 @@ import {
   setKindleEmailAddress,
   sendArticleForConvertation,
   deliverArticle,
+  retrieveServerEmailAddress,
 } from '../../api/apiRequests';
 import { getJwtTokenFromLocalStorage } from '../../utils/localStorage';
 import './mainPage.scss';
@@ -20,16 +21,19 @@ const MainPage: React.FC<{ onLogOut: () => void }> = ({ onLogOut }) => {
   const [articles, setArticles] = useState<article[] | null>([]);
   const [articlesLoading, setArticlesLoading] = useState<boolean>(false);
   const [userInfoLoading, setUserInfoLoading] = useState<boolean>(false);
+  const [serverEmailLoading, setServerEmailLoading] = useState<boolean>(false);
   const [searchInput, setSearchInput] = useState<string>('');
   const [kindleMail, setKindleMail] = useState<string>('');
   const username = useRef<string | null>(null);
   const jwtToken = useRef<string | null>(null);
+  const serverEmail = useRef<string | null>(null);
 
   useEffect(() => {
     jwtToken.current = getJwtTokenFromLocalStorage();
 
     setArticlesLoading(true);
     setUserInfoLoading(true);
+    setServerEmailLoading(true);
 
     retrieveUserInfo(jwtToken.current)
       .then((res) => {
@@ -41,6 +45,17 @@ const MainPage: React.FC<{ onLogOut: () => void }> = ({ onLogOut }) => {
       .catch((err) => {
         console.log(err);
         setUserInfoLoading(false);
+      });
+
+    retrieveServerEmailAddress(jwtToken.current)
+      .then((res) => {
+        console.log(res.data);
+        serverEmail.current = res.data.serverEmailAddress;
+        setServerEmailLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setServerEmailLoading(false);
       });
 
     retrieveArticles(jwtToken.current)
@@ -129,12 +144,16 @@ const MainPage: React.FC<{ onLogOut: () => void }> = ({ onLogOut }) => {
       <div className="main-page">
         <div className="main-page__wrapper">
           <div className="main-page__info-wrapper">
-            <div className="main-page__username">
-              <span className="main-page__logged-in-message">
-                {'Logged in as: '}
-              </span>
-              <span className="main-page__username">
+            <div className="main-page__info">
+              <span className="main-page__info-title">{'Logged in as: '}</span>
+              <span className="main-page__info-value">
                 {userInfoLoading ? '...' : username.current}
+              </span>
+            </div>
+            <div>
+              <span className="main-page__info-title">{'Server email: '}</span>
+              <span className="main-page__info-value">
+                {serverEmailLoading ? '...' : serverEmail.current}
               </span>
             </div>
             <KindleEmailInput

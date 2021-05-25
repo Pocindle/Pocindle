@@ -10,10 +10,6 @@
     gap: 5px;
   }
 
-  &__logged-in-message {
-    font-weight: initial;
-  }
-
   &__title {
     display: block;
     margin: 12px 0;
@@ -27,7 +23,7 @@
     margin: 18px auto;
   }
 
-  &__username {
+  &__info-value {
     font-weight: 600;
   }
 
