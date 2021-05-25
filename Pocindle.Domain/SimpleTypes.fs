@@ -2,6 +2,7 @@ module Pocindle.Domain.SimpleTypes
 
 open System
 
+open System.Net.Mail
 open FSharp.UMX
 open FsToolkit.ErrorHandling
 
@@ -104,3 +105,18 @@ module SpaUrl =
     let value (SpaUrl spaUrl) = spaUrl
 
     let fromString str = str |> Uri |> SpaUrl
+
+type KindleEmailAddress =
+    | HasKindleEmailAddress of MailAddress
+    | NoneKindleEmailAddress
+
+module KindleEmailAddress =
+    let toDomain kmaString =
+        match kmaString |> Option.ofObj with
+        | Some m -> HasKindleEmailAddress(MailAddress(m))
+        | None -> NoneKindleEmailAddress
+
+    let fromDomain kma =
+        match kma with
+        | HasKindleEmailAddress mail -> string mail
+        | NoneKindleEmailAddress -> null
