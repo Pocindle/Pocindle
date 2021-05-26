@@ -4,11 +4,9 @@ import { LanguageProvider } from './providers';
 
 const App: React.FC = () => {
   return (
-    <React.Fragment>
-      <LanguageProvider>
-        <AppRoute />
-      </LanguageProvider>
-    </React.Fragment>
+    <LanguageProvider>
+      <AppRoute />
+    </LanguageProvider>
   );
 };
 
