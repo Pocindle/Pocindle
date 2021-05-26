@@ -1,0 +1,62 @@
+.footer {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 20px 0 10px;
+    width: 80vw;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: flex-end;
+    gap: 45px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  &__switcher {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-right: auto;
+  }
+
+  &__link {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--blue);
+    }
+  }
+
+  &__copyright {
+    font-size: 0.85rem;
+  }
+}
+
+.language-switcher {
+  &__title {
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  &__options {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 4px;
+  }
+}
+
+.option {
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+
+  &_active {
+    border-bottom: 2px solid var(--blue);
+  }
+}

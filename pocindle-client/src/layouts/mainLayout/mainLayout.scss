@@ -1,0 +1,32 @@
+.main-layout {
+  height: 100vh;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  & .header {
+    background-color: var(--header-bg);
+  }
+
+  & .content {
+    background-color: var(--content-bg);
+    width: 80vw;
+    margin: 0 auto;
+    flex-grow: 2;
+  }
+
+  & .footer {
+    background-color: var(--footer-bg);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .main-layout {
+    & .content,
+    & .footer {
+      width: 100%;
+    }
+  }
+}

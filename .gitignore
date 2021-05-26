@@ -536,7 +536,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+#.env
 .env.test
 .env*.local
 
@@ -911,3 +911,11 @@ yarn-error.log
 # Fody - auto-generated XML schema
 
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains+all,rider,csharp,fsharp,visualstudio,visualstudiocode,webstorm,vuejs,vue,react,node
+
+
+/Playground/
+
+/Pocindle.Pocket/pocket_retrieve_sample.json
+
+/Pocindle.Web/*-*-*-*-*.epub
+/Pocindle.Web/*-*-*-*-*.mobi

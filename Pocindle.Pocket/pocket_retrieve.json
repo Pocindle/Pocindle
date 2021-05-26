@@ -1,0 +1,31 @@
+{
+  "item_id": "937072498 _",
+  "resolved_id": "833046701 _",
+  "given_url": "http://example.com/given_url",
+  "given_title": "title",
+  "favorite": "0",
+  "status": "0",
+  "time_added": "1468859100",
+  "time_updated": "1612945875",
+  "time_read": "0",
+  "time_favorited": "0",
+  "sort_id": 117,
+  "resolved_title": "resolved_title",
+  "resolved_url": "http://example.com/resolved_url",
+  "excerpt": "excerpt",
+  "is_article": "1",
+  "is_index": "0",
+  "has_video": "0",
+  "has_image": "1",
+  "word_count": "727",
+  "lang": "en",
+  "time_to_read": 3,
+  "amp_url": "http://example.com/amp_url",
+  "top_image_url": "http://example.com/top_image_url",
+  "domain_metadata": {
+    "name": "ZXC",
+    "logo": "http://example.com/logo",
+    "greyscale_logo": "http://example.com/greyscale_logo"
+  },
+  "listen_duration_estimate": 281
+}

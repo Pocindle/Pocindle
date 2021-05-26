@@ -1,0 +1,21 @@
+.authorization-layout {
+  height: 100vh;
+
+  &__wrapper {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  &__col {
+    grid-column: 3 / span 3;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .authorization-layout {
+    &__col {
+      grid-column: 1 / span 7;
+    }
+  }
+}

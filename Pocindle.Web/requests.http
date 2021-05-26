@@ -1,0 +1,61 @@
+###
+POST {{baseUrl}}/api/auth/request/
+Accept: application/json
+
+###
+POST {{baseUrl}}/api/auth/authorize/{{request_token}}
+Accept: application/json
+
+
+####
+GET {{baseUrl}}/api/auth/secured
+Accept: application/json
+Authorization: Bearer {{bearer}}
+
+
+####
+GET {{baseUrl}}/api/auth/public
+Accept: application/json
+Authorization: Bearer {{bearer}}
+
+
+####
+GET {{baseUrl}}/api/pocket/retrieveAll
+Accept: application/json
+Authorization: Bearer {{bearer}}
+
+
+####
+GET {{baseUrl}}/api/pocket/retrieveAll?count=10&offset=5
+Accept: application/json
+Authorization: Bearer {{bearer}}
+
+####
+GET {{baseUrl}}/api/user/
+Accept: application/json
+Authorization: Bearer {{bearer}}
+
+####
+POST {{baseUrl}}/api/user/kindle-email/{{kindle_email}}
+Accept: application/json
+Authorization: Bearer {{bearer}}
+
+####
+POST {{baseUrl}}/api/convert/{{article_to_convert}}
+Accept: application/json
+Authorization: Bearer {{bearer}}
+
+####
+GET {{baseUrl}}/api/delivery/{{delivery_id}}
+Accept: application/json
+Authorization: Bearer {{bearer}}
+
+####
+POST {{baseUrl}}/api/delivery/send/{{delivery_id}}
+Accept: application/json
+Authorization: Bearer {{bearer}}
+
+###
+GET {{baseUrl}}/api/delivery/server-email-address
+Accept: application/json
+Authorization: Bearer {{bearer}}

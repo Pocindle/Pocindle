@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="SimpleTypes.fs" />
+        <Compile Include="Domain.fs" />
+        <Compile Include="Dto.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FSharp.UMX" Version="1.0.0" />
+      <PackageReference Include="FsToolkit.ErrorHandling" Version="2.4.0" />
+      <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Pocindle.Common\Pocindle.Common.fsproj" />
+      <ProjectReference Include="..\Pocindle.Convert\Pocindle.Convert.fsproj" />
+    </ItemGroup>
+
+</Project>
