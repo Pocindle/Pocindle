@@ -14,6 +14,7 @@ import {
   deliverArticle,
   retrieveServerEmailAddress,
 } from '../../api/apiRequests';
+import useAppContext from '../../hooks/useAppContext';
 import { getJwtTokenFromLocalStorage } from '../../utils/localStorage';
 import './mainPage.scss';
 
@@ -27,6 +28,7 @@ const MainPage: React.FC<{ onLogOut: () => void }> = ({ onLogOut }) => {
   const username = useRef<string | null>(null);
   const jwtToken = useRef<string | null>(null);
   const serverEmail = useRef<string | null>(null);
+  const { language } = useAppContext();
 
   useEffect(() => {
     jwtToken.current = getJwtTokenFromLocalStorage();
@@ -39,7 +41,7 @@ const MainPage: React.FC<{ onLogOut: () => void }> = ({ onLogOut }) => {
       .then((res) => {
         console.log(res.data);
         username.current = res.data.pocketUsername;
-        setKindleMail(res.data.kindleEmailAddress || '');
+        setKindleMail(res.data.kindleEmailAddress as string);
         setUserInfoLoading(false);
       })
       .catch((err) => {
@@ -81,14 +83,14 @@ const MainPage: React.FC<{ onLogOut: () => void }> = ({ onLogOut }) => {
   }, []);
 
   const handleUpdateKindleEmail = (email: string) => {
-    if (window.confirm('Set Kindle Email to ' + email + '?')) {
-      setKindleEmailAddress(jwtToken.current || '', email)
+    if (window.confirm(language.mainPage.setKindleEmailTo + email + '?')) {
+      setKindleEmailAddress(jwtToken.current as string, email)
         .then(() => {
           setKindleMail(email);
-          alert('New Kindle email is set successfully!');
+          alert(language.mainPage.newKindleEmailIsSetSuccessfully);
         })
         .catch((err) => {
-          alert('An error occurred while setting new email!');
+          alert(language.mainPage.anErrorOccuredWhileSettingNewEmail);
           console.log(err);
         });
     }
@@ -97,35 +99,37 @@ const MainPage: React.FC<{ onLogOut: () => void }> = ({ onLogOut }) => {
 
   const handleArticleCardClick = (url: string) => {
     if (kindleMail) {
-      if (window.confirm(`Send article (${url})?`)) {
-        sendArticleForConvertation(jwtToken.current || '', url)
+      if (window.confirm(`${language.mainPage.sendArticle} (${url})?`)) {
+        sendArticleForConvertation(jwtToken.current as string, url)
           .then((res) => {
             console.log(res.data);
             const deliveryId = res.data.deliveryId;
-            deliverArticle(jwtToken.current || '', deliveryId)
+            deliverArticle(jwtToken.current as string, deliveryId)
               .then((res) => {
                 console.log(res.data);
-                alert('Successful delivery!');
+                alert(language.mainPage.successfulDelivery);
               })
               .catch((err) => {
                 console.log(err);
-                alert('Delivery unsuccessful!');
+                alert(language.mainPage.unsuccessfulDelivery);
               });
           })
           .catch((err) => {
             console.log(err);
-            alert('Delivery unsuccessful!');
+            alert(language.mainPage.unsuccessfulDelivery);
           });
       }
     } else {
-      alert('Specify email!');
+      alert(language.mainPage.specifyEmail);
     }
   };
 
   const articleList = articles
     ? articles
-        .filter((article) =>
-          article.title.toLowerCase().includes(searchInput.toLowerCase())
+        .filter(
+          (article) =>
+            article.title &&
+            article.title.toLowerCase().includes(searchInput.toLowerCase())
         )
         .map((article) => (
           <ArticleCard
@@ -145,13 +149,17 @@ const MainPage: React.FC<{ onLogOut: () => void }> = ({ onLogOut }) => {
         <div className="main-page__wrapper">
           <div className="main-page__info-wrapper">
             <div className="main-page__info">
-              <span className="main-page__info-title">{'Logged in as: '}</span>
+              <span className="main-page__info-title">
+                {language.mainPage.loggedInAs}
+              </span>
               <span className="main-page__info-value">
                 {userInfoLoading ? '...' : username.current}
               </span>
             </div>
-            <div>
-              <span className="main-page__info-title">{'Server email: '}</span>
+            <div className="main-page__info">
+              <span className="main-page__info-title">
+                {language.mainPage.serverEmail}
+              </span>
               <span className="main-page__info-value">
                 {serverEmailLoading ? '...' : serverEmail.current}
               </span>
@@ -161,11 +169,13 @@ const MainPage: React.FC<{ onLogOut: () => void }> = ({ onLogOut }) => {
               onUpdateEmail={handleUpdateKindleEmail}
             />
           </div>
-          <span className="main-page__title">Your articles</span>
+          <span className="main-page__title">
+            {language.mainPage.yourArticles}
+          </span>
           <div className="main-page__search">
             <input
               type="text"
-              placeholder="Search for article"
+              placeholder={language.mainPage.searchForArticle}
               value={searchInput}
               onChange={(event) => setSearchInput(event.target.value)}
               className="main-page__input"
@@ -178,7 +188,9 @@ const MainPage: React.FC<{ onLogOut: () => void }> = ({ onLogOut }) => {
           ) : articleList?.length ? (
             <div className="main-page__list">{articleList}</div>
           ) : (
-            <div className="main-page__no-articles-message">NO ARTICLES :(</div>
+            <div className="main-page__no-articles-message">
+              {language.mainPage.noArticles}
+            </div>
           )}
         </div>
       </div>

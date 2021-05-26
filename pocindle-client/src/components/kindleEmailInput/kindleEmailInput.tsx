@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useAppContext from '../../hooks/useAppContext';
 import './kindleEmailInput.scss';
 
 const KindleEmailInput: React.FC<{
@@ -6,6 +7,7 @@ const KindleEmailInput: React.FC<{
   onUpdateEmail: (email: string) => void;
 }> = ({ initialEmail, onUpdateEmail }) => {
   const [email, setEmail] = useState(initialEmail || '');
+  const { language } = useAppContext();
 
   useEffect(() => {
     setEmail(initialEmail as string);
@@ -27,28 +29,30 @@ const KindleEmailInput: React.FC<{
       <div className="kindle-email-input__wrapper">
         <div className="kindle-email-input__title-wrapper">
           <span className="kindle-email-input__title">
-            {'Current Kindle Email:'}
+            {language.kindleEmailInput.currentKindleEmail}
           </span>
           <span className="kindle-email-input__title-name">
-            {initialEmail ? initialEmail : 'Not specified'}
+            {initialEmail ? initialEmail : language.common.notSpecified}
           </span>
         </div>
         <div className="kindle-email-input__form-wrapper">
           <div className="kindle-email-input__element-wrapper">
             <label className="kindle-email-input__label" htmlFor="email">
-              Kindle Email:
+              {language.kindleEmailInput.kindleEmail}
             </label>
             <input
               name="email"
               id="email"
-              placeholder="Your Kindle Email"
+              placeholder={language.kindleEmailInput.yourKindleEmail}
               value={email}
               onChange={handleMailInputChange}
               required
               className="kindle-email-input__input"
             />
           </div>
-          <button className="kindle-email-input__button">Update mail</button>
+          <button className="kindle-email-input__button">
+            {language.kindleEmailInput.updateEmail}
+          </button>
         </div>
       </div>
     </form>
