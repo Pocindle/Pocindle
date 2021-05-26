@@ -1,6 +1,9 @@
 {
   "ru": {
     "name": "ru",
+    "common": {
+      "notSpecified": "Не указано"
+    },
     "navbar": {
       "articles": "Статьи",
       "logOut": "Выйти"
@@ -22,10 +25,40 @@
       "statusError": "Ошибка авторизации!",
       "errorRedirect": "Вернуться на ",
       "errorLink": "страницу авторизации"
+    },
+    "mainPage": {
+      "setKindleEmailTo": "Установить почту ",
+      "newKindleEmailIsSetSuccessfully": "Новая Kindle почта установлена успешно!",
+      "anErrorOccuredWhileSettingNewEmail": "Произошла ошибка при установке почты!",
+      "loggedInAs": "Вы вошли как: ",
+      "serverEmail": "Почта сервера",
+      "yourArticles": "Ваши статью",
+      "searchForArticle": "Поиск статьи",
+      "sendArticle": "Отправить статью",
+      "successfulDelivery": "Доставка прошла успешно!",
+      "unsuccessfulDelivery": "Возникла ошибка при доставке!",
+      "specifyEmail": "Укажите Kindle почту!",
+      "noArticles": "НЕТ СТАТЕЙ :("
+    },
+    "articleCard": {
+      "title": "Название: ",
+      "articleUrl": "Ссылка на статью: ",
+      "excerpt": "Выдержка: ",
+      "wordCount": "Счетчик слов: ",
+      "words": " слов"
+    },
+    "kindleEmailInput": {
+      "currentKindleEmail": "Текущая Kindle почта:",
+      "kindleEmail": "Kindle почта:",
+      "yourKindleEmail": "Ваша Kindle почта",
+      "updateEmail": "Обновить почту"
     }
   },
   "eng": {
     "name": "eng",
+    "common": {
+      "notSpecified": "Not specified"
+    },
     "navbar": {
       "articles": "Articles",
       "logOut": "Log out"
@@ -47,6 +80,33 @@
       "statusError": "Authorization error!",
       "errorRedirect": "Return to ",
       "errorLink": "Authentification Page"
+    },
+    "mainPage": {
+      "setKindleEmailTo": "Set Kindle Email to ",
+      "newKindleEmailIsSetSuccessfully": "New Kindle email is set successfully!",
+      "anErrorOccuredWhileSettingNewEmail": "An error occurred while setting new email!",
+      "loggedInAs": "Logged in as: ",
+      "serverEmail": "Server email",
+      "yourArticles": "Your articles",
+      "searchForArticle": "Search for article",
+      "sendArticle": "Send article",
+      "successfulDelivery": "Successful delivery!",
+      "unsuccessfulDelivery": "Delivery unsuccessful!",
+      "specifyEmail": "Specify Kindle email!",
+      "noArticles": "NO ARTICLES :("
+    },
+    "articleCard": {
+      "title": "Title: ",
+      "articleUrl": "Article URL: ",
+      "excerpt": "Excerpt: ",
+      "wordCount": "Word count: ",
+      "words": " words"
+    },
+    "kindleEmailInput": {
+      "currentKindleEmail": "Current Kindle Email:",
+      "kindleEmail": "Kindle Email:",
+      "yourKindleEmail": "Your Kindle Email",
+      "updateEmail": "Update mail"
     }
   }
 }
