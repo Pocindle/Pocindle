@@ -26,6 +26,8 @@ open Microsoft.IdentityModel.Tokens
 open FSharp.UMX
 open Giraffe
 open Giraffe.EndpointRouting
+open SqlHydra.Query
+open SqlKata.Compilers
 open Npgsql
 
 open Pocindle.Domain.SimpleTypes
@@ -94,6 +96,19 @@ let configureServices (services: IServiceCollection) =
         | Error b -> raise ^ ApplicationException(string b)
 
     services.AddSingleton<Config> config |> ignore
+
+    let queryContext () =
+        let compiler = PostgresCompiler()
+
+        let conn =
+            new NpgsqlConnection(%config.ConnectionString)
+
+        conn.Open()
+
+        new QueryContext(conn, compiler)
+
+    services.AddScoped<QueryContext>(fun _ -> queryContext ())
+    |> ignore
 
     services
         .AddAuthorization()

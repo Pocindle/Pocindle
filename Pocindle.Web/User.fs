@@ -17,6 +17,7 @@ open Pocindle.Pocket.Retrieve
 open Pocindle.Pocket.Retrieve.PublicTypes
 open Pocindle.Database.Users
 open Pocindle.Database
+open SqlHydra.Query
 
 let setKindleEmailAddress =
     (fun (kma: string) (next: HttpFunc) (ctx: HttpContext) ->
@@ -50,7 +51,7 @@ let setKindleEmailAddress =
 let getUser =
     (fun next (ctx: HttpContext) ->
         task {
-            let config = ctx.GetService<Config>()
+            let qctx = ctx.GetService<QueryContext>()
 
             let! user =
                 taskResult {
@@ -59,7 +60,7 @@ let getUser =
                         |> fun claim -> claim.Value |> PocketUsername.create
 
                     return!
-                        getUserFromPocketUsername config.ConnectionString pocketUsername
+                        getUserFromPocketUsername qctx pocketUsername
                         |> TaskResult.mapError string
                 }
 

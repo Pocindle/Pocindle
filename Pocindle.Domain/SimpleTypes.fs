@@ -111,10 +111,12 @@ type KindleEmailAddress =
     | NoneKindleEmailAddress
 
 module KindleEmailAddress =
-    let toDomain kmaString =
-        match kmaString |> Option.ofObj with
+    let ofOption kmaString =
+        match kmaString with
         | Some m -> HasKindleEmailAddress(MailAddress(m))
         | None -> NoneKindleEmailAddress
+
+    let toDomain kmaString = kmaString |> Option.ofObj |> ofOption
 
     let fromDomain kma =
         match kma with

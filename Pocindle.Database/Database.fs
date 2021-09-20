@@ -26,7 +26,8 @@ let execute (connectionString: ConnectionString) (sql: string) (parameters: _) :
         try
             let! res = connection.ExecuteAsync(sql, parameters)
             return Ok res
-        with ex -> return Error ex
+        with
+        | ex -> return Error ex
     }
 
 let query<'T, 'U> (connectionString: ConnectionString) (sql: string) (parameters: 'U option) : QueryResult<'T> =
@@ -40,10 +41,15 @@ let query<'T, 'U> (connectionString: ConnectionString) (sql: string) (parameters
                 | None -> connection.QueryAsync<'T>(sql)
 
             return Ok res
-        with ex -> return Error ex
+        with
+        | ex -> return Error ex
     }
 
-let querySingle<'T, 'U>   (connectionString: ConnectionString) (sql: string) (parameters: 'U option) : QuerySingleResult<'T> =
+let querySingle<'T, 'U>
+    (connectionString: ConnectionString)
+    (sql: string)
+    (parameters: 'U option)
+    : QuerySingleResult<'T> =
     let connection = new NpgsqlConnection(%connectionString)
 
     task {
@@ -59,5 +65,15 @@ let querySingle<'T, 'U>   (connectionString: ConnectionString) (sql: string) (pa
                 else
                     Ok(Some res)
 
-        with ex -> return Error ex
+        with
+        | ex -> return Error ex
     }
+
+module Tables =
+    open SqlHydra.Query
+
+    let delivery =
+        table<Pocindle.Database.Db.``public``.delivery>
+
+    let users =
+        table<Pocindle.Database.Db.``public``.users>

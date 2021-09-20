@@ -6,6 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Db.fs">
+            <Visible>True</Visible>
+        </Compile>
+        <Content Include="sqlhydra-npgsql.toml" />
         <Compile Include="Types.fs" />
         <Compile Include="Database.fs" />
         <EmbeddedResource Include="Users\UserFromPocketUsername.sql" />
@@ -30,6 +34,7 @@
         <PackageReference Include="FSharp.Data.LiteralProviders" Version="0.3.5" />
         <PackageReference Include="FsToolkit.ErrorHandling.TaskResult" Version="2.4.0" />
         <PackageReference Include="Npgsql" Version="5.0.5" />
+        <PackageReference Include="SqlHydra.Query" Version="0.400.0" />
     </ItemGroup>
 
 </Project>

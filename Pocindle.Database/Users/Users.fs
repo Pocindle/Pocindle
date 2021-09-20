@@ -1,48 +1,43 @@
 ﻿module Pocindle.Database.Users
 
-open System
-open System.Net.Mail
-open System.Threading.Tasks
-
 open FSharp.Data.LiteralProviders
 open FsToolkit.ErrorHandling
 open FsToolkit.ErrorHandling.Operator.Result
 open FSharp.UMX
 
+open Pocindle.Database.Db
 open Pocindle.Domain.SimpleTypes
 open Pocindle.Database.Database
 open Pocindle.Domain
+open SqlHydra.Query
 
-type private UserData =
-    { UserId: int64
-      PocketUsername: string
-      KindleEmailAddress: string }
-
-let getUserFromPocketUsername connectionString (username: PocketUsername) =
+let getUserFromPocketUsername (qctx: QueryContext) (username: PocketUsername) =
     taskResult {
-        let! ret =
-            querySingle<UserData, _>
-                connectionString
-                TextFile.Users.``UserFromPocketUsername.sql``.Text
-                (Some {| PocketUsername = PocketUsername.value username |})
-            |> TaskResult.mapError DbException
+        let username = PocketUsername.value username
 
+        let! ret =
+            select {
+                for i in Tables.users do
+                    where (i.pocketusername = username)
+                    select i
+            }
+            |> qctx.ReadAsync HydraReader.Read
 
         let! ret1 =
-            match ret with
+            match ret |> Seq.tryHead with
             | Some r ->
                 result {
                     let! pocketUsername =
-                        PocketUsername.create r.PocketUsername
+                        PocketUsername.create r.pocketusername
                         |> Result.mapError ValidationError
 
                     return!
                         Ok
-                            { User.UserId = %r.UserId
+                            { User.UserId = %r.userid
                               PocketUsername = pocketUsername
                               KindleEmailAddress =
-                                  r.KindleEmailAddress
-                                  |> KindleEmailAddress.toDomain }
+                                  r.kindleemailaddress
+                                  |> KindleEmailAddress.ofOption }
                 }
             | None -> Error Empty
 

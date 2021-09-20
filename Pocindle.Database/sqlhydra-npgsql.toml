@@ -1,0 +1,7 @@
+[general]
+connection = "User Id=postgres;Password=;Server=db.movrnlpozncalmdnhfqk.supabase.co;Port=5432;Database=postgres"
+output = "Db.fs"
+namespace = "Pocindle.Database.Db"
+cli_mutable = false
+[readers]
+reader_type = "Npgsql.NpgsqlDataReader"

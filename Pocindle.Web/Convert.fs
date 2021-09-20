@@ -20,6 +20,7 @@ open Pocindle.Database
 open Pocindle.Convert.Api
 open Pocindle.Convert.Domain
 open Pocindle.Sending
+open SqlHydra.Query
 
 let private articleToFiles articleUrl =
     taskResult {
@@ -40,6 +41,7 @@ let convert =
     (fun (articleUrl: string) next (ctx: HttpContext) ->
         task {
             let config = ctx.GetService<Config>()
+            let qctx = ctx.GetService<QueryContext>()
 
             let! a =
                 taskResult {
@@ -55,7 +57,7 @@ let convert =
                         |> TaskResult.mapError ConvertError
 
                     let! user =
-                        Users.getUserFromPocketUsername config.ConnectionString pocketUsername
+                        Users.getUserFromPocketUsername qctx pocketUsername
                         |> TaskResult.mapError DbError
 
                     let! deliveryId =

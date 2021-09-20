@@ -21,6 +21,7 @@ open Pocindle.Database
 open Pocindle.Convert.Api
 open Pocindle.Convert.Domain
 open Pocindle.Sending
+open SqlHydra.Query
 
 type GetDeliveryError =
     | DbError of DbError
@@ -81,6 +82,7 @@ let sendDelivery =
     (fun (deliveryId: int64) next (ctx: HttpContext) ->
         task {
             let config = ctx.GetService<Config>()
+            let qctx = ctx.GetService<QueryContext>()
 
             let! newDelivery =
                 taskResult {
@@ -96,7 +98,7 @@ let sendDelivery =
                         |> TaskResult.mapError GetDeliveryError
 
                     let! user =
-                        Users.getUserFromPocketUsername config.ConnectionString pocketUsername
+                        Users.getUserFromPocketUsername qctx pocketUsername
                         |> TaskResult.mapError DbError
 
                     let! kindleEmailAddress =
